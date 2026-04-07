@@ -1,6 +1,6 @@
 <div align="center">
 
-# shuixian-skill
+# 水仙.skill
 
 > 把你的语气、思维、聊天记录和亲密关系偏好，整理成一个可以和你同频共振的恋爱型自我镜像 Skill。
 
