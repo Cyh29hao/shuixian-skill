@@ -1,0 +1,7 @@
+interface:
+  display_name: "Shuixian"
+  short_description: "Build a self-mirror romance skill from prompts and chat logs."
+  default_prompt: "Use $create-shuixian to build a sweet gender-flipped mirror companion from my notes and chat logs."
+
+policy:
+  allow_implicit_invocation: true

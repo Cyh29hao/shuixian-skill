@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+.venv/
+.agents/skills/
+decrypted/
+wechat-messages.txt
