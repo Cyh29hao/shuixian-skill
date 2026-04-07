@@ -2,5 +2,8 @@ __pycache__/
 *.pyc
 .venv/
 .agents/skills/
+.claude/skills/
 decrypted/
 wechat-messages.txt
+imessage-messages.txt
+transcript.txt

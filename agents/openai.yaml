@@ -1,5 +1,5 @@
 interface:
-  display_name: "Shuixian"
+  display_name: "水仙.skill"
   short_description: "Build a self-mirror romance skill from prompts and chat logs."
   default_prompt: "Use $create-shuixian to build a sweet gender-flipped mirror companion from my notes and chat logs."
 

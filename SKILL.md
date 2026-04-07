@@ -31,12 +31,15 @@ Use these files relative to this skill directory:
 - `references/mirror-modes.md`
 - `references/privacy-and-safety.md`
 - `references/data-sources.md`
+- `references/import-channels.md`
 - `references/wechat-import.md`
 - `tools/skill_writer.py`
 - `tools/version_manager.py`
 - `tools/source_importer.py`
 - `tools/wechat_decryptor.py`
 - `tools/wechat_importer.py`
+- `tools/imessage_importer.py`
+- `tools/transcript_importer.py`
 
 When running bundled scripts on Windows, prefer `python`. If `python` is unavailable, use `py -3`.
 
@@ -64,6 +67,8 @@ Offer the smallest workable input path first:
 - pasted chat snippets
 - exported chat logs
 - WeChat desktop chat history
+- iMessage chat history
+- transcript exports from Telegram, QQ, Discord, Slack, Feishu, or similar tools
 - screenshots or images
 - manual preference sheet
 
@@ -74,6 +79,7 @@ Before deeper analysis, read:
 - `references/mirror-modes.md`
 - `references/privacy-and-safety.md`
 - `references/data-sources.md`
+- `references/import-channels.md`
 - `references/wechat-import.md` when the user wants WeChat import
 
 ### WeChat import workflow
@@ -87,6 +93,16 @@ When the user wants to import WeChat desktop history:
 5. archive that transcript into the target mirror with `--archive-to` when helpful
 
 If automatic key extraction fails, do not get stuck. Fall back to exported text or user-pasted snippets.
+
+### Other import workflows
+
+When the user wants non-WeChat imports:
+
+1. use `tools/imessage_importer.py` for `chat.db` on macOS
+2. use `tools/transcript_importer.py` for `.txt`, `.md`, `.json`, and `.jsonl` exports
+3. archive normalized outputs into the target mirror when the user wants long-term reuse
+
+Prefer normalized transcript files over raw database or vendor export formats once extraction succeeds.
 
 ### 3. Analyze along three tracks
 
