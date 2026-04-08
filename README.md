@@ -17,7 +17,9 @@
 
 </div>
 
-![水仙.skill 预览](assets/hero-preview.svg)
+<p align="center">
+  <img src="assets/hero-preview-v5.png" alt="水仙.skill 预览" width="960" />
+</p>
 
 ---
 
@@ -345,7 +347,7 @@ python tools/transcript_importer.py --input "./telegram-export.json" --output ".
 ├── README.md
 ├── README_EN.md
 ├── assets/
-│   ├── hero-preview.svg
+│   ├── hero-preview-v5.png
 │   └── quickstart-flow.svg
 ├── agents/
 │   └── openai.yaml
@@ -380,6 +382,7 @@ python tools/transcript_importer.py --input "./telegram-export.json" --output ".
 │   └── wechat-import.md
 └── tools/
     ├── demo_builder.py
+    ├── render_hero_png.py
     ├── skill_writer.py
     ├── version_manager.py
     ├── source_importer.py

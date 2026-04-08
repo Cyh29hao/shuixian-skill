@@ -14,7 +14,9 @@
 
 </div>
 
-![Narcissus skill preview](assets/hero-preview.svg)
+<p align="center">
+  <img src="assets/hero-preview-v5.png" alt="Narcissus skill preview" width="960" />
+</p>
 
 ---
 
