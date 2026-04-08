@@ -15,7 +15,7 @@
 </div>
 
 <p align="center">
-  <img src="assets/hero-preview-v9.png" alt="Narcissus skill preview" width="920" />
+  <img src="assets/hero-preview-v11.png" alt="Narcissus skill preview" width="920" />
 </p>
 
 ---

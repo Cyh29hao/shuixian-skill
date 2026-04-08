@@ -18,7 +18,7 @@
 </div>
 
 <p align="center">
-  <img src="assets/hero-preview-v9.png" alt="水仙.skill 预览" width="920" />
+  <img src="assets/hero-preview-v11.png" alt="水仙.skill 预览" width="920" />
 </p>
 
 ---
@@ -384,7 +384,7 @@ python tools/transcript_importer.py --input "./telegram-export.json" --output ".
 ├── README.md
 ├── README_EN.md
 ├── assets/
-│   ├── hero-preview-v9.png
+│   ├── hero-preview-v11.png
 │   └── quickstart-flow-v8.png
 ├── agents/
 │   └── openai.yaml
