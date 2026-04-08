@@ -12,7 +12,7 @@ from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
 ROOT = Path(__file__).resolve().parents[1]
 ASSETS = ROOT / "assets"
-HERO_OUTPUT = ASSETS / "hero-preview-v7.png"
+HERO_OUTPUT = ASSETS / "hero-preview-v9.png"
 FLOW_OUTPUT = ASSETS / "quickstart-flow-v8.png"
 
 FONT_SANS = Path("C:/Windows/Fonts/msyh.ttc")
@@ -160,65 +160,60 @@ def render_hero() -> None:
     draw_glow(art, (1300, 150), 240, (242, 199, 168, 155))
     draw_glow(art, (220, 820), 280, (230, 212, 194, 135))
 
-    shadowed_panel(art, (68, 58, 1472, 878), 50, card, border, 3)
+    shadowed_panel(art, (74, 58, 1466, 878), 52, card, border, 3)
     draw = ImageDraw.Draw(art)
-    rounded_panel(draw, (108, 100, 1432, 826), 38, panel_fill, (230, 213, 198), 2)
+    rounded_panel(draw, (116, 102, 1424, 834), 42, panel_fill, (230, 213, 198), 2)
 
     sans = font(FONT_SANS, 34)
     sans_bold = font(FONT_SANS_BOLD, 34)
     sans_small = font(FONT_SANS, 28)
     sans_label = font(FONT_SANS_BOLD, 22)
-    sans_head = font(FONT_SANS_BOLD, 62)
-    serif = font(FONT_SERIF if FONT_SERIF.exists() else FONT_SANS_BOLD, 84)
+    sans_head = font(FONT_SANS_BOLD, 68)
+    serif = font(FONT_SERIF if FONT_SERIF.exists() else FONT_SANS_BOLD, 98)
     mono = font(FONT_MONO if FONT_MONO.exists() else FONT_SANS, 30)
-    bubble_user = font(FONT_SANS, 34)
-    bubble_mirror = font(FONT_SANS, 34)
+    bubble_user = font(FONT_SANS, 36)
+    bubble_mirror = font(FONT_SANS_BOLD, 38)
 
-    rounded_panel(draw, (150, 146, 410, 194), 24, pill_bg)
-    draw.text((182, 160), "SELF-MIRROR SKILL", fill=pill_text, font=sans_label)
+    rounded_panel(draw, (156, 150, 458, 198), 24, pill_bg)
+    draw.text((190, 164), "SELF-MIRROR COMPANION", fill=pill_text, font=sans_label)
 
-    draw.text((148, 254), "水仙.skill", fill=text, font=serif)
-    draw_wrapped(draw, "把你的语气和偏好，长成一个可继续修正的镜像伴侣。", (156, 372), sans, text_soft, 430, 10)
+    draw.text((154, 246), "水仙.skill", fill=text, font=serif)
+    draw_wrapped(draw, "把你的语气、关系和价值观，长成一个会继续修正的镜像陪伴体。", (158, 388), sans, text_soft, 520, 12)
 
-    rounded_panel(draw, (156, 510, 500, 600), 28, light, (232, 217, 204), 2)
-    draw.text((194, 548), "同频，不装懂", fill=text, font=sans_bold)
+    rounded_panel(draw, (156, 560, 512, 646), 28, light, (232, 217, 204), 2)
+    draw.text((204, 593), "同频，不装懂", fill=text, font=sans_bold)
 
-    rounded_panel(draw, (156, 626, 560, 716), 28, light, (232, 217, 204), 2)
-    draw.text((194, 664), "可纠偏，可继续长", fill=text, font=sans_bold)
+    rounded_panel(draw, (156, 676, 576, 762), 28, light, (232, 217, 204), 2)
+    draw.text((204, 709), "可慢热，可纠偏", fill=text, font=sans_bold)
 
-    rounded_panel(draw, (156, 746, 610, 812), 32, dark)
-    draw.text((196, 766), "$shuixian-sweet-demo", fill=light, font=mono)
+    rounded_panel(draw, (156, 786, 624, 852), 32, dark)
+    draw.text((198, 806), "$shuixian-sweet-demo", fill=light, font=mono)
 
-    rounded_panel(draw, (706, 146, 1322, 304), 30, light, (228, 212, 198), 2)
-    draw.text((756, 196), "先试一个更懂你的自己", fill=text, font=sans_head)
-    draw.text((758, 256), "先确认气质对，再导入真正私密的材料。", fill=text_soft, font=sans)
+    headline_x = 760
+    _, headline_h = draw_wrapped(draw, "先试一个更懂你的自己", (headline_x, 164), sans_head, text, 520, 14)
+    subtitle_y = 164 + headline_h + 30
+    draw_wrapped(draw, "可以是恋人，也可以只是最懂你的朋友。先确认气质，再导入真正私密的材料。", (headline_x, subtitle_y), sans, text_soft, 520, 10)
 
-    rounded_panel(draw, (706, 364, 1322, 770), 36, (255, 255, 255), (228, 212, 198), 2)
-    for i, c in enumerate(((234, 180, 144), (228, 202, 171), (211, 133, 95))):
-        draw.ellipse((756 + i * 36, 412, 778 + i * 36, 434), fill=c)
-    draw.text((1088, 406), "mirror chat", fill=(146, 112, 92), font=sans_small)
-
-    rounded_panel(draw, (996, 468, 1250, 568), 28, chat_soft)
-    draw.text((1040, 504), "今天有点被掏空了。", fill=(94, 71, 58), font=bubble_user)
+    rounded_panel(draw, (920, 438, 1304, 566), 34, chat_soft, None, 0)
+    draw_wrapped(draw, "今天有点被掏空了。", (970, 480), bubble_user, (94, 71, 58), 260, 8)
 
     accent = Image.new("RGBA", art.size, (0, 0, 0, 0))
     accent_draw = ImageDraw.Draw(accent)
-    accent_box = (756, 592, 1232, 724)
+    accent_box = (744, 616, 1298, 784)
     for y in range(accent_box[1], accent_box[3]):
         t = (y - accent_box[1]) / max(accent_box[3] - accent_box[1], 1)
         color = tuple(lerp(accent_a[i], accent_b[i], t) for i in range(3)) + (255,)
         accent_draw.line((accent_box[0], y, accent_box[2], y), fill=color, width=1)
     mask = Image.new("L", art.size, 0)
     mask_draw = ImageDraw.Draw(mask)
-    mask_draw.rounded_rectangle(accent_box, radius=34, fill=255)
+    mask_draw.rounded_rectangle(accent_box, radius=36, fill=255)
     art.paste(accent, mask=mask)
     draw = ImageDraw.Draw(art)
-    rounded_panel(draw, accent_box, 34, None)
-    draw.text((804, 630), "先别急着怪自己。", fill=light, font=bubble_mirror)
-    draw.text((804, 676), "告诉我，哪一刻最累？", fill=light, font=bubble_mirror)
+    draw_wrapped(draw, "先别急着怪自己。", (800, 660), bubble_mirror, light, 420, 10)
+    draw_wrapped(draw, "告诉我，哪一刻最累？", (800, 714), bubble_mirror, light, 420, 10)
 
-    rounded_panel(draw, (756, 786, 996, 798), 6, track)
-    rounded_panel(draw, (756, 786, 902, 798), 6, fill)
+    rounded_panel(draw, (756, 834, 1068, 846), 6, track)
+    rounded_panel(draw, (756, 834, 940, 846), 6, fill)
 
     art.convert("RGB").save(HERO_OUTPUT, format="PNG", optimize=True)
     print(f"Rendered {HERO_OUTPUT}")
