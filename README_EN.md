@@ -2,7 +2,7 @@
 
 # Narcissus.skill
 
-> Distill your tone, habits, preferences, and optional chat history into a romantic self-mirror companion skill.
+> Distill your tone, habits, preferences, social graph, and optional chat history into a self-mirror companion skill.
 
 [中文 README](README.md) · [Release Notes v0.1.1](docs/releases/v0.1.1.md)
 
@@ -31,6 +31,8 @@ What already works:
 - WeChat desktop import, best effort
 - iMessage import
 - generic transcript import from text, Markdown, JSON, and JSONL
+- companion-role configuration and slower pacing defaults
+- stronger value alignment for `full-mirror` builds
 
 What is coming next:
 

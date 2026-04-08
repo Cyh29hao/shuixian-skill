@@ -32,3 +32,4 @@ Keep the product promise honest:
 - WeChat and iMessage are convenience adapters.
 - Generic transcript import is the stable fallback.
 - The real long-term contract is "normalize input into analyzable transcript files."
+- When the user imports broad WeChat history, generate a contact report first so analysis can focus on the relationships that matter most.

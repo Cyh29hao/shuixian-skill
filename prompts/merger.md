@@ -15,3 +15,6 @@ Rules:
 - do not rewrite the whole mirror unless necessary
 - when new evidence conflicts with old inference, prefer evidence
 - note whether the patch is a hard correction or a soft refinement
+- preserve high-confidence values and red lines unless the new evidence clearly overturns them
+- keep track of whether the patch changes the mirror's role, pacing, or disagreement style
+- if broad chat imports reveal a clearer relationship graph, update `relationship.md` rather than scattering that information everywhere

@@ -1,7 +1,7 @@
 interface:
   display_name: "水仙.skill"
-  short_description: "Build a self-mirror romance skill from prompts and chat logs."
-  default_prompt: "Use $create-shuixian to build a sweet gender-flipped mirror companion from my notes and chat logs."
+  short_description: "Build a self-mirror companion skill from prompts, chat logs, values, and relationship patterns."
+  default_prompt: "Use $create-shuixian to build a measured self-mirror companion from my notes and chat logs, with a configurable role such as romantic or close-friend."
 
 policy:
   allow_implicit_invocation: true

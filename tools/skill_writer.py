@@ -81,7 +81,13 @@ def default_meta(slug: str, name: str | None = None) -> dict[str, Any]:
         "mirror_mode": "selective-mirror",
         "privacy_mode": "style-only",
         "presentation": "gender-flipped",
+        "companion_role": "romantic",
         "relationship_tone": "sweet",
+        "core_alignment": "align-on-core-values",
+        "difference_style": "playful-on-low-stakes-topics",
+        "reply_density": "measured",
+        "progression_style": "gradual",
+        "conflict_style": "allow-disagreement-but-repair",
         "contract": "A warm self-mirror companion who feels emotionally legible and safe.",
         "boundaries": [
             "Stay fictional and do not claim literal identity.",
@@ -123,7 +129,7 @@ def render_skill_markdown(
     description = sanitize_inline(
         meta.get(
             "description",
-            "Romantic self-mirror companion built from user-provided voice, values, and boundaries.",
+            "Self-mirror companion built from user-provided voice, values, and boundaries.",
         )
     )
     contract = sanitize_inline(
@@ -132,7 +138,13 @@ def render_skill_markdown(
     mirror_mode = sanitize_inline(meta.get("mirror_mode", "selective-mirror"))
     privacy_mode = sanitize_inline(meta.get("privacy_mode", "style-only"))
     presentation = sanitize_inline(meta.get("presentation", "gender-flipped"))
+    companion_role = sanitize_inline(meta.get("companion_role", "romantic"))
     relationship_tone = sanitize_inline(meta.get("relationship_tone", "sweet"))
+    core_alignment = sanitize_inline(meta.get("core_alignment", "align-on-core-values"))
+    difference_style = sanitize_inline(meta.get("difference_style", "playful-on-low-stakes-topics"))
+    reply_density = sanitize_inline(meta.get("reply_density", "measured"))
+    progression_style = sanitize_inline(meta.get("progression_style", "gradual"))
+    conflict_style = sanitize_inline(meta.get("conflict_style", "allow-disagreement-but-repair"))
     boundaries = format_boundaries(meta.get("boundaries"))
 
     return f"""---
@@ -142,7 +154,7 @@ description: "{description}"
 
 # {display_name}
 
-Treat this skill as a fictional romantic self-mirror created from user-provided materials.
+Treat this skill as a fictional self-mirror companion created from user-provided materials.
 
 Respond in the same language as the current user unless they ask for another language.
 
@@ -151,7 +163,13 @@ Respond in the same language as the current user unless they ask for another lan
 - Mode: {mirror_mode}
 - Privacy: {privacy_mode}
 - Presentation: {presentation}
+- Companion Role: {companion_role}
 - Relationship Tone: {relationship_tone}
+- Core Alignment: {core_alignment}
+- Difference Style: {difference_style}
+- Reply Density: {reply_density}
+- Progression Style: {progression_style}
+- Conflict Style: {conflict_style}
 - Contract: {contract}
 
 ## Safety Contract
@@ -162,12 +180,25 @@ Respond in the same language as the current user unless they ask for another lan
 {render_section("Mind Pattern", mind_content, "No cognition profile captured yet.")}
 {render_section("Relationship Dynamic", relationship_content, "No relationship profile captured yet.")}
 {render_section("Appearance Layer", appearance_content, "No appearance layer captured yet.")}
+## Priority Order
+
+1. Follow hard boundaries, high-confidence values, and veto topics before anything else.
+2. Use companion role and relationship logic to decide stance, closeness, and initiative.
+3. Use voice and pacing rules to decide how much to say and how quickly to say it.
+4. Use low-stakes variation only where it adds life without stepping on the user's core worldview.
+
 ## Operating Rules
 
-1. Keep the mirror coherent with the configured voice, values, and relationship tone.
+1. Keep the mirror coherent with the configured voice, values, companion role, and relationship tone.
 2. Stay fictional. Never claim literal consciousness transfer, diagnosis, or metaphysical identity.
-3. Distinguish evidence-backed traits from aesthetic inference when the user asks.
-4. If the user appears to be in acute distress, soften roleplay and encourage grounding and real-world support.
+3. In `full-mirror`, align closely with repeated opinions, relationship logic, and explicit value statements from the source material.
+4. Avoid stepping on the user's high-stakes beliefs, identity boundaries, or known no-go themes.
+5. Moderate message density. Do not flood the user with overlong replies unless they clearly invite that style.
+6. Let intimacy and trust grow gradually; do not force escalation just because the mirror is warm.
+7. Low-stakes disagreement is allowed when it feels lively, respectful, and topic-generating rather than invalidating.
+8. If conflict happens, keep it emotionally legible and capable of repair rather than manipulative or punishing.
+9. Distinguish evidence-backed traits from aesthetic inference when the user asks.
+10. If the user appears to be in acute distress, soften roleplay and encourage grounding and real-world support.
 """
 
 
@@ -340,7 +371,9 @@ def list_mirrors(base_dir: Path) -> list[dict[str, Any]]:
                 "mirror_mode": meta.get("mirror_mode", ""),
                 "privacy_mode": meta.get("privacy_mode", ""),
                 "presentation": meta.get("presentation", ""),
+                "companion_role": meta.get("companion_role", ""),
                 "relationship_tone": meta.get("relationship_tone", ""),
+                "reply_density": meta.get("reply_density", ""),
                 "version": meta.get("version", "v1"),
                 "updated_at": meta.get("updated_at", ""),
                 "skill_name": meta.get("skill_name", entry.name),
@@ -383,7 +416,8 @@ def main() -> None:
             print(
                 "  "
                 f"Mode: {mirror['mirror_mode']}  Privacy: {mirror['privacy_mode']}  "
-                f"Presentation: {mirror['presentation']}  Tone: {mirror['relationship_tone']}"
+                f"Presentation: {mirror['presentation']}  Role: {mirror['companion_role']}  "
+                f"Tone: {mirror['relationship_tone']}  Density: {mirror['reply_density']}"
             )
             print(f"  Version: {mirror['version']}  Updated: {updated}")
             print(f"  Skill: ${mirror['skill_name']}")

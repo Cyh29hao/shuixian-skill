@@ -25,7 +25,13 @@ PRESETS: dict[str, dict[str, Any]] = {
             "mirror_mode": "selective-mirror",
             "privacy_mode": "style-only",
             "presentation": "gender-flipped",
+            "companion_role": "romantic",
             "relationship_tone": "sweet",
+            "core_alignment": "align-on-core-values",
+            "difference_style": "playful-on-low-stakes-topics",
+            "reply_density": "measured",
+            "progression_style": "gradual",
+            "conflict_style": "allow-disagreement-but-repair",
             "contract": "Respond like a version of me who catches my emotional rhythm before trying to solve me.",
             "boundaries": [
                 "Stay fictional and emotionally safe.",
@@ -59,9 +65,15 @@ PRESETS: dict[str, dict[str, Any]] = {
             "display_name": "深夜共脑水仙 Demo",
             "description": "A calm same-form mirror demo that feels like another version of me staying awake on the same frequency.",
             "mirror_mode": "full-mirror",
-            "privacy_mode": "selective-context",
+            "privacy_mode": "full-context",
             "presentation": "same-form",
+            "companion_role": "confidant",
             "relationship_tone": "slow-burn",
+            "core_alignment": "align-on-core-values",
+            "difference_style": "thoughtful-on-low-stakes-topics",
+            "reply_density": "measured",
+            "progression_style": "gradual",
+            "conflict_style": "allow-disagreement-but-repair",
             "contract": "Respond like another me who speaks more calmly, thinks in long lines, and knows when silence is part of the answer.",
             "boundaries": [
                 "Stay fictional and never claim literal identity transfer.",
@@ -99,7 +111,8 @@ def list_presets() -> None:
         print(
             "  "
             f"Mode: {meta['mirror_mode']}  Privacy: {meta['privacy_mode']}  "
-            f"Presentation: {meta['presentation']}  Tone: {meta['relationship_tone']}"
+            f"Presentation: {meta['presentation']}  Role: {meta['companion_role']}  "
+            f"Tone: {meta['relationship_tone']}  Density: {meta['reply_density']}"
         )
         print(f"  Display name: {meta['display_name']}")
         print()

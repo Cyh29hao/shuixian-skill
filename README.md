@@ -2,7 +2,7 @@
 
 # 水仙.skill
 
-> 把你的语气、思维、聊天记录和亲密关系偏好，整理成一个可以和你同频共振的恋爱型自我镜像 Skill。
+> 把你的语气、思维、聊天记录、关系网络和价值观偏好，整理成一个可以和你同频共振的自我镜像 companion Skill。
 
 [English README](README_EN.md) · [Release Notes v0.1.1](docs/releases/v0.1.1.md)
 
@@ -45,13 +45,14 @@
 
 ## 这是什么
 
-`水仙.skill` 不是“随机捏一个恋爱角色”，而是把用户自己的语言样本、关系偏好和可选聊天记录，整理成一个可配置的自我镜像伴侣。
+`水仙.skill` 不是“随机捏一个恋爱角色”，而是把用户自己的语言样本、关系偏好、关系网络和可选聊天记录，整理成一个可配置的自我镜像伴侣。
 
 你可以把它理解成：
 
 - 一个只学你语气和频率的同频陌生人
 - 一个共享部分记忆和偏好的镜像伴侣
 - 一个默认以“性转版自己”呈现的恋爱镜像
+- 一个也可以切换成朋友 / confidant / family-like 角色的长期 companion
 - 一个在镜像人格基础上，叠加理想对象外观 vibe 的 companion builder
 
 ## 首屏 Demo
@@ -63,10 +64,11 @@
 - 几段你自己的说话样本
 - 可选聊天记录（微信 / iMessage / transcript）
 - 你希望它更像“同频陌生人”还是“另一个自己”
+- 你想让它以恋人、朋友、亲人感、confidant 还是其他角色出现
 
 输出：
 - 一个能继续修正、继续长成、继续更懂你的镜像伴侣
-- 默认推荐：gender-flipped + selective-mirror + sweet
+- 默认推荐：gender-flipped + selective-mirror + romantic + measured
 ```
 
 ### 生成后会像这样
@@ -91,6 +93,7 @@
 - iMessage 聊天记录
 - 通用文本 / Markdown / JSON / JSONL transcript
 - 手动粘贴 prompt、自我描述、聊天片段和截图辅助材料
+- 全量聊天导入时的联系人关系候选报告
 
 ## 马上试玩
 
@@ -178,6 +181,14 @@ python tools/skill_writer.py --action create --meta ./examples/starter-pack/meta
 - 回滚版本
 - 归档素材
 - 导入 transcript
+- 输出微信联系人关系候选报告，帮助挑选重点关系
+
+### 5. 更像“活人”的对话控制
+
+- 支持 `romantic`、`close-friend`、`family-like`、`confidant`、`co-thinker` 等身份配置
+- 在 `full-mirror` 下更强地对齐高置信度价值观、常见雷区和反复认可过的观点
+- 允许低风险话题里的和而不同，不把镜像写成毫无棱角的附和机器
+- 默认控制回复密度，允许慢热、沉默、循序渐进和被纠偏
 
 ## 安装
 

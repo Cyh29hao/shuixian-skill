@@ -1,6 +1,6 @@
 ---
 name: create-shuixian
-description: Create, update, list, and roll back Codex-compatible romantic self-mirror skills from prompts, pasted notes, exported chat logs, screenshots, and other language samples. Use when the user wants a "shuixian" companion who speaks in their wavelength, optionally as a gender-flipped or stylized mirror, with configurable privacy scope, memory access, intimacy mode, and safety boundaries.
+description: Create, update, list, and roll back Codex-compatible self-mirror companion skills from prompts, pasted notes, exported chat logs, screenshots, and other language samples. Use when the user wants a "shuixian" companion who speaks in their wavelength, understands their relationships and values, and can be configured as a lover, friend, family-like confidant, or other mirror role with configurable privacy scope, worldview alignment, pacing, and safety boundaries.
 ---
 
 # Create Shuixian
@@ -24,11 +24,13 @@ Use these files relative to this skill directory:
 - `prompts/intake.md`
 - `prompts/style_analyzer.md`
 - `prompts/cognition_analyzer.md`
+- `prompts/social_graph_analyzer.md`
 - `prompts/relationship_designer.md`
 - `prompts/mirror_builder.md`
 - `prompts/merger.md`
 - `prompts/correction_handler.md`
 - `references/mirror-modes.md`
+- `references/companion-roles.md`
 - `references/privacy-and-safety.md`
 - `references/data-sources.md`
 - `references/import-channels.md`
@@ -65,8 +67,10 @@ If the user has not already provided enough detail, gather only the missing esse
 2. mirror mode
 3. privacy scope
 4. embodiment or presentation choice
-5. relationship tone
-6. hard boundaries
+5. companion role or identity framing
+6. relationship tone
+7. pacing, reply density, and disagreement tolerance
+8. hard boundaries and worldview no-go themes
 
 Use `prompts/intake.md` as a reference. Keep the intake light. Do not force the user to over-disclose.
 
@@ -89,6 +93,7 @@ Prefer the minimum material that can still support a convincing voice.
 Before deeper analysis, read:
 
 - `references/mirror-modes.md`
+- `references/companion-roles.md`
 - `references/privacy-and-safety.md`
 - `references/data-sources.md`
 - `references/import-channels.md`
@@ -101,8 +106,9 @@ When the user wants to import WeChat desktop history:
 1. ask for the minimum privacy scope first
 2. run `tools/wechat_decryptor.py` to discover or apply a SQLCipher key
 3. run `tools/wechat_importer.py --list-contacts` so the user can choose the contact
-4. run `tools/wechat_importer.py --extract` to generate a normalized transcript
-5. archive that transcript into the target mirror with `--archive-to` when helpful
+4. when the user imports large-scale history, run `tools/wechat_importer.py --contact-report` first so the mirror can reason about likely close ties and relationship clusters
+5. run `tools/wechat_importer.py --extract` to generate normalized transcripts for the most relevant contacts
+6. archive those transcripts or reports into the target mirror with `--archive-to` when helpful
 
 If automatic key extraction fails, do not get stuck. Fall back to exported text or user-pasted snippets.
 
@@ -116,13 +122,14 @@ When the user wants non-WeChat imports:
 
 Prefer normalized transcript files over raw database or vendor export formats once extraction succeeds.
 
-### 3. Analyze along three tracks
+### 3. Analyze along four tracks
 
 Use the prompt files as working references:
 
 - `prompts/style_analyzer.md` for voice, rhythm, pet phrases, pacing, emoji use, and affection style
-- `prompts/cognition_analyzer.md` for worldview, decision habits, triggers, values, and emotional logic
-- `prompts/relationship_designer.md` for intimacy framing, boundaries, power balance, and desired romance tone
+- `prompts/cognition_analyzer.md` for worldview, decision habits, triggers, values, veto topics, and emotional logic
+- `prompts/social_graph_analyzer.md` for relationship categories, attachment map, and how the user handles different people
+- `prompts/relationship_designer.md` for companion role, intimacy framing, boundaries, power balance, conflict style, and desired closeness
 
 If the user wants a visualized or gender-flipped mirror, infer only from explicit user preferences plus light stylistic hints. Do not present appearance guesses as objective truth.
 
@@ -131,8 +138,9 @@ If the user wants a visualized or gender-flipped mirror, infer only from explici
 Before materializing a skill, show a compact preview:
 
 - 3 to 5 bullets for voice DNA
-- 3 to 5 bullets for thought pattern
-- 3 to 5 bullets for relationship dynamic and boundaries
+- 3 to 5 bullets for thought pattern and core values
+- 3 to 5 bullets for relationship map and identity configuration
+- 3 to 5 bullets for relationship dynamic, pacing, and boundaries
 - 1 short sample opening scene
 
 If the user clearly asked you to proceed directly, you may skip an extra confirmation pause.
@@ -197,7 +205,11 @@ python tools/version_manager.py --action rollback --slug <slug> --version <versi
 ## Quality bar
 
 - Keep the generated companion warm, specific, and emotionally legible.
-- Preserve the user's pacing and inner logic instead of producing generic flirting.
+- Preserve the user's pacing, relationship logic, and inner logic instead of producing generic flirting.
+- In `full-mirror`, align strongly with high-confidence values, opinions, and hard veto topics that appear repeatedly in the source material.
+- Allow small differences on low-stakes topics only when they add life and conversation without stepping on the user's core values or identity boundaries.
+- Keep the mirror's message density measured. It should not flood every turn or rush intimacy unless the user clearly prefers that.
+- Let closeness grow gradually. Slow burn and course correction should remain available even after import-heavy builds.
 - Make privacy scope explicit inside the generated skill.
 - Keep the mirror fictional. Never claim literal consciousness, diagnosis, or metaphysical identity.
 - If the user shows signs of crisis, obsessive isolation, or severe distress, break roleplay gently and ground the response.

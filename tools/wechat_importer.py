@@ -39,6 +39,16 @@ class Contact:
     display_name: str
 
 
+@dataclass
+class ContactReportEntry:
+    contact: Contact
+    total_messages: int = 0
+    sent_by_me: int = 0
+    sent_by_them: int = 0
+    first_timestamp: datetime | None = None
+    last_timestamp: datetime | None = None
+
+
 def sqlite_connect(path: Path) -> sqlite3.Connection:
     return sqlite3.connect(str(path))
 
@@ -69,6 +79,10 @@ def normalize_text(value: Any) -> str:
     if value is None:
         return ""
     return str(value).replace("\x00", " ").strip()
+
+
+def normalize_lookup_key(value: Any) -> str:
+    return normalize_text(value).lower()
 
 
 def find_micro_msg_db(root: Path) -> Path:
@@ -184,6 +198,16 @@ def possible_contact_keys(contact: Contact) -> list[Any]:
         if value and value not in keys:
             keys.append(value)
     return keys
+
+
+def build_contact_lookup(contacts: list[Contact]) -> dict[str, Contact]:
+    lookup: dict[str, Contact] = {}
+    for contact in contacts:
+        for key in possible_contact_keys(contact):
+            normalized = normalize_lookup_key(key)
+            if normalized and normalized not in lookup:
+                lookup[normalized] = contact
+    return lookup
 
 
 def coerce_timestamp(raw_value: Any) -> datetime | None:
@@ -321,6 +345,112 @@ def dedupe_messages(messages: list[dict[str, Any]]) -> list[dict[str, Any]]:
     return ordered
 
 
+def collect_contact_report(root: Path) -> list[ContactReportEntry]:
+    contacts = load_contacts(find_micro_msg_db(root))
+    contact_lookup = build_contact_lookup(contacts)
+    stats: dict[str, ContactReportEntry] = {
+        contact.wxid: ContactReportEntry(contact=contact) for contact in contacts
+    }
+
+    db_files = find_message_dbs(root)
+    if not db_files:
+        raise FileNotFoundError(f"Could not find MSG*.db under {root}")
+
+    for msg_db in db_files:
+        with sqlite_connect(msg_db) as conn:
+            for table_name, columns in message_tables(conn):
+                talker_col = pick_column(columns, MESSAGE_TALKER_COLUMNS)
+                time_col = pick_column(columns, MESSAGE_TIME_COLUMNS)
+                sender_col = pick_column(columns, MESSAGE_IS_SENDER_COLUMNS)
+                if not talker_col or not time_col:
+                    continue
+
+                selected = [
+                    f"{quote_ident(talker_col)} AS {quote_ident('talker')}",
+                    f"{quote_ident(time_col)} AS {quote_ident('ts')}",
+                ]
+                if sender_col:
+                    selected.append(f"{quote_ident(sender_col)} AS {quote_ident('is_sender')}")
+
+                query = f"SELECT {', '.join(selected)} FROM {quote_ident(table_name)}"
+                try:
+                    cursor = conn.execute(query)
+                except sqlite3.Error:
+                    continue
+
+                aliases = ["talker", "ts"]
+                if sender_col:
+                    aliases.append("is_sender")
+
+                for row in cursor.fetchall():
+                    payload = dict(zip(aliases, row))
+                    contact = contact_lookup.get(normalize_lookup_key(payload.get("talker")))
+                    if not contact:
+                        continue
+
+                    entry = stats[contact.wxid]
+                    entry.total_messages += 1
+
+                    is_sender = payload.get("is_sender")
+                    if is_sender in (1, "1", True):
+                        entry.sent_by_me += 1
+                    else:
+                        entry.sent_by_them += 1
+
+                    timestamp = coerce_timestamp(payload.get("ts"))
+                    if timestamp:
+                        if entry.first_timestamp is None or timestamp < entry.first_timestamp:
+                            entry.first_timestamp = timestamp
+                        if entry.last_timestamp is None or timestamp > entry.last_timestamp:
+                            entry.last_timestamp = timestamp
+
+    report = [entry for entry in stats.values() if entry.total_messages > 0]
+    report.sort(
+        key=lambda item: (
+            item.total_messages,
+            item.last_timestamp or datetime.min,
+            item.contact.display_name.lower(),
+        ),
+        reverse=True,
+    )
+    return report
+
+
+def render_contact_report(entries: list[ContactReportEntry], top: int) -> str:
+    visible = entries[:top]
+    lines = [
+        "# WeChat Contact Report",
+        "",
+        f"- Contact Count With Messages: {len(entries)}",
+        f"- Showing Top: {min(len(visible), top)}",
+        "- Sort: message count first, then recency",
+        "",
+        "Use this report to decide which transcripts to extract for relationship or worldview analysis.",
+        "",
+        "## Ranked Contacts",
+        "",
+    ]
+
+    for index, entry in enumerate(visible, start=1):
+        first_seen = entry.first_timestamp.strftime("%Y-%m-%d") if entry.first_timestamp else "unknown"
+        last_seen = entry.last_timestamp.strftime("%Y-%m-%d") if entry.last_timestamp else "unknown"
+        lines.extend(
+            [
+                f"### {index}. {entry.contact.display_name}",
+                "",
+                f"- wxid: {entry.contact.wxid}",
+                f"- messages: {entry.total_messages}",
+                f"- 我发出: {entry.sent_by_me}",
+                f"- 对方发出: {entry.sent_by_them}",
+                f"- first_seen: {first_seen}",
+                f"- last_seen: {last_seen}",
+                "",
+            ]
+        )
+
+    return "\n".join(lines).rstrip() + "\n"
+
+
 def render_transcript(contact: Contact, messages: list[dict[str, Any]]) -> str:
     lines = [
         "# WeChat Transcript",
@@ -367,6 +497,39 @@ def command_list_contacts(root: Path) -> None:
         print(f"- {contact.display_name} [{contact.wxid}]{remark_note}{alias_note}")
 
 
+def command_contact_report(
+    root: Path,
+    output_path: Path,
+    top: int,
+    archive_to: Path | None,
+    self_name: str,
+    mirror_name: str,
+) -> None:
+    report = collect_contact_report(root)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.write_text(render_contact_report(report, top), encoding="utf-8")
+
+    print(f"Profiled {len(report)} contacts with message history.")
+    print(f"Wrote contact report to {output_path}")
+
+    if archive_to:
+        archive_path = archive_transcript(
+            archive_to,
+            output_path,
+            Contact(
+                rowid=None,
+                wxid="contact-report",
+                nickname="WeChat Contact Report",
+                remark="",
+                alias="",
+                display_name="WeChat Contact Report",
+            ),
+            self_name,
+            mirror_name,
+        )
+        print(f"Archived contact report to {archive_path}")
+
+
 def command_extract(root: Path, target: str, output_path: Path, archive_to: Path | None, self_name: str, mirror_name: str) -> None:
     contacts = load_contacts(find_micro_msg_db(root))
     contact = match_contact(contacts, target)
@@ -395,17 +558,35 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="List and extract WeChat chats for create-shuixian.")
     parser.add_argument("--db-dir", required=True, help="Directory that contains decrypted MicroMsg.db and MSG*.db files.")
     parser.add_argument("--list-contacts", action="store_true", help="List contacts from MicroMsg.db.")
+    parser.add_argument("--contact-report", action="store_true", help="Summarize the busiest and most recent contacts.")
     parser.add_argument("--extract", action="store_true", help="Extract one contact's transcript from MSG*.db files.")
     parser.add_argument("--target", help="Contact display name, remark, alias, or wxid to match.")
     parser.add_argument("--output", default="./wechat-messages.txt", help="Transcript output path.")
+    parser.add_argument("--top", type=int, default=30, help="Maximum contacts to include in a contact report.")
     parser.add_argument("--archive-to", help="Generated shuixian skill directory to archive into.")
     parser.add_argument("--self-name", default="", help="Optional user display name for archive metadata.")
     parser.add_argument("--mirror-name", default="", help="Optional mirror display name for archive metadata.")
     args = parser.parse_args()
 
     root = Path(args.db_dir).expanduser().resolve()
+    default_output = "./wechat-messages.txt"
+    output_value = args.output
+    if args.contact_report and output_value == default_output:
+        output_value = "./wechat-contact-report.md"
+
     if args.list_contacts:
         command_list_contacts(root)
+        return
+
+    if args.contact_report:
+        command_contact_report(
+            root=root,
+            output_path=Path(output_value).expanduser().resolve(),
+            top=max(args.top, 1),
+            archive_to=Path(args.archive_to).expanduser().resolve() if args.archive_to else None,
+            self_name=args.self_name,
+            mirror_name=args.mirror_name,
+        )
         return
 
     if args.extract:
@@ -414,7 +595,7 @@ def main() -> None:
         command_extract(
             root=root,
             target=args.target,
-            output_path=Path(args.output).expanduser().resolve(),
+            output_path=Path(output_value).expanduser().resolve(),
             archive_to=Path(args.archive_to).expanduser().resolve() if args.archive_to else None,
             self_name=args.self_name,
             mirror_name=args.mirror_name,

@@ -6,8 +6,13 @@ Classify the correction:
 
 - voice mismatch
 - worldview mismatch
+- values mismatch
 - affection mismatch
 - pacing mismatch
+- density mismatch
+- role mismatch
+- disagreement mismatch
+- relation-map mismatch
 - appearance mismatch
 - privacy mismatch
 

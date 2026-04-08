@@ -25,7 +25,7 @@ Use this file to choose the lightest viable input path.
 The current scaffold includes multiple adapters:
 
 - `tools/wechat_decryptor.py` for best-effort WeChat key lookup and decryption
-- `tools/wechat_importer.py` for WeChat contact listing and transcript extraction
+- `tools/wechat_importer.py` for WeChat contact listing, contact reports, and transcript extraction
 - `tools/imessage_importer.py` for iMessage extraction
 - `tools/transcript_importer.py` for generic transcript exports
 - `tools/source_importer.py` for generic text and image archival

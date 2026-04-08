@@ -65,6 +65,7 @@ python tools/skill_writer.py --action list --base-dir ./.agents/skills
 python tools/wechat_decryptor.py --find-key-only
 python tools/wechat_decryptor.py --key "<密钥>" --db-dir "<微信数据目录>" --output "./decrypted"
 python tools/wechat_importer.py --list-contacts --db-dir "./decrypted"
+python tools/wechat_importer.py --contact-report --db-dir "./decrypted" --output "./wechat-contact-report.md"
 python tools/wechat_importer.py --extract --db-dir "./decrypted" --target "<联系人>" --output "./wechat.txt"
 ```
 
@@ -84,5 +85,6 @@ python tools/transcript_importer.py --input "./telegram-export.json" --output ".
 
 - 先用 `style-only` 或 `selective-mirror`，不要一上来就喂太多上下文。
 - 比起大量原始记录，3 到 10 段“最像你”的说话样本通常更重要。
+- 如果你导入的是很多联系人，先看 `--contact-report`，再挑最能代表你关系世界的几段重点关系。
 - 纠偏时尽量说具体一点，比如“先追问，再安慰”“减少直接夸奖”“不要太油”。
 - 如果只是想试玩，不要先碰微信解密，先走路线 A。
