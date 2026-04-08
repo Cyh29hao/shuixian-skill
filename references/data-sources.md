@@ -28,6 +28,7 @@ The current scaffold includes multiple adapters:
 - `tools/wechat_importer.py` for WeChat contact listing, contact reports, and transcript extraction
 - `tools/imessage_importer.py` for iMessage extraction
 - `tools/transcript_importer.py` for generic transcript exports
+- `tools/mirror_profiler.py` for a middle-layer relationship and value report
 - `tools/source_importer.py` for generic text and image archival
 
 Keep the claims modest:

@@ -4,13 +4,13 @@
 
 > Distill your tone, habits, preferences, social graph, and optional chat history into a self-mirror companion skill.
 
-[中文 README](README.md) · [Release Notes v0.1.1](docs/releases/v0.1.1.md)
+[中文 README](README.md) · [Release Notes v0.1.2](docs/releases/v0.1.2.md)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Python 3.9+](https://img.shields.io/badge/Python-3.9%2B-blue.svg)](https://python.org)
 [![Codex Skill](https://img.shields.io/badge/Codex-Skill-111111.svg)](README.md#安装)
 [![Claude Code](https://img.shields.io/badge/Claude%20Code-Adapted-7C3AED.svg)](docs/CLAUDE.md)
-[![Status](https://img.shields.io/badge/Status-Updating-orange.svg)](docs/releases/v0.1.1.md)
+[![Status](https://img.shields.io/badge/Status-Updating-orange.svg)](docs/releases/v0.1.2.md)
 
 </div>
 
@@ -33,6 +33,7 @@ What already works:
 - generic transcript import from text, Markdown, JSON, and JSONL
 - companion-role configuration and slower pacing defaults
 - stronger value alignment for `full-mirror` builds
+- relationship and value profiling from normalized transcripts
 
 What is coming next:
 
@@ -40,7 +41,7 @@ What is coming next:
 - stronger demo materials
 - a smoother Claude experience
 
-The latest usability update is in [docs/releases/v0.1.1.md](docs/releases/v0.1.1.md).
+The latest usability update is in [docs/releases/v0.1.2.md](docs/releases/v0.1.2.md).
 
 ## What It Is
 

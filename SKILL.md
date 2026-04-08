@@ -5,7 +5,7 @@ description: Create, update, list, and roll back Codex-compatible self-mirror co
 
 # Create Shuixian
 
-Use this skill when the user wants to turn their own language, habits, values, and optional chat history into a reusable "water-immortal" romance companion skill.
+Use this skill when the user wants to turn their own language, habits, values, and optional chat history into a reusable "water-immortal" self-mirror companion skill.
 
 Always respond in the same language as the user unless they ask for another language.
 
@@ -39,6 +39,7 @@ Use these files relative to this skill directory:
 - `tools/demo_builder.py`
 - `tools/version_manager.py`
 - `tools/source_importer.py`
+- `tools/mirror_profiler.py`
 - `tools/wechat_decryptor.py`
 - `tools/wechat_importer.py`
 - `tools/imessage_importer.py`
@@ -122,6 +123,27 @@ When the user wants non-WeChat imports:
 
 Prefer normalized transcript files over raw database or vendor export formats once extraction succeeds.
 
+### Profiling workflow
+
+When transcript volume is high enough that raw logs become noisy, run:
+
+```powershell
+python tools/mirror_profiler.py --input <normalized-transcript.txt> --output ./mirror-profile.md
+```
+
+If the transcript files were already archived into a generated mirror:
+
+```powershell
+python tools/mirror_profiler.py --skill-dir ./.agents/skills/shuixian-<slug>
+```
+
+Use the report as a middle layer before final synthesis. It should help surface:
+
+- likely relationship categories
+- topic clues worth reading carefully
+- value and no-go hints
+- pacing and density suggestions for the mirror
+
 ### 3. Analyze along four tracks
 
 Use the prompt files as working references:
@@ -130,6 +152,8 @@ Use the prompt files as working references:
 - `prompts/cognition_analyzer.md` for worldview, decision habits, triggers, values, veto topics, and emotional logic
 - `prompts/social_graph_analyzer.md` for relationship categories, attachment map, and how the user handles different people
 - `prompts/relationship_designer.md` for companion role, intimacy framing, boundaries, power balance, conflict style, and desired closeness
+
+When available, read the output of `tools/mirror_profiler.py` before synthesizing the final mirror. Treat it as an organizer, not as ground truth.
 
 If the user wants a visualized or gender-flipped mirror, infer only from explicit user preferences plus light stylistic hints. Do not present appearance guesses as objective truth.
 

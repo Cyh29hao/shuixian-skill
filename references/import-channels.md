@@ -33,3 +33,4 @@ Keep the product promise honest:
 - Generic transcript import is the stable fallback.
 - The real long-term contract is "normalize input into analyzable transcript files."
 - When the user imports broad WeChat history, generate a contact report first so analysis can focus on the relationships that matter most.
+- When transcript volume grows, run `tools/mirror_profiler.py` so the mirror is built from organized signals instead of raw logs alone.

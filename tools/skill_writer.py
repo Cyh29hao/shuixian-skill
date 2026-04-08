@@ -205,6 +205,7 @@ Respond in the same language as the current user unless they ask for another lan
 def ensure_structure(skill_dir: Path) -> None:
     (skill_dir / "versions").mkdir(parents=True, exist_ok=True)
     (skill_dir / "knowledge" / "imports").mkdir(parents=True, exist_ok=True)
+    (skill_dir / "knowledge" / "analysis").mkdir(parents=True, exist_ok=True)
     (skill_dir / "knowledge" / "images").mkdir(parents=True, exist_ok=True)
     (skill_dir / "knowledge" / "notes").mkdir(parents=True, exist_ok=True)
 
