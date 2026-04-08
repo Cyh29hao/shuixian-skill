@@ -18,7 +18,7 @@
 </div>
 
 <p align="center">
-  <img src="assets/hero-preview-v5.png" alt="水仙.skill 预览" width="960" />
+  <img src="assets/hero-preview-v7.png" alt="水仙.skill 预览" width="920" />
 </p>
 
 ---
@@ -100,7 +100,9 @@
 2. 确认气质方向对了，再改成你自己的设定。
 3. 最后如果还想更像，再导入聊天记录。
 
-![Quick Start Flow](assets/quickstart-flow.svg)
+<p align="center">
+  <img src="assets/quickstart-flow-v8.png" alt="Quick Start Flow" width="920" />
+</p>
 
 ### 零私密数据试玩
 
@@ -347,8 +349,8 @@ python tools/transcript_importer.py --input "./telegram-export.json" --output ".
 ├── README.md
 ├── README_EN.md
 ├── assets/
-│   ├── hero-preview-v5.png
-│   └── quickstart-flow.svg
+│   ├── hero-preview-v7.png
+│   └── quickstart-flow-v8.png
 ├── agents/
 │   └── openai.yaml
 ├── docs/
@@ -382,7 +384,7 @@ python tools/transcript_importer.py --input "./telegram-export.json" --output ".
 │   └── wechat-import.md
 └── tools/
     ├── demo_builder.py
-    ├── render_hero_png.py
+    ├── render_readme_pngs.py
     ├── skill_writer.py
     ├── version_manager.py
     ├── source_importer.py

@@ -15,7 +15,7 @@
 </div>
 
 <p align="center">
-  <img src="assets/hero-preview-v5.png" alt="Narcissus skill preview" width="960" />
+  <img src="assets/hero-preview-v7.png" alt="Narcissus skill preview" width="920" />
 </p>
 
 ---
@@ -88,7 +88,9 @@ The easiest path is:
 2. decide whether the vibe is right
 3. only then bring private chat history
 
-![Quick Start Flow](assets/quickstart-flow.svg)
+<p align="center">
+  <img src="assets/quickstart-flow-v8.png" alt="Quick Start Flow" width="920" />
+</p>
 
 ### Zero-private-data demo
 
