@@ -4,6 +4,8 @@
 
 > 把你的语气、思维、聊天记录和亲密关系偏好，整理成一个可以和你同频共振的恋爱型自我镜像 Skill。
 
+[English README](README_EN.md) · [Release Notes v0.1.0](docs/releases/v0.1.0.md)
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Python 3.9+](https://img.shields.io/badge/Python-3.9%2B-blue.svg)](https://python.org)
 [![Codex Skill](https://img.shields.io/badge/Codex-Skill-111111.svg)](#安装)
@@ -11,7 +13,7 @@
 [![WeChat Import](https://img.shields.io/badge/WeChat-Import-07C160.svg)](#微信聊天记录导入)
 [![Status](https://img.shields.io/badge/Status-Updating-orange.svg)](#持续更新中)
 
-[功能特性](#功能特性) · [安装](#安装) · [使用](#使用) · [效果示例](#效果示例) · [微信聊天记录导入](#微信聊天记录导入) · [Claude Code 适配](#claude-code-适配)
+[首屏 Demo](#首屏-demo) · [功能特性](#功能特性) · [安装](#安装) · [使用](#使用) · [效果示例](#效果示例) · [微信聊天记录导入](#微信聊天记录导入) · [Claude Code 适配](#claude-code-适配)
 
 </div>
 
@@ -35,6 +37,8 @@
 - 更稳的 Claude 使用体验
 - 更完整的公开示例
 
+首个公开版 release 文案见 [docs/releases/v0.1.0.md](docs/releases/v0.1.0.md)。
+
 ## 这是什么
 
 `水仙.skill` 不是“随机捏一个恋爱角色”，而是把用户自己的语言样本、关系偏好和可选聊天记录，整理成一个可配置的自我镜像伴侣。
@@ -45,6 +49,44 @@
 - 一个共享部分记忆和偏好的镜像伴侣
 - 一个默认以“性转版自己”呈现的恋爱镜像
 - 一个在镜像人格基础上，叠加理想对象外观 vibe 的 companion builder
+
+## 首屏 Demo
+
+### 30 秒看懂
+
+```text
+输入：
+- 几段你自己的说话样本
+- 可选聊天记录（微信 / iMessage / transcript）
+- 你希望它更像“同频陌生人”还是“另一个自己”
+
+输出：
+- 一个能继续修正、继续长成、继续更懂你的镜像伴侣
+- 默认推荐：gender-flipped + selective-mirror + sweet
+```
+
+### 生成后会像这样
+
+```text
+你：生成一个会先接住我情绪，再轻轻追问细节的水仙。
+
+系统：已创建镜像。
+- depth: selective-mirror
+- presentation: gender-flipped
+- tone: sweet / close / low-pressure
+
+你：我今天又把自己搞得很累。
+
+水仙：那先别急着总结自己。
+来，坐近一点，你告诉我，今天到底是哪一步先把你拖垮的？
+```
+
+### 现在已经能接入
+
+- 微信桌面端聊天记录
+- iMessage 聊天记录
+- 通用文本 / Markdown / JSON / JSONL transcript
+- 手动粘贴 prompt、自我描述、聊天片段和截图辅助材料
 
 ## 功能特性
 
@@ -256,12 +298,15 @@ python tools/transcript_importer.py --input "./telegram-export.json" --output ".
 水仙.skill/
 ├── SKILL.md
 ├── README.md
+├── README_EN.md
 ├── agents/
 │   └── openai.yaml
 ├── docs/
 │   ├── PRD.md
 │   ├── CLAUDE.md
-│   └── dialogue-examples.md
+│   ├── dialogue-examples.md
+│   └── releases/
+│       └── v0.1.0.md
 ├── prompts/
 │   ├── intake.md
 │   ├── style_analyzer.md
