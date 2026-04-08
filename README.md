@@ -4,7 +4,7 @@
 
 > 把你的语气、思维、聊天记录和亲密关系偏好，整理成一个可以和你同频共振的恋爱型自我镜像 Skill。
 
-[English README](README_EN.md) · [Release Notes v0.1.0](docs/releases/v0.1.0.md)
+[English README](README_EN.md) · [Release Notes v0.1.1](docs/releases/v0.1.1.md)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Python 3.9+](https://img.shields.io/badge/Python-3.9%2B-blue.svg)](https://python.org)
@@ -16,6 +16,8 @@
 [首屏 Demo](#首屏-demo) · [功能特性](#功能特性) · [安装](#安装) · [使用](#使用) · [效果示例](#效果示例) · [微信聊天记录导入](#微信聊天记录导入) · [Claude Code 适配](#claude-code-适配)
 
 </div>
+
+![水仙.skill 预览](assets/hero-preview.svg)
 
 ---
 
@@ -37,7 +39,7 @@
 - 更稳的 Claude 使用体验
 - 更完整的公开示例
 
-首个公开版 release 文案见 [docs/releases/v0.1.0.md](docs/releases/v0.1.0.md)。
+这一轮新增的可用性更新见 [docs/releases/v0.1.1.md](docs/releases/v0.1.1.md)。
 
 ## 这是什么
 
@@ -87,6 +89,49 @@
 - iMessage 聊天记录
 - 通用文本 / Markdown / JSON / JSONL transcript
 - 手动粘贴 prompt、自我描述、聊天片段和截图辅助材料
+
+## 马上试玩
+
+如果你只是刚点进来，最推荐先走这条：
+
+1. 先用公开 preset 试玩，不导入任何私密数据。
+2. 确认气质方向对了，再改成你自己的设定。
+3. 最后如果还想更像，再导入聊天记录。
+
+![Quick Start Flow](assets/quickstart-flow.svg)
+
+### 零私密数据试玩
+
+```bash
+python tools/demo_builder.py --list-presets
+python tools/demo_builder.py --preset sweet-gender-flipped --base-dir ./.agents/skills
+```
+
+生成后直接在 Codex 里调用：
+
+```text
+$shuixian-sweet-gender-flipped-demo
+```
+
+### 想做自己的初版
+
+仓库已经附带 starter pack：
+
+- [meta.json](examples/starter-pack/meta.json)
+- [style.md](examples/starter-pack/style.md)
+- [mind.md](examples/starter-pack/mind.md)
+- [relationship.md](examples/starter-pack/relationship.md)
+- [appearance.md](examples/starter-pack/appearance.md)
+
+其中 [meta.json](examples/starter-pack/meta.json) 里的 `slug` 也可以直接改，这样生成出来的 skill 名会更稳定。
+
+把这些文件改成你自己的内容后，直接运行：
+
+```bash
+python tools/skill_writer.py --action create --meta ./examples/starter-pack/meta.json --style ./examples/starter-pack/style.md --mind ./examples/starter-pack/mind.md --relationship ./examples/starter-pack/relationship.md --appearance ./examples/starter-pack/appearance.md --base-dir ./.agents/skills
+```
+
+更完整的第一次使用流程见 [docs/quickstart.md](docs/quickstart.md)。
 
 ## 功能特性
 
@@ -299,14 +344,26 @@ python tools/transcript_importer.py --input "./telegram-export.json" --output ".
 ├── SKILL.md
 ├── README.md
 ├── README_EN.md
+├── assets/
+│   ├── hero-preview.svg
+│   └── quickstart-flow.svg
 ├── agents/
 │   └── openai.yaml
 ├── docs/
 │   ├── PRD.md
 │   ├── CLAUDE.md
 │   ├── dialogue-examples.md
+│   ├── quickstart.md
 │   └── releases/
-│       └── v0.1.0.md
+│       ├── v0.1.0.md
+│       └── v0.1.1.md
+├── examples/
+│   └── starter-pack/
+│       ├── meta.json
+│       ├── style.md
+│       ├── mind.md
+│       ├── relationship.md
+│       └── appearance.md
 ├── prompts/
 │   ├── intake.md
 │   ├── style_analyzer.md
@@ -322,6 +379,7 @@ python tools/transcript_importer.py --input "./telegram-export.json" --output ".
 │   ├── import-channels.md
 │   └── wechat-import.md
 └── tools/
+    ├── demo_builder.py
     ├── skill_writer.py
     ├── version_manager.py
     ├── source_importer.py
@@ -343,6 +401,7 @@ python tools/transcript_importer.py --input "./telegram-export.json" --output ".
 1. 继续补更多聊天平台适配
 2. 继续打磨 Claude 体验
 3. 增加更完整的公开示例和展示页
+4. 补更多可分享的 preset 和镜像案例
 
 ---
 

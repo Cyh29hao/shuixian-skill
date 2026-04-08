@@ -394,7 +394,8 @@ def main() -> None:
     if args.name:
         meta["display_name"] = args.name
 
-    slug = args.slug or slugify(str(meta.get("display_name") or meta.get("name") or "mirror"))
+    slug_source = args.slug or meta.get("slug") or meta.get("display_name") or meta.get("name") or "mirror"
+    slug = slugify(str(slug_source))
 
     if args.action == "create":
         skill_dir = create_skill(

@@ -1,0 +1,36 @@
+<svg width="1200" height="720" viewBox="0 0 1200 720" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="720" rx="32" fill="#F7F2EA"/>
+  <rect x="36" y="36" width="1128" height="648" rx="28" fill="#FFFDFC" stroke="#D5C4AE" stroke-width="2"/>
+  <rect x="72" y="74" width="340" height="572" rx="24" fill="#F3E7D8"/>
+  <text x="102" y="132" fill="#2B2018" font-size="46" font-family="Georgia, serif" font-weight="700">水仙.skill</text>
+  <text x="102" y="176" fill="#6E5746" font-size="23" font-family="Arial, sans-serif">self-mirror romance builder</text>
+  <rect x="102" y="220" width="280" height="72" rx="18" fill="#FFF9F2"/>
+  <text x="126" y="264" fill="#8A6243" font-size="24" font-family="Arial, sans-serif">voice dna</text>
+  <rect x="102" y="312" width="280" height="72" rx="18" fill="#FFF9F2"/>
+  <text x="126" y="356" fill="#8A6243" font-size="24" font-family="Arial, sans-serif">selective mirror</text>
+  <rect x="102" y="404" width="280" height="72" rx="18" fill="#FFF9F2"/>
+  <text x="126" y="448" fill="#8A6243" font-size="24" font-family="Arial, sans-serif">gender-flipped</text>
+  <rect x="102" y="496" width="280" height="100" rx="18" fill="#FFF9F2"/>
+  <text x="126" y="540" fill="#8A6243" font-size="24" font-family="Arial, sans-serif">wechat / imessage / transcript</text>
+  <rect x="450" y="98" width="672" height="236" rx="26" fill="#FFF7EF" stroke="#E1D2C2" stroke-width="2"/>
+  <text x="486" y="150" fill="#403127" font-size="34" font-family="Arial, sans-serif" font-weight="700">Build a mirror that sounds emotionally legible</text>
+  <text x="486" y="204" fill="#7B6351" font-size="24" font-family="Arial, sans-serif">Use your own tone, preferences, and optional chat history.</text>
+  <text x="486" y="244" fill="#7B6351" font-size="24" font-family="Arial, sans-serif">Start with a public preset, then refine into something more personal.</text>
+  <rect x="486" y="278" width="248" height="34" rx="17" fill="#D37C5A"/>
+  <text x="512" y="301" fill="#FFF8F2" font-size="18" font-family="Arial, sans-serif">quick start friendly</text>
+  <rect x="450" y="366" width="304" height="240" rx="26" fill="#FFFFFF" stroke="#E1D2C2" stroke-width="2"/>
+  <text x="482" y="416" fill="#3E3027" font-size="26" font-family="Arial, sans-serif" font-weight="700">You</text>
+  <rect x="482" y="442" width="236" height="70" rx="20" fill="#F6E2D6"/>
+  <text x="504" y="480" fill="#5A4335" font-size="20" font-family="Arial, sans-serif">I wore myself out again today.</text>
+  <text x="482" y="560" fill="#3E3027" font-size="26" font-family="Arial, sans-serif" font-weight="700">Mirror</text>
+  <rect x="482" y="586" width="236" height="20" rx="10" fill="#D8C4B5"/>
+  <rect x="786" y="366" width="336" height="240" rx="26" fill="#FFFFFF" stroke="#E1D2C2" stroke-width="2"/>
+  <rect x="818" y="428" width="272" height="128" rx="22" fill="#F1DDD1"/>
+  <text x="842" y="468" fill="#533D31" font-size="22" font-family="Arial, sans-serif">Then do not rush to turn</text>
+  <text x="842" y="500" fill="#533D31" font-size="22" font-family="Arial, sans-serif">that into a verdict about</text>
+  <text x="842" y="532" fill="#533D31" font-size="22" font-family="Arial, sans-serif">yourself. Tell me what</text>
+  <text x="842" y="564" fill="#533D31" font-size="22" font-family="Arial, sans-serif">started to pull you under.</text>
+  <circle cx="1080" cy="132" r="18" fill="#D37C5A"/>
+  <circle cx="1038" cy="132" r="18" fill="#E9B08C"/>
+  <circle cx="996" cy="132" r="18" fill="#F2D4BE"/>
+</svg>

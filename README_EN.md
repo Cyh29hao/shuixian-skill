@@ -4,15 +4,17 @@
 
 > Distill your tone, habits, preferences, and optional chat history into a romantic self-mirror companion skill.
 
-[中文 README](README.md) · [Release Notes v0.1.0](docs/releases/v0.1.0.md)
+[中文 README](README.md) · [Release Notes v0.1.1](docs/releases/v0.1.1.md)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Python 3.9+](https://img.shields.io/badge/Python-3.9%2B-blue.svg)](https://python.org)
 [![Codex Skill](https://img.shields.io/badge/Codex-Skill-111111.svg)](README.md#安装)
 [![Claude Code](https://img.shields.io/badge/Claude%20Code-Adapted-7C3AED.svg)](docs/CLAUDE.md)
-[![Status](https://img.shields.io/badge/Status-Updating-orange.svg)](docs/releases/v0.1.0.md)
+[![Status](https://img.shields.io/badge/Status-Updating-orange.svg)](docs/releases/v0.1.1.md)
 
 </div>
+
+![Narcissus skill preview](assets/hero-preview.svg)
 
 ---
 
@@ -33,6 +35,8 @@ What is coming next:
 - more import adapters
 - stronger demo materials
 - a smoother Claude experience
+
+The latest usability update is in [docs/releases/v0.1.1.md](docs/releases/v0.1.1.md).
 
 ## What It Is
 
@@ -74,10 +78,56 @@ Mirror: Then don't rush to turn that into a verdict about yourself.
 Come here and tell me which moment started to pull you under first.
 ```
 
+## Start Fast
+
+The easiest path is:
+
+1. try a preset first
+2. decide whether the vibe is right
+3. only then bring private chat history
+
+![Quick Start Flow](assets/quickstart-flow.svg)
+
+### Zero-private-data demo
+
+```bash
+python tools/demo_builder.py --list-presets
+python tools/demo_builder.py --preset sweet-gender-flipped --base-dir ./.agents/skills
+```
+
+Then call:
+
+```text
+$shuixian-sweet-gender-flipped-demo
+```
+
+### Build a first custom mirror
+
+Starter files are included in [examples/starter-pack](examples/starter-pack).
+
+Edit:
+
+- [meta.json](examples/starter-pack/meta.json)
+- [style.md](examples/starter-pack/style.md)
+- [mind.md](examples/starter-pack/mind.md)
+- [relationship.md](examples/starter-pack/relationship.md)
+- [appearance.md](examples/starter-pack/appearance.md)
+
+You can also change the `slug` field in [meta.json](examples/starter-pack/meta.json) if you want a stable generated skill name.
+
+Then run:
+
+```bash
+python tools/skill_writer.py --action create --meta ./examples/starter-pack/meta.json --style ./examples/starter-pack/style.md --mind ./examples/starter-pack/mind.md --relationship ./examples/starter-pack/relationship.md --appearance ./examples/starter-pack/appearance.md --base-dir ./.agents/skills
+```
+
+See [docs/quickstart.md](docs/quickstart.md) for the full first-run flow.
+
 ## Highlights
 
 - Three mirror depths: `aligned-stranger`, `selective-mirror`, `full-mirror`
 - Configurable presentation: `gender-flipped`, `same-form`, `custom`, `idealized`
+- Public demo presets with no private data required
 - Import from WeChat desktop, iMessage, or generic transcripts
 - Archive sources, update an existing mirror, and roll versions back
 - Dialogue examples and builder prompts included

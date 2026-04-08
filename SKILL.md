@@ -34,6 +34,7 @@ Use these files relative to this skill directory:
 - `references/import-channels.md`
 - `references/wechat-import.md`
 - `tools/skill_writer.py`
+- `tools/demo_builder.py`
 - `tools/version_manager.py`
 - `tools/source_importer.py`
 - `tools/wechat_decryptor.py`
@@ -44,6 +45,17 @@ Use these files relative to this skill directory:
 When running bundled scripts on Windows, prefer `python`. If `python` is unavailable, use `py -3`.
 
 ## Main workflow
+
+### 0. No-privacy demo first when helpful
+
+If the user is still deciding whether the concept feels right, or they want a public-safe demo before sharing personal material, start with:
+
+```powershell
+python tools/demo_builder.py --list-presets
+python tools/demo_builder.py --preset sweet-gender-flipped --base-dir ./.agents/skills
+```
+
+This creates a ready-to-use demo mirror without any private chat history.
 
 ### 1. Intake
 

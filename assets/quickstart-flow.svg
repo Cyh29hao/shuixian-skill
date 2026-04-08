@@ -1,0 +1,24 @@
+<svg width="1200" height="420" viewBox="0 0 1200 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="420" rx="28" fill="#FCF8F3"/>
+  <text x="72" y="82" fill="#3A2A20" font-size="38" font-family="Arial, sans-serif" font-weight="700">Quick Start Flow</text>
+  <text x="72" y="118" fill="#7B6351" font-size="22" font-family="Arial, sans-serif">Try the mirror first. Bring private data later only if the vibe already feels right.</text>
+  <rect x="72" y="164" width="300" height="184" rx="26" fill="#FFFDFB" stroke="#DACBBB" stroke-width="2"/>
+  <text x="108" y="214" fill="#A66A48" font-size="20" font-family="Arial, sans-serif" font-weight="700">Step 1</text>
+  <text x="108" y="254" fill="#3A2A20" font-size="30" font-family="Arial, sans-serif" font-weight="700">Pick a preset</text>
+  <text x="108" y="300" fill="#6F594A" font-size="20" font-family="Arial, sans-serif">python tools/demo_builder.py</text>
+  <text x="108" y="328" fill="#6F594A" font-size="20" font-family="Arial, sans-serif">--list-presets</text>
+  <rect x="432" y="164" width="300" height="184" rx="26" fill="#FFFDFB" stroke="#DACBBB" stroke-width="2"/>
+  <text x="468" y="214" fill="#A66A48" font-size="20" font-family="Arial, sans-serif" font-weight="700">Step 2</text>
+  <text x="468" y="254" fill="#3A2A20" font-size="30" font-family="Arial, sans-serif" font-weight="700">Generate demo</text>
+  <text x="468" y="300" fill="#6F594A" font-size="20" font-family="Arial, sans-serif">python tools/demo_builder.py</text>
+  <text x="468" y="328" fill="#6F594A" font-size="20" font-family="Arial, sans-serif">--preset sweet-gender-flipped</text>
+  <rect x="792" y="164" width="336" height="184" rx="26" fill="#FFFDFB" stroke="#DACBBB" stroke-width="2"/>
+  <text x="828" y="214" fill="#A66A48" font-size="20" font-family="Arial, sans-serif" font-weight="700">Step 3</text>
+  <text x="828" y="254" fill="#3A2A20" font-size="30" font-family="Arial, sans-serif" font-weight="700">Talk to it</text>
+  <text x="828" y="300" fill="#6F594A" font-size="20" font-family="Arial, sans-serif">$shuixian-sweet-gender-flipped-demo</text>
+  <text x="828" y="328" fill="#6F594A" font-size="20" font-family="Arial, sans-serif">then refine with your own data</text>
+  <path d="M390 256H414" stroke="#CC8B67" stroke-width="6" stroke-linecap="round"/>
+  <path d="M408 244L426 256L408 268" stroke="#CC8B67" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M750 256H774" stroke="#CC8B67" stroke-width="6" stroke-linecap="round"/>
+  <path d="M768 244L786 256L768 268" stroke="#CC8B67" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
