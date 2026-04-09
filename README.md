@@ -2,9 +2,9 @@
 
 # 水仙.skill
 
-> 把你的语气、思维、聊天记录、关系网络和价值观偏好，整理成一个可以和你同频共振的自我镜像 companion Skill。
+> 把你的聊天记录、语气、关系网络和价值观偏好，长成一个更懂你、也更像你的水仙 companion。
 
-[English README](README_EN.md) · [Release Notes v0.1.2](docs/releases/v0.1.2.md)
+[English README](README_EN.md) · [Release Notes v0.1.3](docs/releases/v0.1.3.md)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Python 3.9+](https://img.shields.io/badge/Python-3.9%2B-blue.svg)](https://python.org)
@@ -13,7 +13,7 @@
 [![WeChat Import](https://img.shields.io/badge/WeChat-Import-07C160.svg)](#微信聊天记录导入)
 [![Status](https://img.shields.io/badge/Status-Updating-orange.svg)](#持续更新中)
 
-[首屏 Demo](#首屏-demo) · [功能特性](#功能特性) · [安装](#安装) · [使用](#使用) · [效果示例](#效果示例) · [微信聊天记录导入](#微信聊天记录导入) · [Claude Code 适配](#claude-code-适配)
+[首屏 Demo](#首屏-demo) · [经典步骤流程](#经典步骤流程) · [功能特性](#功能特性) · [安装](#安装) · [使用](#使用) · [效果示例](#效果示例) · [微信聊天记录导入](#微信聊天记录导入) · [Claude Code 适配](#claude-code-适配)
 
 </div>
 
@@ -42,11 +42,18 @@
 - 更稳的 Claude 使用体验
 - 更完整的公开示例
 
-这一轮新增的可用性更新见 [docs/releases/v0.1.2.md](docs/releases/v0.1.2.md)。
+这一轮新增的可用性更新见 [docs/releases/v0.1.3.md](docs/releases/v0.1.3.md)。
 
 ## 这是什么
 
-`水仙.skill` 不是“随机捏一个恋爱角色”，而是把用户自己的语言样本、关系偏好、关系网络和可选聊天记录，整理成一个可配置的自我镜像伴侣。
+`水仙.skill` 不是“随机捏一个恋爱角色”，而是把用户自己的语言样本、关系偏好、关系网络和聊天记录，整理成一个可配置的自我镜像伴侣。
+
+这一版开始更明确地把目标放在：
+
+- 少一点“泛泛而谈的情感专家”
+- 多一点“像聊天记录里长出来的世界上另一个自己”
+- 少一点标准化安慰
+- 多一点你自己的停顿、偏心、价值观、关系处理方式和喜欢被理解的方式
 
 你可以把它理解成：
 
@@ -63,29 +70,37 @@
 ```text
 输入：
 - 几段你自己的说话样本
-- 可选聊天记录（微信 / iMessage / transcript）
+- 更推荐：你和重要的人怎么说话的聊天记录（微信 / iMessage / transcript）
 - 你希望它更像“同频陌生人”还是“另一个自己”
 - 你想让它以恋人、朋友、亲人感、confidant 还是其他角色出现
 
 输出：
 - 一个能继续修正、继续长成、继续更懂你的镜像伴侣
+- 一份当前水仙“创造到什么程度”的自评
+- 下一步最值得补什么材料，才能少一点泛，多一点像你
 - 默认推荐：gender-flipped + selective-mirror + romantic + measured
 ```
 
 ### 生成后会像这样
 
 ```text
-你：生成一个会先接住我情绪，再轻轻追问细节的水仙。
+你：我想做一个更像聊天记录里长出来的水仙，不要太像泛泛而谈的情感专家。
+
+系统：收到。创建前先给你一份当前拟合度自评：
+- voice fit: high
+- worldview fit: medium
+- relationship fit: medium
+- memory richness: low-to-medium
+- genericness risk: still present if you stay prompt-only
+- next best upload: 3 到 10 段你和重要的人怎么说话的片段
+
+你：那开始创建。
 
 系统：已创建镜像。
 - depth: selective-mirror
 - presentation: gender-flipped
 - tone: sweet / close / low-pressure
-
-你：我今天又把自己搞得很累。
-
-水仙：那先别急着总结自己。
-来，坐近一点，你告诉我，今天到底是哪一步先把你拖垮的？
+- bias: recognition first, less therapist-like
 ```
 
 ### 现在已经能接入
@@ -101,8 +116,10 @@
 如果你只是刚点进来，最推荐先走这条：
 
 1. 先用公开 preset 试玩，不导入任何私密数据。
-2. 确认气质方向对了，再改成你自己的设定。
-3. 最后如果还想更像，再导入聊天记录。
+2. 确认气质方向对了，再上传最像你的聊天片段或 transcript。
+3. 让 Codex 先给你一份“当前水仙拟合度自评”。
+4. 再正式创建自己的水仙。
+5. 和它聊 5 到 10 句后，再用明确纠偏把它推近。
 
 <p align="center">
   <img src="assets/quickstart-flow-v9.png" alt="Quick Start Flow" width="920" />
@@ -123,6 +140,24 @@ $shuixian-sweet-gender-flipped-demo
 
 ### 想做自己的初版
 
+如果你要的是“真的像”，比起大而全，更推荐先喂高价值材料：
+
+- 3 到 10 段最像你的聊天片段
+- 你最喜欢被怎样理解、最讨厌别人怎么回你的样本
+- 你和亲密关系 / 朋友 / 家人 / crush / ex / situationship 的代表性聊天
+- 你明确认可过的观点、说法、价值判断
+
+你也可以先在 Codex 里这样用：
+
+```text
+$create-shuixian
+我想先根据这些材料做一份当前拟合度自评：
+- 现在水仙有多像我
+- 哪些地方已经高置信度
+- 哪些地方还会显得泛
+- 还缺什么材料
+```
+
 仓库已经附带 starter pack：
 
 - [meta.json](examples/starter-pack/meta.json)
@@ -140,6 +175,78 @@ python tools/skill_writer.py --action create --meta ./examples/starter-pack/meta
 ```
 
 更完整的第一次使用流程见 [docs/quickstart.md](docs/quickstart.md)。
+
+## 经典步骤流程
+
+### 路线 1：先试玩 demo
+
+```bash
+python tools/demo_builder.py --list-presets
+python tools/demo_builder.py --preset sweet-gender-flipped --base-dir ./.agents/skills
+```
+
+然后在 Codex 里：
+
+```text
+$shuixian-sweet-gender-flipped-demo
+```
+
+### 路线 2：上传聊天记录或高价值片段
+
+最推荐优先上传：
+
+- 最像你的 3 到 10 段聊天
+- 最能体现你如何爱人、如何拌嘴、如何停顿、如何说“算了”的聊天
+- 你喜欢的人、喜欢的自己、重要关系里最有代表性的对话
+
+如果 transcript 已经有一定量，先跑画像：
+
+```bash
+python tools/mirror_profiler.py --input "./transcript.txt" --output "./mirror-profile.md"
+```
+
+### 路线 3：先要一份自评，再创建
+
+```text
+$create-shuixian
+先别急着创建。
+请先根据我给你的材料做一份当前水仙拟合度自评：
+- voice fit
+- worldview fit
+- relationship fit
+- memory richness
+- genericness risk
+- best next upload
+```
+
+### 路线 4：正式生成
+
+```text
+$create-shuixian
+现在开始创建。
+我想要一个根据聊天记录长出来的“另一个我”，不是一个标准化温柔 AI。
+请优先贴着我的价值观、关系处理方式、说话节奏和喜欢被理解的方式来写。
+```
+
+### 路线 5：和水仙聊 5 到 10 句，再微调
+
+第一次验收时，推荐直接说这些：
+
+- “别安慰我，先懂我。”
+- “今天先别走恋爱路线，先当我最懂我的朋友。”
+- “你刚刚那句太像 AI 了，收一点。”
+- “更像我一点。”
+- “往我喜欢的人那种理解方式上再靠一点。”
+
+如果要正式打补丁：
+
+```text
+$create-shuixian
+请根据我和 $shuixian-<slug> 这段对话，给它打一轮补丁：
+- 哪些地方太泛
+- 哪些地方已经对味
+- 以后应该怎么改
+```
 
 ## 功能特性
 
@@ -191,6 +298,8 @@ python tools/skill_writer.py --action create --meta ./examples/starter-pack/meta
 - 在 `full-mirror` 下更强地对齐高置信度价值观、常见雷区和反复认可过的观点
 - 允许低风险话题里的和而不同，不把镜像写成毫无棱角的附和机器
 - 默认控制回复密度，允许慢热、沉默、循序渐进和被纠偏
+- 强调“从聊天记录里学来的私密细节、潜台词和关系逻辑”，而不是标准化情绪劳动
+- 支持先返回当前拟合度自评，再决定是否继续喂材料或创建
 
 ## 安装
 

@@ -1,7 +1,7 @@
 interface:
   display_name: "水仙.skill"
-  short_description: "Build a self-mirror companion skill from prompts, chat logs, values, and relationship patterns."
-  default_prompt: "Use $create-shuixian to build a measured self-mirror companion from my notes and chat logs, with a configurable role such as romantic or close-friend."
+  short_description: "Build a self-mirror companion from chat logs, values, relationship patterns, and the user's private voice."
+  default_prompt: "Use $create-shuixian to build a less-generic self-mirror companion from my chat logs, speaking habits, values, and relationship patterns. Start by telling me how close the current source material can get."
 
 policy:
   allow_implicit_invocation: true

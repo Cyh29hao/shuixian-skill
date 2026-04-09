@@ -18,3 +18,5 @@ Rules:
 - preserve high-confidence values and red lines unless the new evidence clearly overturns them
 - keep track of whether the patch changes the mirror's role, pacing, or disagreement style
 - if broad chat imports reveal a clearer relationship graph, update `relationship.md` rather than scattering that information everywhere
+- preserve high-value concrete anchors such as favorite foods, recurring names, phrasing habits, admired traits, and other private-feeling details
+- when the patch makes the mirror less generic, keep that sharpening instead of later smoothing it away
