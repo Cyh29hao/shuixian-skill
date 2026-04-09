@@ -1,21 +1,21 @@
-<div align="center">
+﻿<div align="center">
 
 # Narcissus.skill
 
 > Distill your tone, habits, preferences, social graph, and optional chat history into a self-mirror companion skill.
 
-[中文 README](README.md) · [Release Notes v0.1.2](docs/releases/v0.1.2.md)
+[涓枃 README](README.md) 路 [Release Notes v0.1.2](docs/releases/v0.1.2.md)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Python 3.9+](https://img.shields.io/badge/Python-3.9%2B-blue.svg)](https://python.org)
-[![Codex Skill](https://img.shields.io/badge/Codex-Skill-111111.svg)](README.md#安装)
+[![Codex Skill](https://img.shields.io/badge/Codex-Skill-111111.svg)](README.md#瀹夎)
 [![Claude Code](https://img.shields.io/badge/Claude%20Code-Adapted-7C3AED.svg)](docs/CLAUDE.md)
 [![Status](https://img.shields.io/badge/Status-Updating-orange.svg)](docs/releases/v0.1.2.md)
 
 </div>
 
 <p align="center">
-  <img src="assets/hero-preview-v11.png" alt="Narcissus skill preview" width="920" />
+  <img src="assets/hero-preview-v12.png" alt="Narcissus skill preview" width="920" />
 </p>
 
 ---
@@ -45,7 +45,7 @@ The latest usability update is in [docs/releases/v0.1.2.md](docs/releases/v0.1.2
 
 ## What It Is
 
-`水仙.skill` is not a random romance persona generator.
+`姘翠粰.skill` is not a random romance persona generator.
 It is a reusable builder that turns your own wording, thought patterns, relationship preferences, and optional chat history into a configurable self-mirror companion.
 
 You can position that mirror as:
@@ -92,7 +92,7 @@ The easiest path is:
 3. only then bring private chat history
 
 <p align="center">
-  <img src="assets/quickstart-flow-v8.png" alt="Quick Start Flow" width="920" />
+  <img src="assets/quickstart-flow-v9.png" alt="Quick Start Flow" width="920" />
 </p>
 
 ### Zero-private-data demo
@@ -235,3 +235,4 @@ Just to take that desire seriously.
 2. Better public demos and visuals
 3. Stronger Claude adaptation
 4. More shareable presets and mirror examples
+
