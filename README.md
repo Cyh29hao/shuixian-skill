@@ -2,143 +2,151 @@
 
 # 水仙.skill
 
-### 如果世界上还有另一个你，ta 会怎么接住这句话？
+### 把自己的话，说回给自己。
 
-把你的语气、偏心和停顿，写成一个可以慢慢校准的镜像伴侣 skill。
+给它你选好的聊天记录、日记和随笔，整理出你的说话方式，和另一个自己聊聊。
 
-[立即试玩](#一分钟试玩) · [真实试聊](docs/try-it.md) · [English](README_EN.md) · [第一次使用](docs/quickstart.md) · [MIT](LICENSE)
+[让 agent 帮我开始](#让-agent-帮你开始) · [手动安装](#手动安装) · [使用指南](docs/quickstart.md) · [真实试聊](docs/try-it.md) · [English](README_EN.md)
 
 </div>
 
 <p align="center">
   <picture>
-    <source media="(max-width: 600px)" srcset="assets/hero-mobile-v1.png" />
-    <img src="assets/hero-preview-v13.png" alt="水仙.skill：同一句话，甜系恋人、深夜共脑、同频朋友三种创作回应" width="920" />
+    <source media="(max-width: 600px)" srcset="assets/corpus-hero-mobile-v1.png" />
+    <img src="assets/corpus-hero-v1.png" alt="把自己的话说回给自己：个人语料、自己的语气、可以对话的水仙" width="920" />
   </picture>
 </p>
 
-**你熟悉的说话方式，可以有一个新的落点。** 先试一段不需要私密聊天的公开预设，再用几段代表性材料，把它从“气质不错”慢慢调到“这句话有点像我”。
+**聊天记录里，已经有很多个你。** 开玩笑的你、认真解释的你、嘴硬又改口的你。水仙把这些属于你的表达整理成一个可保存、可调用、可纠正的镜像 skill，让 AI 用你熟悉的节奏和措辞，跟你接着聊。
 
-公开预设只供试气质。自己的水仙从你愿意给的材料开始，像不像，要在实际聊天里慢慢校准。
+主路径是 **个人语料 → 表达习惯 → 自己的水仙 → 实际对话与纠偏**。材料可以跨文件、跨时间、来自不同生活场景；先分清哪些话是你说的，再分批阅读和整理。几句自述和公开预设也能试玩，但那只是入口，还原自己的表达主要靠你自己的材料。
 
-## 先选一种靠近方式
+## 让 agent 帮你开始
 
-- **甜系恋人** · 亲近、轻轻调侃、慢慢靠近。预设 `sweet-gender-flipped`。
-- **深夜共脑** · 安静、留白、一起想明白。预设 `midnight-same-form`。
-- **同频朋友** · 熟悉、直接、有分寸地拆台。预设 `close-friend-same-form`。
-
-恋人、朋友、外观呈现、镜像深度和隐私范围可以分别选择。公开预设是起点；创建自己的版本时，不必照着它的关系设定走。
-
-[先听它真正回过的两句 →](docs/try-it.md) 从一家面包店聊起，再说“这次别追问”，看看一句纠偏后它怎么接。
-
-## 一分钟试玩
-
-需要 Python 3.9+、Git，以及支持本地 skills 的 Codex。以下命令在你想放置水仙的项目目录里运行，PowerShell / bash 均可：
-
-```sh
-git clone https://github.com/Cyh29hao/shuixian-skill .agents/skills/create-shuixian
-python .agents/skills/create-shuixian/tools/demo_builder.py --preset sweet-gender-flipped --base-dir .agents/skills
-```
-
-然后在**同一项目**的 Codex 聊天中输入：
+把仓库链接和要求直接发给有本地文件与终端能力的 Codex 或 Claude Code：
 
 ```text
-$shuixian-sweet-gender-flipped-demo
-今天先别分析我，陪我说两句。
+我看到这个水仙 skill 蛮有意思的：
+https://github.com/Cyh29hao/shuixian-skill
+帮我安装到当前项目，导入我本机的微信聊天记录，
+从我自己的发言整理说话方式，让我能和自己说话，开始做吧。
+先读取仓库的 SKILL.md，按当前 Codex / Claude Code 的方式安装和调用。
+如果需要我指定记录目录、自己的发言名称或选择导出范围，一次问清。
+已有可读导出就直接继续；如果只有加密数据库，先确认版本与取数办法。
+默认只保存表达习惯，保留原始文件，不把聊天记录提交到 GitHub。
 ```
 
-如果当前会话还看不到新 skill，重新打开该项目或重启 Codex。创建命令会保护已有同名镜像；重试时换 `--slug`，已有镜像通过更新流程修改。
+如果已有导出文件，补一句“文件在 `D:/我的语料/微信导出.json`，其中‘青禾’是我”，就能减少来回确认。请换成真实路径和自己的发言名称。
 
-只需要试玩和文本生成时，无需安装 `requirements.txt`。不同导入渠道的可选依赖见[渠道说明](references/import-channels.md)。已有仓库也可以在仓库根目录运行 `python tools/demo_builder.py --list-presets`。
+**能否几分钟开始，取决于记录是否已经可读。**
 
-## 从好气质，到自己的水仙
+| 手边的材料 | agent 可以怎样继续 |
+| --- | --- |
+| 已导出的文本、Markdown、JSON、JSONL | 安装后导入、核对本人发言、阅读样本并创建镜像；这是快速开始的主路径 |
+| 符合旧版格式的明文微信数据库 | 提取指定联系人；需要 `MicroMsg.db` 和 `MSG*.db`，先核对表结构 |
+| 只有正在运行的微信或加密数据库 | 先确认版本、权限和导出方式；当前不保证微信 4.x 自动取数，也不保证几分钟完成 |
+
+这段提示词让 agent 开始办事，不代表跨客户端一键成功。没有可读记录时，它应说明卡点，再继续已有材料能做的部分。[微信导入的具体范围 →](references/wechat-import.md)
+
+## 从语料到对话
 
 <p align="center">
   <picture>
-    <source media="(max-width: 600px)" srcset="assets/quickstart-mobile-v1.png" />
-    <img src="assets/quickstart-flow-v10.png" alt="四步：选一种关系，零私密聊天试玩，三段样本校准，一句话纠偏" width="920" />
+    <source media="(max-width: 600px)" srcset="assets/corpus-flow-mobile-v1.png" />
+    <img src="assets/corpus-flow-v1.png" alt="带来自己的语料、分清本人发言、整理表达习惯、开始与镜像对话" width="920" />
   </picture>
 </p>
 
-不必先导出全部历史。三段材料就能开始一次有依据的尝试：
+1. **选定材料**：聊天记录、日记、随笔或长文。多种场景比重复同一句口头禅更有用；不必把全部历史一次交出。
+2. **认准本人**：你的话、对方的话、转述和复制内容分开处理。对方的口吻不会直接成为“你的个性”。
+3. **整理表达**：先统计和索引，再分批读实际语句，提炼句长、节奏、措辞、玩笑和不同场景里的说法。词频报告只是线索。
+4. **和自己聊**：保存镜像后试聊；哪里不像，指出具体一句。需要长期保留的纠偏写回文件并保留版本。
 
-1. 一段“我平时真这么说话”的样本。
-2. 一段你喜欢被怎样回应的对话，标出谁是你。
-3. 一段你不喜欢的回应，以及你希望怎么改。
+这是用 skill 和选定材料引导宿主模型表达，不会训练出一套新的模型权重。关系也由你选：可以先同自己聊天，朋友、共思伙伴、恋人或家人式陪伴是独立选项。
+
+[12,000 条合成消息的实际导入与试聊 →](docs/experiments/corpus-onboarding-2026-10-27.md) 本人和另一方各 6,000 条；工具处理时间、模型试聊和未验证部分分别记录，不把合成实验当作真人相似度证明。
+
+## 手动安装
+
+需要 Git、Python 3.9+ 和对应 agent。基本导入、生成、更新无需额外 Python 包。从打算聊天的项目目录执行对应的一条命令：
+
+**Codex**
+
+```sh
+git clone https://github.com/Cyh29hao/shuixian-skill .agents/skills/create-shuixian
+```
+
+然后在该项目聊天中输入：
 
 ```text
 $create-shuixian
-给我做一个同频朋友，短句，可以有点损，别叫我宝贝。
-以下三段是合成示例，我会换成自己的材料：
-1. 我的说法：“终于改好了，允许我得意三分钟。”
-2. 我喜欢的回应：“三分钟哪够。最难的那处怎么过的？”
-3. 我不喜欢：“你的坚持照亮了成长之路。”太大太空。
-先给一段试聊，并说清哪些来自材料、哪些只是暂定。
+用我指定的语料创建自己的镜像。先确认哪位发言者是我，再整理说话方式。
 ```
 
-材料少也能做初版；不知道的地方留白。语气样本、对方说的话、你自己的偏好各有用途，不会因为出现过一句话就自动成为“你的价值观”。
+**Claude Code**
+
+```sh
+git clone https://github.com/Cyh29hao/shuixian-skill .claude/skills/create-shuixian
+```
+
+然后在该项目中输入：
+
+```text
+/create-shuixian
+用我指定的语料创建自己的镜像。先确认哪位发言者是我，再整理说话方式。
+```
+
+Codex 会检测 skill 变化；未出现时重开项目或重启。Claude Code 新目录可用 `/reload-skills` 刷新。已有同名目录时，`git clone` 会停止，先核对旧安装，不要删除自己的镜像来重试。
+
+全局安装、Windows 路径、生成镜像的位置与检查步骤见[安装指南](docs/installation.md)；Claude 的调用及验证范围见[Claude Code 指南](docs/CLAUDE.md)。普通网页聊天能否读取本机文件，取决于宿主能力。
 
 ## 不对味，直接改
 
 ```text
-刚才太像情感专家了。先问我具体卡在哪，不要替我总结。
-只改这条；其余语气保留。
+刚才太像情感专家了。我平时会先吐槽那件具体的事，不会上来总结感受。
+只改这里，其他语气保留。先重试一句。
 ```
 
-这能先调整当前对话。要在以后继续使用时保留这条，再调用 builder：
+想以后也保留，就请 builder 把纠偏写进刚创建的镜像，替换冲突的旧规则，并告诉你实际保存的目录、调用名和版本。**这轮改口了**和**已写回 skill**需要分别确认。[更新、重试和回滚步骤 →](docs/quickstart.md#6-保存纠偏并确认没有改坏其他地方)
 
-```text
-$create-shuixian
-把上面这条纠偏写进 $shuixian-<slug>，替换冲突的旧规则。
-给我看变更和一段重试；保留可回滚版本。
-```
+## 手边还没有语料？也可以先试玩
 
-**“这轮改口了”和“已写回 skill”是两件事。** 更新后检查文件和版本，再在新会话试一次。手动创建、更新、列版本、回滚的命令见[完整使用路径](docs/quickstart.md)。
-
-## 可以拿什么来做
-
-| 材料 | 使用方式 | 当前边界 |
-| --- | --- | --- |
-| 自述、聊天片段、偏好清单 | 直接交给 builder | 无样本时是按描述定制，无法证明像本人 |
-| 文本 / Markdown / JSON / JSONL | `tools/transcript_importer.py` | 支持常见结构，遇到不支持的结构会报错；不代表兼容所有平台 |
-| 微信桌面端导出 / 数据库 | [微信导入说明](references/wechat-import.md) | best effort，版本、权限和数据库格式会影响可用性 |
-| iMessage `chat.db` | `tools/imessage_importer.py` | macOS 本地数据库路径；本轮未实机验证 |
-| 截图 | 交给具备看图能力的宿主辅助理解 | Python 工具不提供独立 OCR |
-
-画像工具会整理发言和词频线索，帮助挑选值得读的材料。它采用启发式规则，不能验证真实关系、人格或价值观。**第三方聊天、关系推断和隐私范围都应由你选择。**
-
-## 安装到其他位置
-
-个人 skills 目录也可以安装 builder：
+[读几段真实接话](docs/try-it.md)，或运行公开预设；它们只演示气质，没有学过你的个性。
 
 ```sh
-git clone https://github.com/Cyh29hao/shuixian-skill ~/.agents/skills/create-shuixian
+python .agents/skills/create-shuixian/tools/demo_builder.py --preset close-friend-same-form --base-dir .agents/skills
 ```
 
-该目录是 [Codex 官方文档列出的个人 skill 位置](https://learn.chatgpt.com/docs/build-skills)。运行脚本时使用实际安装目录的完整路径，`--base-dir` 指向你当前项目的 `.agents/skills`，避免在 builder 安装目录里生成自己的镜像。
+实际调用名以命令输出为准。Claude Code 把两处 `.agents` 换成 `.claude`。其他预设和少量样本的尝试见[使用指南](docs/quickstart.md)。
 
-Claude Code 的文件结构适配与已知限制见 [docs/CLAUDE.md](docs/CLAUDE.md)。它与 Codex 的发现、调用和写入位置不同，尚未做本轮跨宿主验收。
+## 材料和保存范围
 
-## 它保存的是什么
+通用文本、Markdown、JSON、JSONL 是主要导入入口。微信原始数据库、iMessage 和截图各有格式、平台或宿主要求，见[渠道说明](references/import-channels.md)。
 
-镜像由宿主模型依据 skill 与选定材料扮演；Python 工具负责整理、写入和版本管理。
+每个水仙是可读的 `SKILL.md`、语气、思路、关系和可选外观文件，更新保留版本。大量记录先在本地整理，再按选定范围供模型阅读；原文归档单独选择。`style-only` 表示只保留抽象表达习惯，不等于工具自动替你脱敏。
 
-每个生成的水仙由 `SKILL.md`、`meta.json`、语气、思路、关系和可选外观文件组成；更新会保留版本。只有你选择归档的素材才进入其 `knowledge/`。这些文件可读、可改、可由你删除。
+宿主读到的材料可能发送到其模型服务，本地文件不代表离线运行。它不会验证人格、转移意识或自动拥有你的全部记忆。是否像自己，由实际聊天来判断。[隐私与边界 →](references/privacy-and-safety.md)
 
-“本地文件”不等于“不会上传”：宿主读取材料后，是否发送给模型服务，取决于宿主及其数据设置。`style-only` 是材料使用约定，不是自动脱敏或数据隔离装置。[隐私与边界](references/privacy-and-safety.md)说明了如何少给材料、区分来源和撤回保存内容。
+## Star History
 
-它是虚构的镜像角色，不具备被验证的独立人格、跨平台记忆或读心能力。相似感、亲密感和长期陪伴效果仍属于待实际使用验证的体验。
+谢谢愿意给水仙一颗星的人。下面复用 Star History 的日期折线，数据由服务更新，可能有缓存延迟。
 
-## 继续打磨的依据
+<a href="https://www.star-history.com/#Cyh29hao/shuixian-skill&Date">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=Cyh29hao/shuixian-skill&amp;type=Date&amp;theme=dark" />
+    <img src="https://api.star-history.com/svg?repos=Cyh29hao/shuixian-skill&amp;type=Date&amp;theme=light" alt="Cyh29hao/shuixian-skill 的 GitHub Star 历史折线图" width="920" />
+  </picture>
+</a>
 
-- [第一次使用与验收](docs/quickstart.md)：从安装到纠偏、回滚。
-- [公开对话样例](docs/dialogue-examples.md)：设计目标，非用户效果报告。
-- [角色场景验收卡](docs/experiments/persona-scenarios.md)：用具体场景检查节奏、边界与纠偏。
-- [本轮工程实验](docs/experiments/2026-10-25-polish.md)：可复现检查与尚未验证的部分。
-- [历史版本](docs/releases/v0.1.3.md)：已有迭代记录。
+[图表打不开时查看 Star History](https://www.star-history.com/#Cyh29hao/shuixian-skill&Date) · [查看当前 Star](https://github.com/Cyh29hao/shuixian-skill/stargazers)
 
-> 人说话的方式，爱人的方式，那些停顿、拐弯、嘴硬和心软，值得被认真记住。
->
-> 水仙想把“被理解”这件事，留下一个可保存、可修正、还能继续生长的开源入口。
+## 继续了解
+
+- [第一次使用与验收](docs/quickstart.md)：语料、创建、纠偏与回滚。
+- [真实试聊](docs/try-it.md)：实际回复与有限的结论。
+- [公开对话样例](docs/dialogue-examples.md)：标明为设计示例。
+- [工程实验](docs/experiments/2026-10-25-polish.md)与[历史版本](docs/releases/v0.1.3.md)。
+
+> 那些停顿、拐弯、嘴硬和心软，值得被认真记住。
 
 MIT licensed. 导入层曾借鉴 MIT 项目 `npy-skill` 的实现思路；宿主、渠道工具与相关项目的权利归各自作者。

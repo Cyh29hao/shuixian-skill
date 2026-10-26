@@ -1,6 +1,6 @@
 # Data Sources
 
-Use this file to choose the lightest viable input path.
+Use this file to choose a viable input path for the user's requested corpus and scope.
 
 ## Supported in this version
 
@@ -15,10 +15,10 @@ Use this file to choose the lightest viable input path.
 
 ## Intake recommendation order
 
-1. start with prompt-only if the user wants privacy
-2. add a few representative snippets if the voice still feels generic
-3. add exported transcripts when the user wants higher fidelity
-4. use raw local databases only when the user explicitly wants deeper import
+1. Use already chosen personal writing or exported transcripts as the primary path. Multiple files and periods may be included; distinguish the user's own messages from other speakers.
+2. Organize larger corpora mechanically, then read a bounded diverse selection; see `corpus-workflow.md`. Do not imply that the model read every imported message.
+3. Use raw local databases only for the requested account/range and a verified compatible adapter. A live encrypted WeChat installation is not a ready-made transcript.
+4. If no readable corpus is ready or the user prefers less disclosure, offer prompt-only or a few representative snippets as an optional first draft.
 
 ## Notes on imports
 

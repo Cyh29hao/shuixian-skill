@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Create and update Codex-compatible shuixian mirror skills.
+Create and update shuixian mirror skills for Codex and Claude Code.
 """
 
 from __future__ import annotations
@@ -18,6 +18,11 @@ from typing import Any
 DEFAULT_BASE_DIR = "./.agents/skills"
 TRACKED_FILES = ("SKILL.md", "style.md", "mind.md", "relationship.md", "appearance.md", "meta.json")
 REQUIRED_FILES = tuple(name for name in TRACKED_FILES if name != "appearance.md")
+
+
+def invocation_hint(skill_name: str) -> str:
+    """A saved skill name is shared; hosts use different invocation prefixes."""
+    return f"Codex: ${skill_name} | Claude Code: /{skill_name}"
 
 
 class NoChangesError(ValueError):
@@ -573,7 +578,7 @@ def list_mirrors(base_dir: Path) -> list[dict[str, Any]]:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Create or update Codex-compatible shuixian mirror skills.")
+    parser = argparse.ArgumentParser(description="Create or update shuixian mirror skills for Codex and Claude Code.")
     parser.add_argument("--action", required=True, choices=["create", "update", "list"])
     parser.add_argument("--slug", help="Mirror slug.")
     parser.add_argument("--name", help="Mirror display name.")
@@ -609,7 +614,7 @@ def main() -> None:
                 f"Tone: {mirror['relationship_tone']}  Density: {mirror['reply_density']}"
             )
             print(f"  Version: {mirror['version']}  Updated: {updated}")
-            print(f"  Skill: ${mirror['skill_name']}")
+            print(f"  Skill: {invocation_hint(mirror['skill_name'])}")
             print()
         return
 
@@ -649,7 +654,7 @@ def main() -> None:
             appearance_content=read_optional_file(args.appearance),
         )
         print(f"Created shuixian mirror at {skill_dir}")
-        print(f"Use: ${mirror_skill_name(slug)}")
+        print(f"Use: {invocation_hint(mirror_skill_name(slug))}")
         return
 
     skill_dir, version = update_skill(
@@ -665,7 +670,7 @@ def main() -> None:
     )
     print(f"Updated shuixian mirror at {skill_dir}")
     print(f"Version: {version}")
-    print(f"Use: ${mirror_skill_name(slug)}")
+    print(f"Use: {invocation_hint(mirror_skill_name(slug))}")
 
 
 if __name__ == "__main__":

@@ -11,7 +11,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from skill_writer import NoChangesError, create_skill, mirror_skill_name, slugify, update_skill
+from skill_writer import NoChangesError, create_skill, invocation_hint, mirror_skill_name, slugify, update_skill
 
 
 DEFAULT_BASE_DIR = "./.agents/skills"
@@ -298,7 +298,7 @@ def main() -> None:
     )
     final_slug = skill_dir.name.removeprefix("shuixian-")
     print(f"Created demo mirror at {skill_dir}")
-    print(f"Use: ${mirror_skill_name(final_slug)}")
+    print(f"Use: {invocation_hint(mirror_skill_name(final_slug))}")
 
 
 if __name__ == "__main__":

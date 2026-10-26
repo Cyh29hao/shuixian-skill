@@ -1,28 +1,40 @@
 ---
 name: create-shuixian
-description: Create, refine, list, and roll back self-mirror companion skills from the user's chosen language samples and preferences. Use for a configurable shuixian partner, friend, confidant, or other mirror role, including source-grounded voice calibration and saved corrections.
+description: Turn the user's chosen chat history, journals, and other personal writing into a reusable self-mirror skill so they can talk with their own voice. Import and organize personal corpora, identify the user's messages, build and correct the mirror, and manage versions in Codex or Claude Code.
 ---
 
 # Create Shuixian
 
-Build a fictional companion whose voice and relationship style are grounded in the user's chosen material. Respond in the user's language. Keep the warmth and specificity of a private conversation; let the user choose how close it gets.
+Build a conversational mirror grounded in the user's own writing: chosen chat history, journals, notes, or other personal language. Identify their messages, organize larger corpora, read actual passages, synthesize voice patterns, and let them talk and correct the result. Respond in the user's language. This is a skill-guided host model, not model training or a transfer of identity. A romantic or other companion relationship is optional.
 
 ## Operating paths
 
-- **Try a public preset:** use `tools/demo_builder.py`; no personal source material needed.
-- **Create a personal mirror:** gather the missing essentials, try a short exchange, then materialize it.
+- **Create from personal writing (primary):** use the user's chosen corpus, confirm self-speaker labels, follow `references/corpus-workflow.md`, save a mirror and start a short conversation.
+- **Install and import for me:** follow `docs/installation.md` for the current host; readable exports can proceed directly, while encrypted WeChat acquisition needs the separate version/scope check in `references/wechat-import.md`.
+- **Try without a corpus (optional):** use a public preset or a few chosen samples; explain that these do not establish the user's voice.
 - **Correct an existing mirror:** inspect current sections, resolve the specific mismatch, preserve unrelated preferences, and save a version when writing back.
 - **List or roll back:** use `tools/skill_writer.py` or `tools/version_manager.py`.
 
 Use the absolute directory containing this `SKILL.md` as `BUILDER_ROOT`. Run its scripts by absolute path while keeping the user's project as the working directory. Relative `tools/...` paths below are relative to `BUILDER_ROOT`, not whatever shell directory happens to be active. Use Python 3.9+ (`python` on Windows, `py -3` if needed).
 
-Generated mirrors belong in the **user's project**, at `./.agents/skills/shuixian-<slug>/`, and are invoked as `$shuixian-<slug>`. Do not put generated private mirrors inside the installed builder. If discovery has not refreshed, reopen the project or restart Codex.
+Generated mirrors belong in the **user's project**, outside the installed builder:
 
-## Start small
+| Current host | Mirror base directory (`--base-dir`) | Builder invocation | Mirror invocation |
+| --- | --- | --- | --- |
+| Codex | `./.agents/skills` | `$create-shuixian` | `$shuixian-<slug>` |
+| Claude Code | `./.claude/skills` | `/create-shuixian` | `/shuixian-<slug>` |
+
+The commands below show Codex paths. On Claude Code, use `.claude/skills` for every mirror output/update/list/rollback path, and slash invocations. Do not create a Codex-only directory in a Claude project. Codex detects skill changes; if missing, reopen/restart. Claude Code can load a newly added directory with `/reload-skills`. A file saved in a plain draft directory is not automatically an installed skill.
+
+## Start with the user's material
+
+If the user already asked to import their own history and talk with themselves, proceed along the corpus path. Ask only for consequential missing source location, self-speaker identity or scope, preferably together. Do not make them choose a preset, romance, appearance, or fill a persona form first. For an undecided relationship, use a reversible co-thinker framing and unspecified appearance; do not replace their own voice with a preset.
+
+For large collections, separate full mechanical processing from the passages the model actually reads. Group selected sources by period/context, inspect a bounded diverse sample, and deepen only when needed. Never claim to have read every message just because an importer counted them. Save abstract patterns by default; retaining private original text or personal events is a separate choice.
 
 Read `prompts/intake.md` for missing-input choices. Ask a compact question covering only consequential unknowns: desired relationship, material/privacy scope, and hard boundaries. Use reasonable provisional choices for secondary details; skip questions already answered. Romantic framing and gender presentation are independent choices, not automatic consequences of requesting a mirror.
 
-Offer three high-value samples when the user wants a personal voice:
+When no corpus is ready, offer three optional high-value samples:
 
 1. something they actually said;
 2. a response they liked, with speakers labeled;
@@ -41,7 +53,7 @@ Available directions include `sweet-gender-flipped`, `midnight-same-form`, and `
 
 ## Read only the relevant sources
 
-Use the smallest useful selection. Do not search the user's accounts, databases, or unrelated chats because source tools exist. Importing private history needs the user's chosen scope.
+Use the corpus the user chose, without expanding to unrelated accounts or chats. A request to import local history authorizes help on that route; it does not identify the account, contacts or time range by itself. Resolve missing scope, then proceed. Do not silently replace an authorized broad corpus with three snippets; process it mechanically and explain any model sampling.
 
 | Need | Read / run |
 | --- | --- |

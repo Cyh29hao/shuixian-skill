@@ -395,6 +395,65 @@ def render_sweet_moment(output, mobile=False):
     return art
 
 
+def render_corpus_hero(output, mobile=False):
+    """Personal writing is the product's primary input; no synthetic chat claims."""
+    art = paper((780, 1350) if mobile else (1840, 1080))
+    d = ImageDraw.Draw(art)
+    if mobile:
+        write(d, (56, 50), "水仙 / SHUIXIAN.SKILL", 29, role="serif", max_width=668)
+        d.line((56, 115, 724, 115), fill=LINE, width=2)
+        write(d, (56, 160), "把自己的话，\n说回给自己。", 76, role="serif", max_width=668)
+        write(d, (60, 425), "给它你选好的聊天记录、日记和随笔。\n从你的句子里，整理你的说话方式。", 29, color=MUTED, max_width=660)
+        scene = mirror_art().resize((458, 479), Image.Resampling.LANCZOS)
+        mask = Image.new("L", scene.size)
+        ImageDraw.Draw(mask).rounded_rectangle((0, 0, 457, 478), radius=225, fill=255)
+        art.paste(scene, (161, 560), mask)
+        d = ImageDraw.Draw(art)
+        d.line((56, 1100, 724, 1100), fill=LINE, width=2)
+        write(d, (58, 1140), "你的语料  →  你的语气  →  你的水仙", 29, role="bold", max_width=664)
+        write(d, (58, 1210), "和自己聊聊，再把不像的地方慢慢改。", 27, color=MUTED, max_width=664)
+    else:
+        write(d, (100, 70), "水仙", 54, role="serif")
+        write(d, (225, 91), "/ SHUIXIAN.SKILL", 23, role="latin", color=MUTED)
+        write(d, (1280, 90), "YOUR WORDS, YOUR MIRROR", 25, role="latin", color=MUTED, max_width=460)
+        d.line((100, 158, 1740, 158), fill=LINE, width=2)
+        write(d, (100, 240), "把自己的话，\n说回给自己。", 106, role="serif", max_width=960)
+        write(d, (108, 622), "给它你选好的聊天记录、日记和随笔。\n从你的句子里，整理你的说话方式。", 37, color=MUTED, max_width=930)
+        scene = mirror_art().resize((550, 576), Image.Resampling.LANCZOS)
+        mask = Image.new("L", scene.size)
+        ImageDraw.Draw(mask).rounded_rectangle((0, 0, 549, 575), radius=270, fill=255)
+        art.paste(scene, (1160, 220), mask)
+        d = ImageDraw.Draw(art)
+        d.line((100, 864, 1740, 864), fill=LINE, width=2)
+        write(d, (106, 905), "你的语料   →   你的语气   →   你的水仙", 41, role="serif", max_width=1300)
+        write(d, (108, 985), "和自己聊聊，再把不像的地方慢慢改。", 29, color=MUTED, max_width=1400)
+    art.save(output, optimize=True)
+    return art
+
+
+def render_corpus_flow(output, mobile=False):
+    steps = [
+        ("01", "带来自己的语料", "聊天记录、日记、随笔。", "范围由你选，保留原件。"),
+        ("02", "分清哪句是你", "确认自己的发言标签。", "对方的口吻，不当作你的。"),
+        ("03", "整理表达习惯", "从语料中找节奏与措辞。", "分批阅读，不只看词频。"),
+        ("04", "开始和自己聊", "保存成可调用的镜像。", "试着接话，把不像的改掉。"),
+    ]
+    art = paper((780, 1400) if mobile else (1840, 660))
+    d = ImageDraw.Draw(art)
+    write(d, (56 if mobile else 92, 55), "从你的记录，走到一场对话。", 42 if mobile else 58, role="serif", max_width=668 if mobile else 1656)
+    write(d, (58 if mobile else 96, 135 if mobile else 160), "已有可读导出时，从这里开始。", 26 if mobile else 30, color=MUTED, max_width=660 if mobile else 1600)
+    for i, (number, title, line1, line2) in enumerate(steps):
+        x, y = (56, 225 + i * 260) if mobile else (92 + i * 428, 262)
+        w, h = (668, 230) if mobile else (396, 270)
+        d.rounded_rectangle((x, y, x+w, y+h), radius=20, fill="#EEEDE2" if i % 2 == 0 else "#E7EBE2", outline=LINE, width=2)
+        write(d, (x+28, y+22), number, 29, role="latin", color=GOLD)
+        write(d, (x+28, y+73), title, 34 if mobile else 35, role="bold", max_width=w-56)
+        write(d, (x+28, y+136), line1+"\n"+line2, 25 if mobile else 24, color=MUTED, max_width=w-56)
+    write(d, (58 if mobile else 96, 1310 if mobile else 583), "微信原始数据库另有版本与取数限制。", 25, color=MUTED, max_width=660 if mobile else 1600)
+    art.save(output, optimize=True)
+    return art
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output-dir", type=Path, default=ROOT / "assets")
@@ -403,6 +462,7 @@ def main():
     parser.add_argument("--mobile-only", action="store_true", help="Render narrow single-column artwork only")
     parser.add_argument("--runtime-only", action="store_true", help="Render source-checked actual dialogue artwork only")
     parser.add_argument("--sweet-only", action="store_true", help="Render the source-checked everyday sweet moment only")
+    parser.add_argument("--corpus-only", action="store_true", help="Render personal-corpus onboarding artwork, retaining older artwork")
     parser.add_argument("--mobile-hero-name", default="hero-mobile-v1.png")
     parser.add_argument("--mobile-flow-name", default="quickstart-mobile-v1.png")
     parser.add_argument("--font-sans", type=Path)
@@ -417,7 +477,14 @@ def main():
         if Path(name).name != name or Path(name).suffix.lower() != ".png":
             parser.error("Asset names must be plain .png filenames")
     args.output_dir.mkdir(parents=True, exist_ok=True)
-    if args.sweet_only:
+    if args.corpus_only:
+        renders = [
+            ('corpus-hero-v1.png', render_corpus_hero),
+            ('corpus-hero-mobile-v1.png', lambda output: render_corpus_hero(output, mobile=True)),
+            ('corpus-flow-v1.png', render_corpus_flow),
+            ('corpus-flow-mobile-v1.png', lambda output: render_corpus_flow(output, mobile=True)),
+        ]
+    elif args.sweet_only:
         renders = [('sweet-moment-v1.png', render_sweet_moment), ('sweet-moment-mobile-v1.png', lambda output: render_sweet_moment(output, mobile=True))]
     elif args.runtime_only:
         renders = [('runtime-dialogue-v1.png', render_runtime), ('runtime-dialogue-mobile-v1.png', lambda output: render_runtime(output, mobile=True))]

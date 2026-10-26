@@ -1,62 +1,46 @@
-# 第一次和水仙说话
+# 第一次用自己的说话方式聊天
 
-先用公开预设试气质，再决定要不要给自己的材料。下面区分了**项目目录**与**builder 安装目录**：生成的镜像保存在项目里，工具脚本在 builder 内。
+主路径是：安装构建器 → 交给它选好的个人语料 → 确认本人发言 → 保存镜像 → 开始对话。材料可以是聊天导出、日记或随笔；公开预设和少量描述是没有语料时的可选试玩。
 
-想先看看聊起来什么感觉？[从一家面包店开始，读两段真实接话](try-it.md)，再挑自己愿意试的关系与语气。
+## 1. 安装构建器
 
-## 1. 在项目里安装并试玩
+从准备聊天的项目目录运行对应命令，PowerShell 和 bash 都可用：
 
-以下命令从你的项目目录运行，PowerShell 和 bash 都可用：
+| 宿主 | 安装命令 | 聊天中调用 |
+| --- | --- | --- |
+| Codex | `git clone https://github.com/Cyh29hao/shuixian-skill .agents/skills/create-shuixian` | `$create-shuixian` |
+| Claude Code | `git clone https://github.com/Cyh29hao/shuixian-skill .claude/skills/create-shuixian` | `/create-shuixian` |
 
-```sh
-git clone https://github.com/Cyh29hao/shuixian-skill .agents/skills/create-shuixian
-python .agents/skills/create-shuixian/tools/demo_builder.py --list-presets
-```
+也可以直接让 agent 按[README 的提示词](../README.md#让-agent-帮你开始)安装和导入。无需自己先执行脚本，但它需要本机文件与终端能力。
 
-想先试现成的甜系气质，再运行：
+Codex 会检测 skill 变化，未出现时重开项目或重启；Claude Code 新目录用 `/reload-skills` 刷新。目录已有内容时，Git 会拒绝覆盖；不要删除自己的旧镜像来重试。[全局安装与检查步骤](installation.md) · [Claude Code 说明](CLAUDE.md)
 
-```sh
-python .agents/skills/create-shuixian/tools/demo_builder.py --preset sweet-gender-flipped --base-dir .agents/skills
-```
+镜像和 builder 分开保存：Codex 镜像在项目 `.agents/skills/shuixian-<slug>`；Claude Code 在 `.claude/skills/shuixian-<slug>`。下面 CLI 例子采用 Codex 安装位置，**Claude 用户将脚本和输出里的 `.agents/skills` 都换成 `.claude/skills`，调用前缀 `$` 换成 `/`**。
 
-在同一项目的 Codex 中调用：
+如果命令提示目录拒绝访问，先检查宿主对目标 skills 目录的写入权限；重复运行不会解除保护。Codex 的 `workspace-write` 对已有 `.agents` 路径有保护，见[官方权限说明](https://learn.chatgpt.com/docs/agent-approvals-security#protected-paths-in-writable-roots)。另一个普通 `--base-dir` 可以检查生成文件，但草稿不因此变成已安装、已发现的 skill。
 
-```text
-$shuixian-sweet-gender-flipped-demo
-先陪我聊两句，今天不想做情绪分析。
-```
+## 2. 交给它自己的语料
 
-其他预设：`midnight-same-form`、`close-friend-same-form`。不知道选哪种时，先试朋友即可。公开预设不含你的私密聊天，也未学过你的个性。
-
-想直接做家人式或其他自定义关系，可以跳过预设生成。builder 安装后，用[这一段家人式描述](experiments/family-runtime-2026-10-26.md#自己试这个方向)先试预览，无需先创建甜系角色。
-
-如果同名镜像已存在，工具会拒绝覆盖。可以加 `--slug trial-two` 创建另一个；之后调用 `$shuixian-trial-two`。如果发现不了 skill，重开项目或重启 Codex。
-
-如果命令提示目录拒绝访问，先检查宿主对目标 skills 目录的写入权限；重复运行不会解除保护。Codex 默认 `workspace-write` 会保护已有 `.agents` 目录，详见[官方权限说明](https://learn.chatgpt.com/docs/agent-approvals-security#protected-paths-in-writable-roots)。可用另一个 `--base-dir` 检查生成文件，但普通草稿目录不会因此变成已安装的 skill；安装与自动发现需要分别确认。
-
-## 2. 用三段材料做自己的初版
+Codex 中可以这样说；Claude Code 只需把首行换成 `/create-shuixian`：
 
 ```text
 $create-shuixian
-我想做一个同频朋友，话短一点，能调侃，但不要宠物称呼。
-接下来给你三段材料：我的一句话、我喜欢的回应、我不喜欢的回应。
-请区分说话人，先试聊一段；没有依据的设定先留白。
-方向可以就直接创建。
+我要用自己的聊天记录和自己说话。
+我选择的文件在 D:/我的语料/聊天导出.json，发言者“青禾”是我。
+请先核对格式、消息条数和本人发言，再分批读我的实际说法。
+从中整理节奏、用词和接话方式，创建镜像后直接开始试聊。
+先只保存抽象表达习惯，原始文件保留，不归档姓名和具体经历。
+关系和外观先不用额外设定；告诉我实际保存的位置和下次调用名。
 ```
 
-材料可以少，也可以只给自述。不要为了做初版上传全部历史。外观、恋爱关系、镜像深度和隐私范围都可以分别改。
+路径、发言者和保存范围换成你自己的选择。多份资料可以给出选定目录或文件列表；本人有多个别名时一并提供。日记、随笔没有说话人标签，先说明是本人独立写作，再做归属明确的整理。
 
-手边没有材料，也不想先填表？可以先用一句话试气质：
+工具可处理整个选定集合，模型会按上下文和成本分批阅读；agent 应说明机械处理了多少、实际读了哪些样本，不能把消息计数说成“全都理解了”。句长和词频只是线索，最终语气还要对照原句、场景和实际接话检查。
 
-```text
-$create-shuixian
-想要性转的自己，温柔点，能陪我讨论选题。
-不想先填表，也没准备聊天记录，先让我试一句。
-```
+没有可读微信导出时，先看[微信说明](../references/wechat-import.md)。当前不能承诺任意正在运行的微信或微信 4.x 数据库自动取数成功，也不保证几分钟完成。已有导出时的实际命令在第4节。
 
-这会先按你的描述做对话预览；还没有学到个人口吻，也不等于已经保存。没选择恋爱关系时，可以先当温柔的共思伙伴。[看看这次实际怎么回](experiments/persona-runtime-2026-10-26.md#b性转外观先当共思伙伴)，再把一个具体选题丢给它。想继续用，再请 builder 创建；想换关系，也可以直接说。
+想先看示例？[12,000 条合成语料的实际流程](experiments/corpus-onboarding-2026-10-27.md)区分了工具处理、agent 读样本和真实试聊；它不代表真人相似度。
 
-Builder 应明确告诉你：已经有依据的习惯、暂定的选择，以及尚不知道的部分。它不应仅凭三段材料报告“人格拟合 95%”。
 
 ## 3. 手动创建：不经过模型也能验证文件流程
 
@@ -184,3 +168,16 @@ $create-shuixian
 - **主观体验：** 是否像你、是否舒服、有无长期陪伴价值，由你使用后判断。
 
 前两项可以重复检查，不能替代第三项。聊天中答应“记住了”也不能替代文件保存与新会话重试。
+
+## 8. 可选：没有语料时先试玩
+
+公开预设只演示一种气质，没有学过你的个性。安装后可运行：
+
+```sh
+python .agents/skills/create-shuixian/tools/demo_builder.py --list-presets
+python .agents/skills/create-shuixian/tools/demo_builder.py --preset close-friend-same-form --base-dir .agents/skills
+```
+
+Claude Code 将两处 `.agents/skills` 换成 `.claude/skills`，按命令输出的 Claude 调用名使用。其他方向包括 `sweet-gender-flipped` 和 `midnight-same-form`。同名镜像存在时换 `--slug`，或用正式更新流程；不要覆盖旧镜像。
+
+也可以直接给 builder 一句自述或几段代表性片段：一段自己的说法、一段喜欢的接话、一段讨厌的回应与原因。它们足够做一次暂定预览，不能代替大量本人语料的整理，也不证明已还原本人。[先读真实接话](try-it.md) · [家人式自定义方向](experiments/family-runtime-2026-10-26.md#自己试这个方向)

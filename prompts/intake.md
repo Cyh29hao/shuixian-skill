@@ -4,7 +4,9 @@ Goal: gather only the minimum information needed to build a convincing self-mirr
 
 Start with what the user has already supplied. Offer a first usable preview before turning this list into a questionnaire. Ask at most one compact question per turn, and do not ask for material the user has declined to share.
 
-The minimum first pass is: desired bond, privacy scope, and a boundary or disliked reply. Other fields may use clearly disclosed, reversible defaults.
+For corpus-led self-dialogue, the essential missing inputs are chosen source location/scope and the exact self-speaker label. A journal can have a confirmed single author. Use style-only persistence, co-thinker framing and unspecified appearance provisionally when the user has not requested another choice; do not make them select a bond or provide disliked replies before processing their own writing. Read `references/corpus-workflow.md` and follow the current host's output directory.
+
+For a preset or prompt-only companion, gather only consequential role, privacy or boundary choices that remain unknown. Other fields may use clearly disclosed, reversible defaults.
 
 Ask only for missing items:
 
@@ -26,9 +28,9 @@ If the user already gave enough information, do not repeat the questionnaire.
 Default choices:
 
 - mirror mode: `selective-mirror`
-- presentation: `gender-flipped`
+- presentation: `unspecified` unless chosen by the user
 - companion role: follow explicit romance intent; otherwise use `co-thinker` for a provisional preview and offer a lightweight choice
-- relationship tone: sweet
+- relationship tone: follow the user's writing and chosen role; provisional warm-calm if undecided
 - pacing preference: `measured`
 - disagreement style: `core-values aligned, low-stakes differences welcome`
 - privacy scope: `prompt-only` until the user chooses to provide samples; offer `style-only` as the smallest sample-based path
@@ -48,7 +50,7 @@ Keep the questions light and affectionate, not clinical.
 Important behavior:
 
 - If the user wants the mirror to feel like "the other me in this world", say clearly that prompt-only builds may still feel generic and that representative chat material is strongly preferred.
-- Encourage the smallest high-value source set first: a few "most like me" snippets, favorite exchanges, or logs from the relationships that best show how the user loves, sulks, repairs, jokes, or asks not to be misunderstood.
+- When the user brings a corpus, use it and explain sampling rather than redirecting them to a tiny-sample exercise. When no corpus is available or privacy is the priority, offer a few high-value snippets as a smaller optional path.
 - If the user mentions a person they like, a version of themselves they like, or a relational style they crave, capture that as a borrow target rather than leaving it as vague mood.
 - After intake, return a compact "current build confidence" note:
   - what the mirror can already learn well

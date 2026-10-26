@@ -2,127 +2,131 @@
 
 # Shuixian.skill
 
-### If there were another you, how would they answer this sentence?
+### Your words, spoken back to you.
 
-A self-mirror companion skill shaped by your voice, preferences, and chosen context.
+Bring your chosen chat history, journals, and writing. Build a mirror of your voice, then talk with it.
 
-[Try it now](#try-it-in-one-minute) · [Actual conversations](docs/try-it.md) · [中文](README.md) · [First-run guide](docs/quickstart.md) · [MIT](LICENSE)
+[Start with your agent](#start-with-your-agent) · [Install manually](#install-manually) · [中文](README.md) · [First-run guide](docs/quickstart.md) · [Actual conversations](docs/try-it.md)
 
 </div>
 
 <p align="center">
   <picture>
-    <source media="(max-width: 600px)" srcset="assets/hero-mobile-v1.png" />
-    <img src="assets/hero-preview-v13.png" alt="Illustrated Shuixian mirror concepts: sweet partner, midnight confidant, familiar friend. Chinese authored dialogue examples, not measured results." width="920" />
+    <source media="(max-width: 600px)" srcset="assets/corpus-hero-mobile-v1.png" />
+    <img src="assets/corpus-hero-v1.png" alt="Chinese illustrated guide: personal writing, your voice, your conversational mirror" width="920" />
   </picture>
 </p>
 
-Start with a public preset. Add a few representative samples when you want a more personal voice. Correct one thing at a time, and keep versions you can return to.
+**Your chat history already contains many sides of your voice.** The jokes, the careful explanations, the way you change your mind. Shuixian helps an agent organize those patterns into a readable, reusable skill so you can talk with a mirror shaped by your own language.
 
-A public preset is a starting mood. Your personal mirror starts with the material you choose; whether it feels like you is something to explore in actual conversation.
+The main path is **personal corpus → expression patterns → saved mirror → conversation and correction**. Use chosen files across periods and situations. A short description or public preset is an optional preview; your own writing is the basis for a personal voice.
 
-[Read an actual conversation →](docs/try-it.md) A bakery, a small joke, then “please stop ending every reply with a question.” Includes the original Chinese replies, the temporary correction, and a way to try the interaction yourself.
+## Start with your agent
 
-## Try it in one minute
-
-Requires Python 3.9+, Git, and Codex with local skills. Run in the project where you want the generated companion:
-
-```sh
-git clone https://github.com/Cyh29hao/shuixian-skill .agents/skills/create-shuixian
-python .agents/skills/create-shuixian/tools/demo_builder.py --preset sweet-gender-flipped --base-dir .agents/skills
-```
-
-In Codex, open **that same project** and use:
+Give this to Codex or Claude Code with local file and terminal access:
 
 ```text
-$shuixian-sweet-gender-flipped-demo
-Keep me company for a minute. No analysis yet.
+This Shuixian skill looks interesting:
+https://github.com/Cyh29hao/shuixian-skill
+Install it in my current project, import my chosen local WeChat history,
+and build a mirror from my own messages so I can talk with my own voice.
+Read the repository's SKILL.md and use this host's installation and invocation paths.
+Ask together for any missing source directory, self-speaker label, or export scope.
+If readable exports exist, proceed. If only encrypted databases exist,
+check the version and extraction route before claiming they can be imported.
+Save abstract voice patterns by default, preserve originals, and keep chats off GitHub.
 ```
 
-Reopen the project or restart Codex if discovery has not refreshed. A repeated create protects an existing mirror; choose a different `--slug` or update it instead. Text generation and public demos need no extra Python packages.
+If you already have an export, add its real path and your exact sender label. The agent can install, normalize the input, verify attribution, read selected passages, build the mirror, and try a conversation.
 
-| Preset | Direction |
+**A few-minute start depends on having readable material.**
+
+| Material | Current route |
 | --- | --- |
-| `sweet-gender-flipped` | Soft teasing, a romantic framing, gradual closeness |
-| `midnight-same-form` | Quiet confidant, space to think, no rush to optimism |
-| `close-friend-same-form` | Direct, familiar friend, room for playful disagreement |
+| Text, Markdown, JSON, JSONL exports | Primary quick-start path; common structures supported |
+| Compatible older plaintext WeChat databases | Extract a chosen contact from `MicroMsg.db` and `MSG*.db`; verify the schema |
+| A running WeChat client or encrypted databases only | Check version, permissions and export options first; no universal WeChat 4.x extraction or timing guarantee |
 
-Role, presentation, mirror depth, and privacy scope are separate choices. Public presets help you try a direction; they have not learned your personality.
+This is an agent task request, not a universal one-click promise. See the [WeChat guide](references/wechat-import.md).
 
-## Make it personal with three samples
+## From corpus to conversation
 
 <p align="center">
   <picture>
-    <source media="(max-width: 600px)" srcset="assets/quickstart-mobile-v1.png" />
-    <img src="assets/quickstart-flow-v10.png" alt="Choose a relationship, try a public preset, calibrate with three samples, correct a single response. Chinese illustrated guide." width="920" />
+    <source media="(max-width: 600px)" srcset="assets/corpus-flow-mobile-v1.png" />
+    <img src="assets/corpus-flow-v1.png" alt="Chinese four-step guide: choose writing, identify your messages, organize voice patterns, talk and correct" width="920" />
   </picture>
 </p>
 
-Bring one example of your own voice, one response you liked, and one you disliked with a short correction. Label who said what.
+1. Choose your material and scope. Several contexts are more informative than one repeated catchphrase.
+2. Identify your own messages. Other speakers, quotations, and copied material are distinct sources.
+3. Organize, then read in batches. Statistics help navigation; actual passages support cadence, phrasing, humor, and register choices.
+4. Save a mirror and talk. Correct a concrete mismatch; persist requested changes with rollback versions.
 
-```text
-$create-shuixian
-Build a close friend: short replies, a little teasing, no pet names.
-My voice: “Finally fixed it. Let me be smug for three minutes.”
-A reply I like: “Only three? Tell me how you cracked the hard part.”
-A reply I dislike: “Your perseverance illuminates your journey.” Too grand.
-Show one trial exchange. Distinguish evidence from provisional choices.
-```
+This guides the host model with skill files and selected material; it does not train new model weights. Relationship framing is optional: talking to yourself does not require choosing romance or a fictional appearance.
 
-These are synthetic example samples. Replace them with your own, or stay prompt-only. Thin material can support a first draft without proving likeness.
+[The 12,000-message synthetic import and conversation experiment](docs/experiments/corpus-onboarding-2026-10-27.md) records 6,000 messages per speaker, actual commands and timings, and the limits of a repetitive synthetic corpus. It does not establish personal likeness or end-to-end setup speed.
 
-## Correct it, then save the correction
+## Install manually
 
-```text
-That sounded like a coach. Ask where I got stuck first.
-Change only that; keep the rest of the tone.
-```
+Requires Git, Python 3.9+, and the corresponding agent. Core import, generation and updates need no extra Python packages. Run the matching command in your project.
 
-This can adjust the current chat. To preserve the preference in the reusable files:
-
-```text
-$create-shuixian
-Write this correction into $shuixian-<slug>.
-Replace any conflicting rule, show the change and a retry, and keep a rollback version.
-```
-
-A changed reply is different from a saved skill update. Check the files and retry in a new session. The [full first-run guide](docs/quickstart.md) includes manual create, update, version listing, and rollback commands.
-
-## Sources and limits
-
-| Source | Path | Limit |
-| --- | --- | --- |
-| Notes, snippets, preferences | Give to the builder | Without samples, this is customization from a description |
-| Text, Markdown, JSON, JSONL | `tools/transcript_importer.py` | Common structures supported; arbitrary vendor exports may need normalization |
-| WeChat desktop | [Import guide](references/wechat-import.md) | Best effort; version and permissions matter |
-| iMessage | `tools/imessage_importer.py` | macOS database; not validated on a live device in this iteration |
-| Screenshots | A host with image understanding | No standalone OCR in these Python tools |
-
-Profiling uses heuristics to organize speaker and keyword clues. It does not establish relationships, personality, or values. Another speaker's statement is not automatically a belief of yours.
-
-The host model plays the companion from readable skill files and your chosen material. The Python tools generate, import, organize, and version those files. Generated mirrors contain `SKILL.md`, metadata, voice, mind, relationship, and optional appearance files. Sources enter `knowledge/` when you choose to archive them. Local storage does not prevent the host from sending read material to its model service; check the host's data settings. `style-only` describes intended use, not automatic anonymization.
-
-The companion is fictional. Consciousness, identity transfer, reliable long-term memory, and therapeutic outcomes are not established capabilities. See [privacy and safety](references/privacy-and-safety.md).
-
-## Other installations
-
-Personal builder installation:
+**Codex**
 
 ```sh
-git clone https://github.com/Cyh29hao/shuixian-skill ~/.agents/skills/create-shuixian
+git clone https://github.com/Cyh29hao/shuixian-skill .agents/skills/create-shuixian
 ```
 
-This is the personal location documented in [Codex's skill guide](https://learn.chatgpt.com/docs/build-skills). Run scripts using their actual installation path and point `--base-dir` to your current project's `.agents/skills`.
+In the same project, invoke `$create-shuixian` with your chosen corpus path and sender label.
 
-See [Claude Code adaptation](docs/CLAUDE.md) for structural compatibility and limitations. This iteration does not claim cross-host runtime validation.
+**Claude Code**
 
-## Keep testing the experience
+```sh
+git clone https://github.com/Cyh29hao/shuixian-skill .claude/skills/create-shuixian
+```
 
-- [Authored dialogue examples](docs/dialogue-examples.md), labeled as designs.
-- [Scenario acceptance cards](docs/experiments/persona-scenarios.md), for checking specific behavior.
-- [Engineering experiments and gaps](docs/experiments/2026-10-25-polish.md), with reproducible checks.
-- [Historical release notes](docs/releases/v0.1.3.md).
+In the same project, invoke `/create-shuixian` with your material. Codex detects skill changes; reopen/restart if discovery has not refreshed. Claude Code can refresh newly added directories with `/reload-skills`.
 
-An open-source place to preserve, revise, and keep exploring the feeling of being understood.
+Clone refuses an existing nonempty destination. Inspect an existing installation instead of deleting your mirrors. See the [installation guide](docs/installation.md) for personal paths, Windows, output directories and checks, and the [Claude Code guide](docs/CLAUDE.md) for host-specific details and validation limits.
+
+## Correct and save
+
+```text
+That sounded like a coach. I would joke about the actual problem first.
+Change only that, keep the rest of the voice, and retry one reply.
+```
+
+To keep the correction, ask the builder to update the mirror, replace conflicting old instructions, and report its actual path, invocation name, and version. A changed reply and a saved update are separate results. [Update and rollback guide](docs/quickstart.md#6-保存纠偏并确认没有改坏其他地方).
+
+## No corpus ready? Try a public voice
+
+Read [actual conversations](docs/try-it.md), or try a public preset. It has not learned your voice.
+
+```sh
+python .agents/skills/create-shuixian/tools/demo_builder.py --preset close-friend-same-form --base-dir .agents/skills
+```
+
+Use the invocation name printed by the command. For Claude Code, replace both `.agents` paths with `.claude`. Other presets and small-sample previews remain in the [first-run guide](docs/quickstart.md).
+
+## Sources and scope
+
+Generic readable exports are the primary input. WeChat databases, iMessage and screenshots have specific format, platform or host requirements: [import channels](references/import-channels.md).
+
+Mirrors are readable skill, voice, mind, relationship and optional appearance files, with versioned changes. Large histories are organized locally and selected passages read by the host. Archiving source text is a separate choice. `style-only` retains abstract expression patterns by agreement; it is not automatic anonymization.
+
+The host may send read material to its model service. Local files do not make the workflow offline. Identity transfer, independent consciousness, complete personal memory and subjective likeness are not established capabilities. [Privacy and safety](references/privacy-and-safety.md).
+
+## Star History
+
+Thank you for every star. This date-based line chart uses the established Star History service; updates may be cached.
+
+<a href="https://www.star-history.com/#Cyh29hao/shuixian-skill&Date">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=Cyh29hao/shuixian-skill&amp;type=Date&amp;theme=dark" />
+    <img src="https://api.star-history.com/svg?repos=Cyh29hao/shuixian-skill&amp;type=Date&amp;theme=light" alt="GitHub Star history line chart for Cyh29hao/shuixian-skill" width="920" />
+  </picture>
+</a>
+
+[Open Star History](https://www.star-history.com/#Cyh29hao/shuixian-skill&Date) · [Current stars](https://github.com/Cyh29hao/shuixian-skill/stargazers)
 
 MIT licensed. The import layer drew on implementation ideas from the MIT-licensed `npy-skill` project.

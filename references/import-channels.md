@@ -4,7 +4,7 @@ Use this file when the user wants to import material from sources beyond WeChat.
 
 ## Supported channels in this version
 
-- WeChat desktop databases
+- compatible older plaintext WeChat desktop databases (not universal client extraction)
 - iMessage `chat.db`
 - exported transcript text files
 - exported JSON and JSONL chat logs
@@ -13,9 +13,10 @@ Use this file when the user wants to import material from sources beyond WeChat.
 
 ## Suggested order
 
-1. Start with the lightest source that already captures the user's voice.
-2. Use transcript exports before asking for raw device databases unless the user specifically wants high fidelity.
-3. Archive normalized transcripts, not only raw exports.
+1. Use the personal corpus the user selected: chat exports, journals, notes or writing. Keep scope and author attribution explicit.
+2. Use readable transcript exports before acquiring raw device databases. More records are useful only when their authorship and context are clear.
+3. Normalize and profile larger collections, then read diverse user-message passages in batches; `corpus-workflow.md` separates full mechanical counts from actual model reading.
+4. Archive source text only if chosen. A style-only mirror need not retain its original transcripts.
 
 ## Current scripts
 
@@ -32,8 +33,8 @@ and profiler use Python's standard library. `pypinyin` is optional for natural
 Chinese-name slugs; without it, an explicit ASCII `--slug` is the predictable path.
 
 `requirements.txt` lists optional packages used by the broader toolkit:
-`psutil`, `pycryptodome`, and Windows-only `pymem` support the best-effort WeChat
-route; `PyYAML` supports external skill validation. Install only when that route
+`psutil`, `pycryptodome`, and Windows-only `pymem` are used by the legacy experimental WeChat
+decryptor, whose availability does not establish reliable key validation or current-client compatibility; see `wechat-import.md`. `PyYAML` supports external skill validation. Install only when that route
 is needed and within the user's environment permissions. README artwork rendering
 uses Pillow, a maintainer tool rather than a companion runtime dependency.
 
@@ -55,5 +56,5 @@ Keep the product promise honest:
 - WeChat and iMessage are convenience adapters.
 - Generic transcript import is the stable fallback.
 - The real long-term contract is "normalize input into analyzable transcript files."
-- When the user imports broad WeChat history, generate a contact report first so analysis can focus on the relationships that matter most.
+- With a compatible selected plaintext WeChat history, a contact report can help choose a subset. Do not list all contacts from a live account before the user has chosen that scope.
 - When transcript volume grows, run `tools/mirror_profiler.py` so the mirror is built from organized signals instead of raw logs alone.

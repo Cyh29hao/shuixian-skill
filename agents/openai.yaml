@@ -1,9 +1,9 @@
 interface:
   display_name: "水仙.skill"
-  short_description: "把你的语气和偏好，慢慢校准成能试玩、能纠偏的镜像伴侣。"
+  short_description: "从你选好的聊天记录与个人语料，整理说话方式，做一个能和自己对话的水仙。"
   icon_small: "./assets/shuixian-icon-400.png"
   icon_large: "./assets/shuixian-icon.svg"
-  default_prompt: "用 $create-shuixian 帮我做一个水仙，先选关系、试一段对话，再用我愿意提供的样本慢慢校准。"
+  default_prompt: "用 $create-shuixian 导入我选好的聊天记录或个人语料，从我自己的发言整理说话方式，保存镜像后让我和自己聊聊。"
   brand_color: "#253E3B"
 
 policy:
