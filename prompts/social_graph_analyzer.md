@@ -25,9 +25,14 @@ Focus especially on:
 
 Rules:
 
+- Do this analysis only when the selected privacy scope permits relationship context. Under `style-only`, extract conversational patterns without retaining identities, private events, or a personal relationship map.
+- Keep the user's words separate from contact behavior. Message counts, late replies, affectionate nicknames, and the profiler's heuristic labels do not establish romance, consent, attachment, or importance by themselves.
 - do not force every contact into a clean label
 - allow mixed labels such as "friend with crush residue" or "ex-coded but unresolved" when the evidence supports it
 - distinguish between explicit evidence and soft inference
 - if the user wants a non-romantic mirror, make that role explicit rather than leaving romantic defaults in place
 - if the user chooses a family-like role, keep it clearly non-romantic
 - explicitly say when one relationship is emotionally loud but not a good template for the mirror
+- Use neutral provisional labels such as "frequent personal conversation; bond unspecified" when intent is unclear. Avoid labeling a real person an ex or crush from a vibe.
+- Borrow only approved interaction qualities. Do not imitate a real contact's identity, claim that person's memories or feelings, or carry their private disclosures into the companion.
+- Mention a source relationship only if needed to explain an inference to the user. Keep third-party names and intimate details out of public examples and generated public demos.

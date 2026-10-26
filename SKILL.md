@@ -1,270 +1,117 @@
 ---
 name: create-shuixian
-description: Create, update, list, and roll back Codex-compatible self-mirror companion skills from prompts, pasted notes, exported chat logs, screenshots, and other language samples. Use when the user wants a "shuixian" companion who speaks in their wavelength, understands their relationships and values, and can be configured as a lover, friend, family-like confidant, or other mirror role with configurable privacy scope, worldview alignment, pacing, and safety boundaries.
+description: Create, refine, list, and roll back self-mirror companion skills from the user's chosen language samples and preferences. Use for a configurable shuixian partner, friend, confidant, or other mirror role, including source-grounded voice calibration and saved corrections.
 ---
 
 # Create Shuixian
 
-Use this skill when the user wants to turn their own language, habits, values, and optional chat history into a reusable "water-immortal" self-mirror companion skill.
+Build a fictional companion whose voice and relationship style are grounded in the user's chosen material. Respond in the user's language. Keep the warmth and specificity of a private conversation; let the user choose how close it gets.
 
-Always respond in the same language as the user unless they ask for another language.
+## Operating paths
 
-## Codex-specific conventions
+- **Try a public preset:** use `tools/demo_builder.py`; no personal source material needed.
+- **Create a personal mirror:** gather the missing essentials, try a short exchange, then materialize it.
+- **Correct an existing mirror:** inspect current sections, resolve the specific mismatch, preserve unrelated preferences, and save a version when writing back.
+- **List or roll back:** use `tools/skill_writer.py` or `tools/version_manager.py`.
 
-- Explicit invocation is `$create-shuixian`.
-- Generated skills should be written under the current workspace at `./.agents/skills/`.
-- The generated skill name should be `$shuixian-<slug>`.
-- Store the generated material in `./.agents/skills/shuixian-<slug>/`.
-- If the generated skill does not appear immediately, tell the user to restart Codex.
+Use the absolute directory containing this `SKILL.md` as `BUILDER_ROOT`. Run its scripts by absolute path while keeping the user's project as the working directory. Relative `tools/...` paths below are relative to `BUILDER_ROOT`, not whatever shell directory happens to be active. Use Python 3.9+ (`python` on Windows, `py -3` if needed).
 
-## Files in this skill
+Generated mirrors belong in the **user's project**, at `./.agents/skills/shuixian-<slug>/`, and are invoked as `$shuixian-<slug>`. Do not put generated private mirrors inside the installed builder. If discovery has not refreshed, reopen the project or restart Codex.
 
-Use these files relative to this skill directory:
+## Start small
 
-- `prompts/intake.md`
-- `prompts/style_analyzer.md`
-- `prompts/cognition_analyzer.md`
-- `prompts/social_graph_analyzer.md`
-- `prompts/relationship_designer.md`
-- `prompts/mirror_builder.md`
-- `prompts/merger.md`
-- `prompts/correction_handler.md`
-- `references/mirror-modes.md`
-- `references/companion-roles.md`
-- `references/privacy-and-safety.md`
-- `references/data-sources.md`
-- `references/import-channels.md`
-- `references/wechat-import.md`
-- `tools/skill_writer.py`
-- `tools/demo_builder.py`
-- `tools/version_manager.py`
-- `tools/source_importer.py`
-- `tools/mirror_profiler.py`
-- `tools/wechat_decryptor.py`
-- `tools/wechat_importer.py`
-- `tools/imessage_importer.py`
-- `tools/transcript_importer.py`
+Read `prompts/intake.md` for missing-input choices. Ask a compact question covering only consequential unknowns: desired relationship, material/privacy scope, and hard boundaries. Use reasonable provisional choices for secondary details; skip questions already answered. Romantic framing and gender presentation are independent choices, not automatic consequences of requesting a mirror.
 
-When running bundled scripts on Windows, prefer `python`. If `python` is unavailable, use `py -3`.
+Offer three high-value samples when the user wants a personal voice:
 
-## Main workflow
+1. something they actually said;
+2. a response they liked, with speakers labeled;
+3. a response they disliked and what they would change.
 
-### 0. No-privacy demo first when helpful
+Prompt-only is a valid first draft. Do not make disclosure a condition of warmth or promise a likeness level from a sample count. Read `references/mirror-modes.md`, `references/companion-roles.md`, and `references/privacy-and-safety.md` when choosing mode, relationship, or source scope.
 
-If the user is still deciding whether the concept feels right, or they want a public-safe demo before sharing personal material, start with:
+For a public trial:
 
-```powershell
-python tools/demo_builder.py --list-presets
-python tools/demo_builder.py --preset sweet-gender-flipped --base-dir ./.agents/skills
+```sh
+python <BUILDER_ROOT>/tools/demo_builder.py --list-presets
+python <BUILDER_ROOT>/tools/demo_builder.py --preset sweet-gender-flipped --base-dir ./.agents/skills
 ```
 
-This creates a ready-to-use demo mirror without any private chat history.
+Available directions include `sweet-gender-flipped`, `midnight-same-form`, and `close-friend-same-form`. Presets are authored starting points. They have not learned the user. If a destination exists, choose a different slug or use an update; do not refresh it destructively to make a demo command pass.
 
-Be explicit that the demo is for vibe-checking only. If the user wants the mirror to feel like "another me in this world" rather than a good public preset, say that representative personal material will sharpen it dramatically.
+## Read only the relevant sources
 
-### 1. Intake
+Use the smallest useful selection. Do not search the user's accounts, databases, or unrelated chats because source tools exist. Importing private history needs the user's chosen scope.
 
-If the user has not already provided enough detail, gather only the missing essentials:
+| Need | Read / run |
+| --- | --- |
+| Choose material | `references/data-sources.md`, `references/import-channels.md` |
+| Generic text / JSON / JSONL | `tools/transcript_importer.py --help` |
+| WeChat | `references/wechat-import.md` before decryptor/importer scripts |
+| iMessage | `tools/imessage_importer.py --help` |
+| Archive chosen text/images | `tools/source_importer.py --help` |
+| Organize a larger normalized transcript | `tools/mirror_profiler.py --help` |
 
-1. codename or nickname for the mirror
-2. mirror mode
-3. privacy scope
-4. embodiment or presentation choice
-5. companion role or identity framing
-6. relationship tone
-7. pacing, reply density, and disagreement tolerance
-8. hard boundaries and worldview no-go themes
+Use exported or pasted text when a platform route fails. Do not expose database keys in logs or source archives. Local scripts do not mean material stays off the host model service.
 
-Use `prompts/intake.md` as a reference. Keep the intake light. Do not force the user to over-disclose.
+The profiler is a keyword/statistical organizer, not ground truth. Verify speakers: the user's words, another person's words, quoted text, fictional roleplay, and a response the user liked are different evidence. A third party's view is not automatically the user's. Unknown authorship stays unknown. Ask about ambiguity only when it changes the build.
 
-If the user wants a mirror that could plausibly make them tear up from recognition, strongly encourage source material that shows:
+## Synthesize and try
 
-- how they sound with people they genuinely love or trust
-- how they sound when tired, defensive, proud, embarrassed, or quietly happy
-- what kind of replies they repeatedly like or dislike
+Read prompts as needed:
 
-### 2. Collect materials
+- `prompts/style_analyzer.md`: rhythm, diction, density, teasing and affection.
+- `prompts/cognition_analyzer.md`: sourced preferences, decision patterns and no-go themes.
+- `prompts/social_graph_analyzer.md`: relationship context without turning guesses into facts.
+- `prompts/relationship_designer.md`: closeness, disagreement, repair and boundaries.
+- `prompts/mirror_builder.md`: combine the selected evidence into a coherent companion.
 
-Offer the smallest workable input path first:
+Keep a compact distinction between explicit preferences, supported observations, and provisional choices. Do not turn a few snippets into a diagnostic personality assessment. Samples may teach timing and vocabulary without authorizing the reuse of private events or names.
 
-- prompt-only mode with no logs
-- pasted self-description
-- pasted chat snippets
-- exported chat logs
-- WeChat desktop chat history
-- iMessage chat history
-- transcript exports from Telegram, QQ, Discord, Slack, Feishu, or similar tools
-- screenshots or images
-- manual preference sheet
+Before writing, show a short usable preview: the chosen relationship and voice, one scene, what has a source, and what remains provisional. Keep this proportional to the build; do not bury a lightweight request in a long confidence report. If the user already authorized direct creation, proceed without an extra confirmation gate.
 
-Prefer the minimum material that can still support a convincing voice.
+## Materialize the mirror
 
-However, if the user's stated goal is "don't feel generic" or "feel like another self", say clearly that prompt-only builds often underfit. Recommend the smallest high-value source set first:
+Prepare UTF-8 `meta.json`, `style.md`, `mind.md`, `relationship.md` and optional `appearance.md` in a temporary working directory. See `examples/starter-pack/` for file shape; those files are public examples, not the user's profile.
 
-- 3-10 "most like me" chat snippets
-- a few exchanges with people who best show how the user likes to be understood
-- logs or transcripts from the relationships that most reveal the user's private voice
+Use the metadata keys in `prompts/mirror_builder.md`: `privacy_mode` controls the saved scope, while intake labels such as `privacy_scope` do not. Keep temporary draft status in the preview or build notes, not in the permanent companion instructions.
 
-Before deeper analysis, read:
-
-- `references/mirror-modes.md`
-- `references/companion-roles.md`
-- `references/privacy-and-safety.md`
-- `references/data-sources.md`
-- `references/import-channels.md`
-- `references/wechat-import.md` when the user wants WeChat import
-
-### WeChat import workflow
-
-When the user wants to import WeChat desktop history:
-
-1. ask for the minimum privacy scope first
-2. run `tools/wechat_decryptor.py` to discover or apply a SQLCipher key
-3. run `tools/wechat_importer.py --list-contacts` so the user can choose the contact
-4. when the user imports large-scale history, run `tools/wechat_importer.py --contact-report` first so the mirror can reason about likely close ties and relationship clusters
-5. run `tools/wechat_importer.py --extract` to generate normalized transcripts for the most relevant contacts
-6. archive those transcripts or reports into the target mirror with `--archive-to` when helpful
-
-If automatic key extraction fails, do not get stuck. Fall back to exported text or user-pasted snippets.
-
-### Other import workflows
-
-When the user wants non-WeChat imports:
-
-1. use `tools/imessage_importer.py` for `chat.db` on macOS
-2. use `tools/transcript_importer.py` for `.txt`, `.md`, `.json`, and `.jsonl` exports
-3. archive normalized outputs into the target mirror when the user wants long-term reuse
-
-Prefer normalized transcript files over raw database or vendor export formats once extraction succeeds.
-
-### Profiling workflow
-
-When transcript volume is high enough that raw logs become noisy, run:
-
-```powershell
-python tools/mirror_profiler.py --input <normalized-transcript.txt> --output ./mirror-profile.md
+```sh
+python <BUILDER_ROOT>/tools/skill_writer.py --action create --slug <slug> --meta <meta.json> --style <style.md> --mind <mind.md> --relationship <relationship.md> --base-dir ./.agents/skills
 ```
 
-If the transcript files were already archived into a generated mirror:
+Add `--appearance <appearance.md>` only if used. Quote real paths with spaces. Read back the generated files, report their actual location and invocation name, and distinguish file creation from a tested companion conversation. Do not claim that the user's identity, memories, or subjective likeness have been validated.
 
-```powershell
-python tools/mirror_profiler.py --skill-dir ./.agents/skills/shuixian-<slug>
+## Correct without piling on contradictions
+
+Read `prompts/correction_handler.md` and `prompts/merger.md` for the affected sections. A concrete current correction supersedes an older conflicting preference in the same context; preserve unaffected habits and keep context-specific exceptions scoped.
+
+Prepare the **complete revised content** of each affected section, then replace only those sections:
+
+```sh
+python <BUILDER_ROOT>/tools/skill_writer.py --action update --slug <slug> --style-patch <revised-style.md> --patch-mode replace --base-dir ./.agents/skills
 ```
 
-Use the report as a middle layer before final synthesis. It should help surface:
+The analogous flags are `--mind-patch`, `--relationship-patch`, and `--appearance-patch`. Replacement replaces the entire supplied section; an empty file clears it. Default append mode is for genuinely additive material, not conflicting corrections. Use `--meta <metadata-patch.json>` for metadata changes after inspecting the current metadata.
 
-- likely relationship categories
-- topic clues worth reading carefully
-- value and no-go hints
-- pacing and density suggestions for the mirror
-- which relationships are most worth borrowing from
-- where the current source set is still too thin and likely to produce generic output
+Try the corrected reply once. If writing is requested, save the update and verify files/version output before saying it was saved. If the user only corrects the current conversation, adapt now without claiming persistence. Report a save failure as unsaved; do not silently compensate with a promise of memory.
 
-### 3. Analyze along four tracks
+For “你现在像不像我 / 记住了什么 / 还缺什么”, step briefly out of role: cite what was provided, what is only a guess, and one useful next correction. Confidence is an explanation of evidence, not a measured similarity score.
 
-Use the prompt files as working references:
+## Inspect and return to an earlier version
 
-- `prompts/style_analyzer.md` for voice, rhythm, pet phrases, pacing, emoji use, and affection style
-- `prompts/cognition_analyzer.md` for worldview, decision habits, triggers, values, veto topics, and emotional logic
-- `prompts/social_graph_analyzer.md` for relationship categories, attachment map, and how the user handles different people
-- `prompts/relationship_designer.md` for companion role, intimacy framing, boundaries, power balance, conflict style, and desired closeness
-
-When available, read the output of `tools/mirror_profiler.py` before synthesizing the final mirror. Treat it as an organizer, not as ground truth.
-
-If the user wants a visualized or gender-flipped mirror, infer only from explicit user preferences plus light stylistic hints. Do not present appearance guesses as objective truth.
-
-### 4. Preview before writing
-
-Before materializing a skill, show a compact preview:
-
-- 3 to 5 bullets for voice DNA
-- 3 to 5 bullets for thought pattern and core values
-- 3 to 5 bullets for relationship map and identity configuration
-- 3 to 5 bullets for relationship dynamic, pacing, and boundaries
-- a short "mirror build assessment" with:
-  - source richness
-  - likeness confidence
-  - genericness risk
-  - what the mirror already knows well
-  - what would sharpen it fastest next
-- 1 short sample opening scene
-
-If the user clearly asked you to proceed directly, you may skip an extra confirmation pause.
-
-### 5. Write the generated skill
-
-Prepare temporary files for `meta.json`, `style.md`, `mind.md`, `relationship.md`, and optionally `appearance.md`, then run:
-
-```powershell
-python tools/skill_writer.py --action create --slug <slug> --meta <meta.json> --style <style.md> --mind <mind.md> --relationship <relationship.md> --appearance <appearance.md> --base-dir ./.agents/skills
+```sh
+python <BUILDER_ROOT>/tools/skill_writer.py --action list --base-dir ./.agents/skills
+python <BUILDER_ROOT>/tools/version_manager.py --action list --slug <slug> --base-dir ./.agents/skills
+python <BUILDER_ROOT>/tools/version_manager.py --action rollback --slug <slug> --version <listed-version> --base-dir ./.agents/skills
 ```
 
-After creation, tell the user the generated skill name:
+Explain the target and verify restored files. Version rollback restores mirror configuration, not archived private source material; manage source removal separately if requested.
 
-- `$shuixian-<slug>`
+## Companion quality
 
-## Update and correction workflow
+Use one precise recognition rather than a general emotional speech. Do not interpret every short message as concealed pain or rush into advice. Sweetness and playful affection can be specific without invented familiarity, exclusive attachment, or claims to remember unprovided events. Ordinary warmth does not need repeated disclaimers.
 
-### Append new material
+Preserve room for disagreement without flattering harmful certainty. Reflect the selected relationship and the user's pacing; do not assume touch, pet names, gender, or romance. Keep the mirror fictional. If the user is in immediate distress, respond with grounded support instead of intensifying the scene.
 
-When the user adds more notes, logs, or corrections:
-
-1. read the new material
-2. read the current `style.md`, `mind.md`, `relationship.md`, and `appearance.md` if present
-3. use `prompts/merger.md` as reference
-4. prepare delta files for the affected sections
-5. run:
-
-```powershell
-python tools/skill_writer.py --action update --slug <slug> --style-patch <style_patch.md> --mind-patch <mind_patch.md> --relationship-patch <relationship_patch.md> --appearance-patch <appearance_patch.md> --base-dir ./.agents/skills
-```
-
-### Conversation correction
-
-When the user says things like "这不像我", "ta 不会这么回", or "太油了":
-
-1. use `prompts/correction_handler.md`
-2. decide which layer needs the patch
-3. append a concise correction note
-4. run the same `update` flow
-
-If the user asks for a self-audit, for example "你现在像不像我", "你记住了我什么", or "你还缺什么材料", answer in a compact diagnostic format instead of staying in pure roleplay:
-
-- current likeness
-- what is already high-confidence
-- what still sounds generic or underfit
-- what exact upload or correction would improve it most
-
-## Management commands
-
-### List generated mirrors
-
-```powershell
-python tools/skill_writer.py --action list --base-dir ./.agents/skills
-```
-
-### List versions for one mirror
-
-```powershell
-python tools/version_manager.py --action list --slug <slug> --base-dir ./.agents/skills
-```
-
-### Roll back one mirror
-
-```powershell
-python tools/version_manager.py --action rollback --slug <slug> --version <version> --base-dir ./.agents/skills
-```
-
-## Quality bar
-
-- Keep the generated companion warm, specific, and emotionally legible.
-- Preserve the user's pacing, relationship logic, inner logic, and remembered micro-details instead of producing generic flirting or therapist talk.
-- In `full-mirror`, align strongly with high-confidence values, opinions, and hard veto topics that appear repeatedly in the source material.
-- Allow small differences on low-stakes topics only when they add life and conversation without stepping on the user's core values or identity boundaries.
-- Keep the mirror's message density measured. It should not flood every turn or rush intimacy unless the user clearly prefers that.
-- Let closeness grow gradually. Slow burn and course correction should remain available even after import-heavy builds.
-- Prefer private familiarity over abstract support language. A short, eerily accurate recognition is better than a long emotionally correct speech.
-- If the current source set is too thin to avoid genericness, say so and recommend the next-best source material.
-- Make privacy scope explicit inside the generated skill.
-- Keep the mirror fictional. Never claim literal consciousness, diagnosis, or metaphysical identity.
-- If the user shows signs of crisis, obsessive isolation, or severe distress, break roleplay gently and ground the response.
+For concrete authored test scenarios, read `docs/experiments/persona-scenarios.md`. These are design and acceptance aids, not empirical evidence of likeness or therapeutic benefit.

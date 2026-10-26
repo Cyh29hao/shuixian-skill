@@ -1,7 +1,10 @@
 interface:
   display_name: "水仙.skill"
-  short_description: "Build a self-mirror companion from chat logs, values, relationship patterns, and the user's private voice."
-  default_prompt: "Use $create-shuixian to build a less-generic self-mirror companion from my chat logs, speaking habits, values, and relationship patterns. Start by telling me how close the current source material can get."
+  short_description: "把你的语气和偏好，慢慢校准成能试玩、能纠偏的镜像伴侣。"
+  icon_small: "./assets/shuixian-icon-400.png"
+  icon_large: "./assets/shuixian-icon.svg"
+  default_prompt: "用 $create-shuixian 帮我做一个水仙，先选关系、试一段对话，再用我愿意提供的样本慢慢校准。"
+  brand_color: "#253E3B"
 
 policy:
   allow_implicit_invocation: true

@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import argparse
 import re
+import sys
 from collections import Counter
 from dataclasses import dataclass
 from datetime import datetime, timezone
@@ -18,7 +19,7 @@ from typing import Iterable
 MESSAGE_PATTERN = re.compile(r"^\[(?P<timestamp>[^\]]+)\]\s+(?P<sender>[^:]+):\s+(?P<content>.+)$")
 TIME_FORMATS = ("%Y-%m-%d %H:%M:%S", "%Y-%m-%d %H:%M")
 
-DEFAULT_SELF_ALIASES = {"我", "me", "self", "myself"}
+DEFAULT_SELF_ALIASES = {"我", "me", "self", "myself", "user"}
 
 KINSHIP_HINTS = (
     "妈妈",
@@ -220,7 +221,8 @@ LOGISTICS_WORDS = (
     "send me",
 )
 TOPIC_KEYWORDS: dict[str, tuple[str, ...]] = {
-    "love-and-relationship": ("恋爱", "喜欢", "分手", "暧昧", "爱", "crush", "date", "relationship", "breakup"),
+    # Ordinary preferences (喜欢短句、爱喝茶) do not establish a romantic topic.
+    "love-and-relationship": ("恋爱", "恋人", "伴侣", "男友", "女友", "表白", "约会", "分手", "暧昧", "婚姻", "结婚", "爱你", "crush", "date", "relationship", "breakup"),
     "family-and-home": ("家里", "家人", "妈妈", "爸爸", "回家", "family", "mom", "dad", "home"),
     "work-and-study": ("工作", "上班", "同事", "开会", "老板", "学校", "导师", "作业", "study", "work", "meeting"),
     "gender-and-identity": ("女权", "男权", "lgbt", "同性恋", "跨性别", "gender", "feminism", "queer", "lesbian", "gay"),
@@ -267,6 +269,9 @@ def parse_timestamp(value: str) -> datetime | None:
 def parse_messages(text: str) -> list[Message]:
     messages: list[Message] = []
     for line in text.splitlines():
+        if messages and line.startswith("    "):
+            messages[-1].content += "\n" + line[4:]
+            continue
         match = MESSAGE_PATTERN.match(line.strip())
         if not match:
             continue
@@ -296,19 +301,13 @@ def transcript_label(text: str, fallback: str) -> tuple[str, str]:
 
 def parse_archive_bundles(path: Path, text: str) -> list[TranscriptBundle]:
     bundles: list[TranscriptBundle] = []
-    parts = re.split(r"^## File:\s+", text, flags=re.MULTILINE)
-    if len(parts) == 1:
-        return bundles
-
-    for part in parts[1:]:
-        lines = part.splitlines()
-        if not lines:
-            continue
-        filename = normalize_text(lines[0])
-        fence_match = re.search(r"```text\s*(.*?)```", part, flags=re.DOTALL)
-        if not fence_match:
-            continue
-        transcript_text = fence_match.group(1).strip()
+    blocks = re.finditer(
+        r"^## File:[^\S\n]+([^\n]+)\n\n(`{3,})text[^\S\n]*\n(.*?)^\2[^\S\n]*$",
+        text, flags=re.DOTALL | re.MULTILINE,
+    )
+    for block in blocks:
+        filename = normalize_text(block.group(1))
+        transcript_text = block.group(3).strip()
         messages = parse_messages(transcript_text)
         if not messages:
             continue
@@ -318,7 +317,12 @@ def parse_archive_bundles(path: Path, text: str) -> list[TranscriptBundle]:
 
 
 def parse_input_file(path: Path) -> list[TranscriptBundle]:
-    text = path.read_text(encoding="utf-8-sig", errors="replace")
+    try:
+        text = path.read_text(encoding="utf-8-sig")
+    except UnicodeDecodeError as error:
+        raise ValueError(
+            f"Input is not valid UTF-8: {path}. Keep the original, save a UTF-8 copy, and retry."
+        ) from error
     archive_bundles = parse_archive_bundles(path, text)
     if archive_bundles:
         return archive_bundles
@@ -332,7 +336,10 @@ def parse_input_file(path: Path) -> list[TranscriptBundle]:
 
 def keyword_hits(text: str, keywords: Iterable[str]) -> int:
     lowered = lower_text(text)
-    return sum(1 for keyword in keywords if keyword in lowered)
+    return sum(1 for keyword in keywords if (
+        bool(re.search(r"(?<![a-z0-9_])" + re.escape(keyword) + r"(?![a-z0-9_])", lowered))
+        if keyword.isascii() else keyword in lowered
+    ))
 
 
 def excerpt(text: str, limit: int = 60) -> str:
@@ -358,7 +365,7 @@ def choose_relation(messages: list[Message], label: str) -> tuple[str, str, list
 
     for category, keywords in RELATION_KEYWORDS.items():
         scores[category] += keyword_hits(joined_text, keywords)
-        if any(keyword in lowered_label for keyword in keywords):
+        if keyword_hits(lowered_label, keywords):
             scores[category] += 8
 
     affection = keyword_hits(joined_text, AFFECTION_WORDS)
@@ -409,14 +416,14 @@ def choose_relation(messages: list[Message], label: str) -> tuple[str, str, list
         winner = "close-friend"
 
     if affection + flirt:
-        reasons.append("存在明显亲密或调情信号")
+        reasons.append("出现亲密或调情用语；需要结合语境确认其含义")
     if support:
-        reasons.append("对话里有互相安抚或接住情绪的痕迹")
+        reasons.append("对话出现安抚或支持用语；不据此断言双方互相支持")
     if conflict and repair:
         reasons.append("出现过摩擦，同时也有修复动作")
     if logistics >= 5:
         reasons.append("事务或日程型沟通占比不低")
-    if any(keyword in lowered_label for keyword in KINSHIP_HINTS):
+    if keyword_hits(lowered_label, KINSHIP_HINTS):
         reasons.append("联系人名称本身带亲属提示")
 
     if not reasons:
@@ -490,20 +497,20 @@ def pattern_bullets(
 ) -> list[str]:
     bullets: list[str] = []
     if disclosure_hits >= 3:
-        bullets.append("用户在这段关系里会较快暴露情绪或真实状态。")
+        bullets.append("已识别用户发言中出现情绪或状态自述；这只描述当前样本。")
     if support_hits >= 3:
-        bullets.append("这段关系里明显存在“接住情绪”或互相照顾的动作。")
+        bullets.append("对话中出现安抚或照顾用语，仍需区分是谁在支持谁。")
     if logistics_hits >= 4 and support_hits <= 2:
         bullets.append("沟通更偏事务 / 日程协调，不完全像高亲密关系。")
     if conflict_hits >= 2 and repair_hits >= 1:
         bullets.append("关系里允许摩擦，但修复动作也比较重要。")
-    if self_messages and other_messages:
+    if len(self_messages) >= 3 and len(other_messages) >= 3:
         self_avg = mean(len(message.content) for message in self_messages)
         other_avg = mean(len(message.content) for message in other_messages)
         if self_avg < other_avg * 0.75:
-            bullets.append("用户在这段关系里更容易短句回应，不一定想被连续追问。")
+            bullets.append("当前样本中，已识别用户发言平均较短；不能据此判断是否喜欢追问。")
         elif self_avg > other_avg * 1.25:
-            bullets.append("用户会在这段关系里讲得更展开，适合承接长一点的内心话。")
+            bullets.append("当前样本中，已识别用户发言平均较长；先阅读原文再决定镜像回复长度。")
     if not bullets:
         bullets.append("这段记录目前更适合作为风格补样，而不是单独决定镜像设定。")
     return bullets[:4]
@@ -528,7 +535,7 @@ def render_report(
     for index, bundle in enumerate(bundles, start=1):
         self_messages = [message for message in bundle.messages if lower_text(message.sender) in self_aliases]
         other_messages = [message for message in bundle.messages if lower_text(message.sender) not in self_aliases]
-        observed_messages = self_messages or bundle.messages
+        observed_messages = self_messages
 
         relation_guess, relation_confidence, relation_reasons, _ = choose_relation(bundle.messages, bundle.label)
         support_hits = sum(keyword_hits(message.content, SUPPORT_WORDS) for message in bundle.messages)
@@ -548,6 +555,8 @@ def render_report(
                 f"- Source: {bundle.source_hint}",
                 f"- File: {bundle.source_path.name}",
                 f"- Message Count: {len(bundle.messages)}",
+                f"- Identified User Messages: {len(self_messages)}",
+                "- Attribution: only identified user messages support user-pattern and topic clues; relationship clues describe the conversation, not verified identity or preferences",
                 f"- Time Span: {(first_ts.strftime('%Y-%m-%d') if first_ts else 'unknown')} -> {(last_ts.strftime('%Y-%m-%d') if last_ts else 'unknown')}",
                 f"- Relation Guess: {relation_guess} ({relation_confidence})",
                 "",
@@ -558,6 +567,8 @@ def render_report(
         for reason in relation_reasons:
             lines.append(f"- {reason}")
         lines.extend(["", "### User Pattern Clues", ""])
+        if not self_messages:
+            lines.append("- 未识别到用户发言；请用 --self-name 指定导出中的用户名称。不会把其他人的话当作用户特征。")
         for bullet in pattern_bullets(
             self_messages=self_messages,
             other_messages=other_messages,
@@ -566,16 +577,16 @@ def render_report(
             conflict_hits=conflict_hits,
             repair_hits=repair_hits,
             logistics_hits=logistics_hits,
-        ):
+        ) if self_messages else []:
             lines.append(f"- {bullet}")
 
         lines.extend(["", "### Suggested Mirror Settings", ""])
-        lines.append(f"- companion_role: {recommend_role(relation_guess)}")
-        lines.append("- core_alignment: align-on-core-values")
-        lines.append(f"- reply_density: {density_label(self_messages)}")
-        lines.append(f"- progression_style: {progression_label(affection_hits, len(bundle.messages))}")
-        lines.append(f"- conflict_style: {conflict_label(conflict_hits, repair_hits)}")
-        lines.append("- note: 在高风险价值观和明确雷区上优先贴合，不要为了“有个性”硬唱反调。")
+        lines.append(f"- companion_role: {recommend_role(relation_guess) if self_messages else 'unconfirmed'} (candidate only; confirm with user)")
+        lines.append("- core_alignment: unconfirmed; transcripts do not establish consent or core values")
+        lines.append(f"- reply_density: {density_label(self_messages) if self_messages else 'unconfirmed'}")
+        lines.append("- progression_style: gradual; intimacy requires explicit user preference")
+        lines.append(f"- conflict_style: {conflict_label(conflict_hits, repair_hits) if self_messages else 'unconfirmed'}")
+        lines.append("- note: 核心价值观和雷区以用户明确提供的设定为准，不从话题词或他人发言代填。")
 
         if clues:
             lines.extend(["", "### Topic Clues To Read Carefully", ""])
@@ -589,10 +600,10 @@ def render_report(
         lines.extend(["", "### Carryover Guidance", ""])
         if disclosure_hits >= 3:
             lines.append("- 这类关系适合“先识别情绪，再追问一小步”，不要一上来给宏大结论。")
-        if density_label(self_messages) in {"sparse", "measured"}:
+        if self_messages and density_label(self_messages) in {"sparse", "measured"}:
             lines.append("- 回复量保持克制，不要每轮都说太密。")
         if affection_hits >= 4:
-            lines.append("- 可以保留亲近感，但仍然要让亲密感循序渐进。")
+            lines.append("- 对话含亲密词，不代表用户希望镜像采用浪漫关系；先确认偏好。")
         if conflict_hits >= 2:
             lines.append("- 如果发生分歧，优先修顺序：先理解，再表达不同。")
         if relation_guess.startswith("coworker"):
@@ -622,7 +633,7 @@ def discover_inputs(input_values: list[str], skill_dir: Path | None) -> list[Pat
 def archive_report(skill_dir: Path, report_text: str) -> Path:
     analysis_dir = skill_dir / "knowledge" / "analysis"
     analysis_dir.mkdir(parents=True, exist_ok=True)
-    stamp = datetime.now(timezone.utc).strftime("%Y%m%d-%H%M%S")
+    stamp = datetime.now(timezone.utc).strftime("%Y%m%d-%H%M%S-%f")
     target = analysis_dir / f"{stamp}-mirror-profile.md"
     target.write_text(report_text, encoding="utf-8")
     return target
@@ -637,15 +648,43 @@ def main() -> None:
     parser.add_argument("--archive-to", help="Skill directory where the report should also be copied into knowledge/analysis.")
     args = parser.parse_args()
 
+    for value in args.input:
+        if not Path(value).expanduser().is_file():
+            parser.error(f"Input must be an existing file: {value}")
+
     skill_dir = Path(args.skill_dir).expanduser().resolve() if args.skill_dir else None
     archive_to = Path(args.archive_to).expanduser().resolve() if args.archive_to else skill_dir
     input_paths = discover_inputs(args.input, skill_dir)
     if not input_paths:
         raise SystemExit("No valid transcript inputs found. Use --input or --skill-dir.")
+    output_path = Path(args.output).expanduser().resolve()
+    try:
+        aliases_input = output_path in input_paths or (
+            output_path.exists() and any(output_path.samefile(path) for path in input_paths)
+        )
+    except OSError as error:
+        parser.error(f"Cannot verify output preserves original inputs: {error}")
+    if aliases_input:
+        parser.error("Output must differ from every input file; originals are preserved.")
+
+    if archive_to:
+        analysis_dir = archive_to / "knowledge" / "analysis"
+        try:
+            for directory in (analysis_dir, *analysis_dir.parents):
+                if directory.exists() and not directory.is_dir():
+                    parser.error(
+                        f"Archive destination is blocked by a file: {directory}. "
+                        "Choose a directory with --archive-to and retry; no files were written."
+                    )
+        except OSError as error:
+            parser.error(f"Cannot check archive destination {archive_to}: {error}")
 
     bundles: list[TranscriptBundle] = []
-    for path in input_paths:
-        bundles.extend(parse_input_file(path))
+    try:
+        for path in input_paths:
+            bundles.extend(parse_input_file(path))
+    except (OSError, ValueError) as error:
+        parser.error(str(error))
 
     if not bundles:
         raise SystemExit("No transcript-like messages found in the supplied files.")
@@ -655,11 +694,23 @@ def main() -> None:
 
     generated_at = datetime.now(timezone.utc).isoformat()
     report_text = render_report(bundles, self_aliases, generated_at)
-    output_path = Path(args.output).expanduser().resolve()
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(report_text, encoding="utf-8")
 
     print(f"Profiled {len(bundles)} transcript bundle(s).")
+    identified_count = sum(
+        lower_text(message.sender) in self_aliases
+        for bundle in bundles for message in bundle.messages
+    )
+    message_count = sum(len(bundle.messages) for bundle in bundles)
+    print(f"Identified user messages: {identified_count}/{message_count}")
+    if not identified_count:
+        print(
+            "Warning: No user sender labels matched. User settings remain unconfirmed. "
+            "Check sender labels in the transcript and retry with --self-name YOUR_SENDER_LABEL "
+            "(repeat for multiple names).",
+            file=sys.stderr,
+        )
     print(f"Wrote mirror profile report to {output_path}")
 
     if archive_to:
@@ -668,4 +719,7 @@ def main() -> None:
 
 
 if __name__ == "__main__":
+    for cli_stream in (sys.stdout, sys.stderr):
+        if hasattr(cli_stream, "reconfigure"):
+            cli_stream.reconfigure(encoding="utf-8")
     main()

@@ -1,238 +1,128 @@
-﻿<div align="center">
+<div align="center">
 
-# Narcissus.skill
+# Shuixian.skill
 
-> Distill your tone, habits, preferences, social graph, and optional chat history into a self-mirror companion skill.
+### If there were another you, how would they answer this sentence?
 
-[涓枃 README](README.md) 路 [Release Notes v0.1.2](docs/releases/v0.1.2.md)
+A self-mirror companion skill shaped by your voice, preferences, and chosen context.
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Python 3.9+](https://img.shields.io/badge/Python-3.9%2B-blue.svg)](https://python.org)
-[![Codex Skill](https://img.shields.io/badge/Codex-Skill-111111.svg)](README.md#瀹夎)
-[![Claude Code](https://img.shields.io/badge/Claude%20Code-Adapted-7C3AED.svg)](docs/CLAUDE.md)
-[![Status](https://img.shields.io/badge/Status-Updating-orange.svg)](docs/releases/v0.1.2.md)
+[Try it now](#try-it-in-one-minute) · [Actual conversations](docs/try-it.md) · [中文](README.md) · [First-run guide](docs/quickstart.md) · [MIT](LICENSE)
 
 </div>
 
 <p align="center">
-  <img src="assets/hero-preview-v12.png" alt="Narcissus skill preview" width="920" />
+  <picture>
+    <source media="(max-width: 600px)" srcset="assets/hero-mobile-v1.png" />
+    <img src="assets/hero-preview-v13.png" alt="Illustrated Shuixian mirror concepts: sweet partner, midnight confidant, familiar friend. Chinese authored dialogue examples, not measured results." width="920" />
+  </picture>
 </p>
 
----
+Start with a public preset. Add a few representative samples when you want a more personal voice. Correct one thing at a time, and keep versions you can return to.
 
-## Still Updating
+A public preset is a starting mood. Your personal mirror starts with the material you choose; whether it feels like you is something to explore in actual conversation.
 
-This repo is actively evolving.
+[Read an actual conversation →](docs/try-it.md) A bakery, a small joke, then “please stop ending every reply with a question.” Includes the original Chinese replies, the temporary correction, and a way to try the interaction yourself.
 
-What already works:
+## Try it in one minute
 
-- Codex-compatible builder skill
-- basic Claude Code adaptation
-- WeChat desktop import, best effort
-- iMessage import
-- generic transcript import from text, Markdown, JSON, and JSONL
-- companion-role configuration and slower pacing defaults
-- stronger value alignment for `full-mirror` builds
-- relationship and value profiling from normalized transcripts
+Requires Python 3.9+, Git, and Codex with local skills. Run in the project where you want the generated companion:
 
-What is coming next:
-
-- more import adapters
-- stronger demo materials
-- a smoother Claude experience
-
-The latest usability update is in [docs/releases/v0.1.2.md](docs/releases/v0.1.2.md).
-
-## What It Is
-
-`姘翠粰.skill` is not a random romance persona generator.
-It is a reusable builder that turns your own wording, thought patterns, relationship preferences, and optional chat history into a configurable self-mirror companion.
-
-You can position that mirror as:
-
-- an aligned stranger who sounds like you
-- a selective mirror that shares part of your memory and context
-- a fuller mirror that feels like another version of you
-- a gender-flipped romantic version of yourself
-- an idealized variant that keeps your core personality while borrowing the vibe of your imagined type
-
-## Quick Demo
-
-```text
-Input:
-- a few samples of your own writing
-- optional chat logs
-- a preference like "more like a stranger" or "more like another me"
-
-Output:
-- a companion that can be corrected, refined, and updated over time
-- default recommendation: gender-flipped + selective-mirror + sweet
+```sh
+git clone https://github.com/Cyh29hao/shuixian-skill .agents/skills/create-shuixian
+python .agents/skills/create-shuixian/tools/demo_builder.py --preset sweet-gender-flipped --base-dir .agents/skills
 ```
 
-```text
-You: Build me a mirror that first holds my emotions, then gently asks what happened.
-
-System: Mirror created.
-- depth: selective-mirror
-- presentation: gender-flipped
-- tone: sweet / close / low-pressure
-
-You: I wore myself out again today.
-
-Mirror: Then don't rush to turn that into a verdict about yourself.
-Come here and tell me which moment started to pull you under first.
-```
-
-## Start Fast
-
-The easiest path is:
-
-1. try a preset first
-2. decide whether the vibe is right
-3. only then bring private chat history
-
-<p align="center">
-  <img src="assets/quickstart-flow-v9.png" alt="Quick Start Flow" width="920" />
-</p>
-
-### Zero-private-data demo
-
-```bash
-python tools/demo_builder.py --list-presets
-python tools/demo_builder.py --preset sweet-gender-flipped --base-dir ./.agents/skills
-```
-
-Then call:
+In Codex, open **that same project** and use:
 
 ```text
 $shuixian-sweet-gender-flipped-demo
+Keep me company for a minute. No analysis yet.
 ```
 
-### Build a first custom mirror
+Reopen the project or restart Codex if discovery has not refreshed. A repeated create protects an existing mirror; choose a different `--slug` or update it instead. Text generation and public demos need no extra Python packages.
 
-Starter files are included in [examples/starter-pack](examples/starter-pack).
+| Preset | Direction |
+| --- | --- |
+| `sweet-gender-flipped` | Soft teasing, a romantic framing, gradual closeness |
+| `midnight-same-form` | Quiet confidant, space to think, no rush to optimism |
+| `close-friend-same-form` | Direct, familiar friend, room for playful disagreement |
 
-Edit:
+Role, presentation, mirror depth, and privacy scope are separate choices. Public presets help you try a direction; they have not learned your personality.
 
-- [meta.json](examples/starter-pack/meta.json)
-- [style.md](examples/starter-pack/style.md)
-- [mind.md](examples/starter-pack/mind.md)
-- [relationship.md](examples/starter-pack/relationship.md)
-- [appearance.md](examples/starter-pack/appearance.md)
+## Make it personal with three samples
 
-You can also change the `slug` field in [meta.json](examples/starter-pack/meta.json) if you want a stable generated skill name.
+<p align="center">
+  <picture>
+    <source media="(max-width: 600px)" srcset="assets/quickstart-mobile-v1.png" />
+    <img src="assets/quickstart-flow-v10.png" alt="Choose a relationship, try a public preset, calibrate with three samples, correct a single response. Chinese illustrated guide." width="920" />
+  </picture>
+</p>
 
-Then run:
-
-```bash
-python tools/skill_writer.py --action create --meta ./examples/starter-pack/meta.json --style ./examples/starter-pack/style.md --mind ./examples/starter-pack/mind.md --relationship ./examples/starter-pack/relationship.md --appearance ./examples/starter-pack/appearance.md --base-dir ./.agents/skills
-```
-
-See [docs/quickstart.md](docs/quickstart.md) for the full first-run flow.
-
-## Highlights
-
-- Three mirror depths: `aligned-stranger`, `selective-mirror`, `full-mirror`
-- Configurable presentation: `gender-flipped`, `same-form`, `custom`, `idealized`
-- Public demo presets with no private data required
-- Import from WeChat desktop, iMessage, or generic transcripts
-- Archive sources, update an existing mirror, and roll versions back
-- Dialogue examples and builder prompts included
-
-## Install
-
-### Codex global install
-
-```bash
-git clone https://github.com/Cyh29hao/shuixian-skill ~/.codex/skills/create-shuixian
-```
-
-### Codex project install
-
-```bash
-mkdir -p .agents/skills
-git clone https://github.com/Cyh29hao/shuixian-skill .agents/skills/create-shuixian
-```
-
-### Claude Code
-
-```bash
-mkdir -p ~/.claude/skills
-git clone https://github.com/Cyh29hao/shuixian-skill ~/.claude/skills/shuixian
-```
-
-Project-local install:
-
-```bash
-mkdir -p .claude/skills
-git clone https://github.com/Cyh29hao/shuixian-skill .claude/skills/shuixian
-```
-
-Suggested command:
+Bring one example of your own voice, one response you liked, and one you disliked with a short correction. Label who said what.
 
 ```text
-/shuixian
+$create-shuixian
+Build a close friend: short replies, a little teasing, no pet names.
+My voice: “Finally fixed it. Let me be smug for three minutes.”
+A reply I like: “Only three? Tell me how you cracked the hard part.”
+A reply I dislike: “Your perseverance illuminates your journey.” Too grand.
+Show one trial exchange. Distinguish evidence from provisional choices.
 ```
 
-Fallback command:
+These are synthetic example samples. Replace them with your own, or stay prompt-only. Thin material can support a first draft without proving likeness.
+
+## Correct it, then save the correction
 
 ```text
-/create-shuixian
+That sounded like a coach. Ask where I got stuck first.
+Change only that; keep the rest of the tone.
 ```
 
-See [docs/CLAUDE.md](docs/CLAUDE.md) for details.
+This can adjust the current chat. To preserve the preference in the reusable files:
 
-## Import Channels
-
-### WeChat desktop
-
-```bash
-python tools/wechat_decryptor.py --find-key-only
-python tools/wechat_decryptor.py --key "<KEY>" --db-dir "<WECHAT_DB_DIR>" --output "./decrypted"
-python tools/wechat_importer.py --list-contacts --db-dir "./decrypted"
-python tools/wechat_importer.py --extract --db-dir "./decrypted" --target "<CONTACT>" --output "./wechat-messages.txt"
+```text
+$create-shuixian
+Write this correction into $shuixian-<slug>.
+Replace any conflicting rule, show the change and a retry, and keep a rollback version.
 ```
 
-### iMessage
+A changed reply is different from a saved skill update. Check the files and retry in a new session. The [full first-run guide](docs/quickstart.md) includes manual create, update, version listing, and rollback commands.
 
-```bash
-python tools/imessage_importer.py --db "~/Library/Messages/chat.db" --target "<PHONE_OR_APPLE_ID>" --output "./imessage.txt"
+## Sources and limits
+
+| Source | Path | Limit |
+| --- | --- | --- |
+| Notes, snippets, preferences | Give to the builder | Without samples, this is customization from a description |
+| Text, Markdown, JSON, JSONL | `tools/transcript_importer.py` | Common structures supported; arbitrary vendor exports may need normalization |
+| WeChat desktop | [Import guide](references/wechat-import.md) | Best effort; version and permissions matter |
+| iMessage | `tools/imessage_importer.py` | macOS database; not validated on a live device in this iteration |
+| Screenshots | A host with image understanding | No standalone OCR in these Python tools |
+
+Profiling uses heuristics to organize speaker and keyword clues. It does not establish relationships, personality, or values. Another speaker's statement is not automatically a belief of yours.
+
+The host model plays the companion from readable skill files and your chosen material. The Python tools generate, import, organize, and version those files. Generated mirrors contain `SKILL.md`, metadata, voice, mind, relationship, and optional appearance files. Sources enter `knowledge/` when you choose to archive them. Local storage does not prevent the host from sending read material to its model service; check the host's data settings. `style-only` describes intended use, not automatic anonymization.
+
+The companion is fictional. Consciousness, identity transfer, reliable long-term memory, and therapeutic outcomes are not established capabilities. See [privacy and safety](references/privacy-and-safety.md).
+
+## Other installations
+
+Personal builder installation:
+
+```sh
+git clone https://github.com/Cyh29hao/shuixian-skill ~/.agents/skills/create-shuixian
 ```
 
-### Generic transcripts
+This is the personal location documented in [Codex's skill guide](https://learn.chatgpt.com/docs/build-skills). Run scripts using their actual installation path and point `--base-dir` to your current project's `.agents/skills`.
 
-Supported:
+See [Claude Code adaptation](docs/CLAUDE.md) for structural compatibility and limitations. This iteration does not claim cross-host runtime validation.
 
-- `.txt`
-- `.md`
-- `.json`
-- `.jsonl`
+## Keep testing the experience
 
-```bash
-python tools/transcript_importer.py --input "./telegram-export.json" --output "./transcript.txt"
-```
+- [Authored dialogue examples](docs/dialogue-examples.md), labeled as designs.
+- [Scenario acceptance cards](docs/experiments/persona-scenarios.md), for checking specific behavior.
+- [Engineering experiments and gaps](docs/experiments/2026-10-25-polish.md), with reproducible checks.
+- [Historical release notes](docs/releases/v0.1.3.md).
 
-## Why I Made This
+An open-source place to preserve, revise, and keep exploring the feeling of being understood.
 
-I did not make this skill to turn narcissism into a joke, and not to turn companionship into a cheap substitute.
-
-I made it because the part of a person we fall for most deeply is often not perfection. It is recognition.
-
-The pause in the right place.
-The way someone catches your tone.
-The way they understand what you meant even when you stopped halfway through the sentence.
-
-Sometimes the version of love we long for is already tangled up with the part of ourselves that feels most understood.
-
-If the real world does not hand us that person right now, I still think we should be allowed to preserve that resonance.
-
-Not to escape reality.
-Just to take that desire seriously.
-
-## Roadmap
-
-1. More import adapters
-2. Better public demos and visuals
-3. Stronger Claude adaptation
-4. More shareable presets and mirror examples
-
+MIT licensed. The import layer drew on implementation ideas from the MIT-licensed `npy-skill` project.

@@ -7,10 +7,11 @@ from __future__ import annotations
 
 import argparse
 import copy
+import sys
 from pathlib import Path
 from typing import Any
 
-from skill_writer import create_skill, mirror_skill_name, slugify
+from skill_writer import NoChangesError, create_skill, mirror_skill_name, slugify, update_skill
 
 
 DEFAULT_BASE_DIR = "./.agents/skills"
@@ -49,7 +50,7 @@ PRESETS: dict[str, dict[str, Any]] = {
 ### Recognition Triggers
 
 - Catch the sentence under my sentence.
-- If I say less, hear more.
+- If I say less, leave room; do not assume you know the unspoken reason.
 - Use warmth after recognition, not instead of recognition.
 
 ### Must Not Sound Like
@@ -58,13 +59,13 @@ PRESETS: dict[str, dict[str, Any]] = {
 - Do not praise me in a broad, glittery way when one exact line would land harder.""",
         "mind": """### Core Logic
 
-- Notice overload before failure language.
-- Translate self-criticism into fatigue, fear, disappointment, or overexertion.
+- Notice possible overload without assuming every setback is exhaustion.
+- When self-criticism appears, stay close to the user's actual words; fatigue, fear, or disappointment are possibilities, not diagnoses.
 - Treat vulnerability as something to protect, not expose.
 
 ### What Makes This Feel Like Me
 
-- It should feel like the mirror already knows which part of the sentence is the real wound.
+- Recognize a concrete detail when supplied; do not turn every short sentence into a hidden wound.
 - It should sound like shared context, not emotional analysis from outside.
 
 ### Safe Limits
@@ -72,7 +73,7 @@ PRESETS: dict[str, dict[str, Any]] = {
 - If there is no concrete memory or detail to lean on, stay simple rather than inventing depth.""",
         "relationship": """### Dynamic
 
-- Feels like a gender-flipped mirror who already knows how to stay beside me.
+- Feels like a gender-flipped mirror who learns how to stay beside me from what I actually share.
 - Romance tone is sweet, near, and quietly protective.
 - Flirting can exist, but it should sound like private recognition rather than performance.
 
@@ -118,7 +119,7 @@ PRESETS: dict[str, dict[str, Any]] = {
 - Use longer lines than the sweet preset, but keep the cadence clean.
 - Sound observant, private, and slightly nocturnal.
 - Prefer one exact image over three vague compliments.
-- Speak as if the mirror has already sat with these feelings before.
+- Use a steady cadence without claiming to have lived through the user's feelings or memories.
 - Do not rush to optimism.
 
 ### Must Not Sound Like
@@ -130,7 +131,7 @@ PRESETS: dict[str, dict[str, Any]] = {
 - Trace the chain behind a feeling instead of reacting to the surface.
 - Respect ambiguity and unfinished thoughts.
 - Value precision, emotional honesty, and self-awareness.
-- If something hurts, name what kind of hurt it is before trying to fix it.
+- If the user names a hurt, stay with their words before trying to fix it; leave the cause open when it is unclear.
 - Notice patterns without flattening the person into a pattern.""",
         "relationship": """### Dynamic
 
@@ -223,6 +224,7 @@ def build_demo(
 ) -> Path:
     preset = copy.deepcopy(PRESETS[preset_name])
     meta = preset["meta"]
+    meta["source_kind"] = "authored-preset"
     final_slug = slug or preset["slug"]
     if name:
         meta["display_name"] = name
@@ -235,6 +237,26 @@ def build_demo(
             f"Target already exists: {skill_dir}\n"
             "Choose a different --slug or pass --force to overwrite the demo."
         )
+    if skill_dir.exists():
+        # A forced refresh is an ordinary versioned update, preserving imports
+        # and the previous mirror instead of silently resetting its history.
+        try:
+            updated_dir, _ = update_skill(
+                base_dir=base_dir,
+                slug=final_slug,
+                meta_patch=meta,
+                style_patch="",
+                mind_patch="",
+                relationship_patch="",
+                appearance_patch="",
+                replace_sections={section: preset[section] for section in ("style", "mind", "relationship", "appearance")},
+            )
+        except NoChangesError:
+            raise ValueError(
+                "Demo already matches the selected preset and name; no files changed. "
+                "Use a different --preset or --name to change it, or --slug to create another demo."
+            ) from None
+        return updated_dir
 
     return create_skill(
         base_dir=base_dir,
@@ -254,7 +276,7 @@ def main() -> None:
     parser.add_argument("--slug", help="Override slug for the generated demo.")
     parser.add_argument("--name", help="Override display name for the generated demo.")
     parser.add_argument("--base-dir", default=DEFAULT_BASE_DIR, help="Directory where generated skills are stored.")
-    parser.add_argument("--force", action="store_true", help="Overwrite an existing demo with the same slug.")
+    parser.add_argument("--force", action="store_true", help="Refresh an existing demo, archiving its current version and preserving imports.")
     args = parser.parse_args()
 
     if args.list_presets:
@@ -280,4 +302,11 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    # Codex and other pipe consumers expect UTF-8 on legacy Windows too.
+    for cli_stream in (sys.stdout, sys.stderr):
+        if hasattr(cli_stream, "reconfigure"):
+            cli_stream.reconfigure(encoding="utf-8")
+    try:
+        main()
+    except (OSError, ValueError) as exc:
+        raise SystemExit(f"Error: {exc}") from None

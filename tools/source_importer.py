@@ -6,7 +6,9 @@ Archive source material for a generated shuixian mirror skill.
 from __future__ import annotations
 
 import argparse
+import re
 import shutil
+import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -16,11 +18,21 @@ IMAGE_SUFFIXES = {".png", ".jpg", ".jpeg", ".webp", ".gif", ".bmp"}
 
 
 def now_stamp() -> str:
-    return datetime.now(timezone.utc).strftime("%Y%m%d-%H%M%S")
+    return datetime.now(timezone.utc).strftime("%Y%m%d-%H%M%S-%f")
+
+
+def safe_source_slug(source: str) -> str:
+    """Use source labels as metadata, never as user-controlled path segments."""
+    return re.sub(r"[^\w.-]+", "-", source, flags=re.UNICODE).strip(".-")[:80] or "manual-import"
 
 
 def read_file(path: Path) -> str:
-    return path.read_text(encoding="utf-8-sig", errors="replace")
+    try:
+        return path.read_text(encoding="utf-8-sig")
+    except UnicodeDecodeError as error:
+        raise ValueError(
+            f"Input is not valid UTF-8: {path}. Keep the original, save a UTF-8 copy, and retry."
+        ) from error
 
 
 def render_archive(
@@ -52,9 +64,12 @@ def render_archive(
     for file_path in text_files:
         lines.append(f"## File: {file_path.name}")
         lines.append("")
-        lines.append("```text")
-        lines.append(read_file(file_path).rstrip())
-        lines.append("```")
+        text = read_file(file_path).rstrip()
+        longest = max((len(run) for run in re.findall(r"`+", text)), default=0)
+        fence = "`" * max(3, longest + 1)
+        lines.append(f"{fence}text")
+        lines.append(text)
+        lines.append(fence)
         lines.append("")
 
     return "\n".join(lines).rstrip() + "\n"
@@ -70,42 +85,57 @@ def main() -> None:
     parser.add_argument("--note", default="", help="Optional note about this batch.")
     args = parser.parse_args()
 
+    source_paths = [Path(value).expanduser().resolve() for value in args.input]
+    for source_path in source_paths:
+        if not source_path.is_file():
+            parser.error(f"Input must be an existing file: {source_path}")
+
     skill_dir = Path(args.skill_dir).expanduser().resolve()
     imports_dir = skill_dir / "knowledge" / "imports"
     images_dir = skill_dir / "knowledge" / "images"
-    imports_dir.mkdir(parents=True, exist_ok=True)
-    images_dir.mkdir(parents=True, exist_ok=True)
-
+    try:
+        for destination in (imports_dir, images_dir):
+            for directory in (destination, *destination.parents):
+                if directory.exists() and not directory.is_dir():
+                    parser.error(
+                        f"Archive destination is blocked by a file: {directory}. "
+                        "Choose a directory with --skill-dir and retry; no files were written."
+                    )
+    except OSError as error:
+        parser.error(f"Cannot check archive destination {skill_dir}: {error}")
     text_files: list[Path] = []
-    copied_images: list[Path] = []
+    image_copies: list[tuple[Path, Path]] = []
 
-    for input_value in args.input:
-        source_path = Path(input_value).expanduser().resolve()
-        if not source_path.exists():
-            raise FileNotFoundError(f"Input file does not exist: {source_path}")
-
+    for source_path in source_paths:
         suffix = source_path.suffix.lower()
         if suffix in IMAGE_SUFFIXES:
             target_path = images_dir / f"{now_stamp()}-{source_path.name}"
-            shutil.copy2(source_path, target_path)
-            copied_images.append(target_path)
+            image_copies.append((source_path, target_path))
             continue
 
         if suffix in TEXT_SUFFIXES or source_path.is_file():
             text_files.append(source_path)
 
-    archive_path = imports_dir / f"{now_stamp()}-{args.source}.md"
-    archive_path.write_text(
-        render_archive(
+    copied_images = [target for _, target in image_copies]
+    # Decode the entire batch before creating directories or copying screenshots.
+    try:
+        archive = render_archive(
             source=args.source,
             self_name=args.self_name,
             mirror_name=args.mirror_name,
             note=args.note,
             text_files=text_files,
             copied_images=copied_images,
-        ),
-        encoding="utf-8",
-    )
+        )
+    except (ValueError, OSError) as error:
+        parser.error(str(error))
+
+    imports_dir.mkdir(parents=True, exist_ok=True)
+    images_dir.mkdir(parents=True, exist_ok=True)
+    for source_path, target_path in image_copies:
+        shutil.copy2(source_path, target_path)
+    archive_path = imports_dir / f"{now_stamp()}-{safe_source_slug(args.source)}.md"
+    archive_path.write_text(archive, encoding="utf-8")
 
     print(f"Archived materials to {archive_path}")
     if copied_images:
@@ -113,4 +143,7 @@ def main() -> None:
 
 
 if __name__ == "__main__":
+    for cli_stream in (sys.stdout, sys.stderr):
+        if hasattr(cli_stream, "reconfigure"):
+            cli_stream.reconfigure(encoding="utf-8")
     main()
