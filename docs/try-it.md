@@ -2,7 +2,7 @@
 
 不用先讲完自己。先选你想要的距离，也可以直接看一次真实接话。
 
-**现在试：** [同频朋友](#现在自己试两句) · [甜系陪伴](quickstart.md#1-在项目里安装并试玩) · [家人式闲聊](experiments/family-runtime-2026-10-26.md#自己试这个方向)
+**现在试：** [同频朋友](#现在自己试两句) · [甜系陪伴](quickstart.md#8-可选没有语料时先试玩) · [家人式闲聊](experiments/family-runtime-2026-10-26.md#自己试这个方向)
 
 **已经有自己的水仙？** [把一句纠偏保留下来](quickstart.md#6-保存纠偏并确认没有改坏其他地方)。只是今天想改节奏，说“只改这次，不写回”即可。
 
@@ -30,7 +30,7 @@
 
 ## 现在自己试两句
 
-先按[第一次使用](quickstart.md#1-在项目里安装并试玩)安装 builder。在自己的项目目录里生成公开朋友预设：
+先按[第一次使用](quickstart.md#1-安装构建器)安装 builder。在自己的项目目录里生成公开朋友预设：
 
 ```sh
 python .agents/skills/create-shuixian/tools/demo_builder.py --preset close-friend-same-form --base-dir .agents/skills
@@ -44,4 +44,4 @@ python .agents/skills/create-shuixian/tools/demo_builder.py --preset close-frien
 
 如果只是这次想少问两句，再说明“只改这次，不写回”。不满意时，指出一句具体哪里不对味，比先填一整套人格标签更容易开始。
 
-公开预设供你试气质，与图中经合成样本校准的配置不同，回复也会不同。想做自己的版本，再交给 builder 一段自己的说法、一段喜欢的回应和一段反例；[这里有可复制的创建与纠偏路径](quickstart.md#2-用三段材料做自己的初版)。
+公开预设供你试气质，与图中经合成样本校准的配置不同，回复也会不同。想做自己的版本，把选好的聊天记录、日记或随笔交给 builder；[这里有可复制的语料创建路径](quickstart.md#2-交给它自己的语料)。没有语料时，也可以先给少量代表性片段试一次。

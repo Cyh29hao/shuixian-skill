@@ -59,6 +59,7 @@ Use the corpus the user chose, without expanding to unrelated accounts or chats.
 | --- | --- |
 | Choose material | `references/data-sources.md`, `references/import-channels.md` |
 | Generic text / JSON / JSONL | `tools/transcript_importer.py --help` |
+| Easy import: files/folders, CSV/TSV, speaker preview | `docs/importing.md`, `tools/import_chat.py --help` |
 | WeChat | `references/wechat-import.md` before decryptor/importer scripts |
 | iMessage | `tools/imessage_importer.py --help` |
 | Archive chosen text/images | `tools/source_importer.py --help` |

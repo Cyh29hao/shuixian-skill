@@ -2,52 +2,78 @@
 
 # Shuixian.skill
 
-### Your words, spoken back to you.
+### The words you have written, growing into a voice you can talk with.
 
-Bring your chosen chat history, journals, and writing. Build a mirror of your voice, then talk with it.
+Your chat history, journals and writing → your expression → a conversation with yourself.
 
-[Start with your agent](#start-with-your-agent) · [Install manually](#install-manually) · [中文](README.md) · [First-run guide](docs/quickstart.md) · [Actual conversations](docs/try-it.md)
+**[Explore the web entrance ↗](https://cyh29hao.github.io/shuixian-skill/)** · [Bring my chats](#bring-your-chats) · [Start with your agent](#start-with-your-agent) · [Install manually](#install-manually) · [中文](README.md)
+
+Listed in [colleague-skill Gallery](https://titanwings.github.io/colleague-skill-site/gallery/shuixian-skill/) · [EverythingSkill](https://everythingskill.net/skills/shuixian-skill)
 
 </div>
+
+> “I tried to organize my files and ended up with three new folders.”
+>
+> “The files haven't moved in, but you've built them three new homes.”
+
+Translated excerpt from an [actual synthetic-corpus trial](docs/experiments/corpus-onboarding-2026-10-27.md#陌生-agent-从候选技能开始的一次上手), not a likeness claim. The aim is a familiar way of answering, rather than the same generic reassurance for every sentence.
 
 <p align="center">
   <picture>
     <source media="(max-width: 600px)" srcset="assets/corpus-hero-mobile-v1.png" />
-    <img src="assets/corpus-hero-v1.png" alt="Chinese illustrated guide: personal writing, your voice, your conversational mirror" width="920" />
+    <img src="assets/corpus-hero-v1.png" alt="Chinese illustrated guide: your writing, your voice, your mirror" width="760" />
   </picture>
 </p>
 
-**Your chat history already contains many sides of your voice.** The jokes, the careful explanations, the way you change your mind. Shuixian helps an agent organize those patterns into a readable, reusable skill so you can talk with a mirror shaped by your own language.
+**Your own writing comes first.** Chosen records ground cadence, phrasing and interaction patterns in a saved, correctable mirror. Relationship framing is optional. Public presets are only a preview when no corpus is ready.
 
-The main path is **personal corpus → expression patterns → saved mirror → conversation and correction**. Use chosen files across periods and situations. A short description or public preset is an optional preview; your own writing is the basis for a personal voice.
+## Star History
+
+Thank you for every star. This date-based line chart uses the established Star History service; updates may be cached.
+
+<a href="https://www.star-history.com/#Cyh29hao/shuixian-skill&Date">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=Cyh29hao/shuixian-skill&amp;type=Date&amp;theme=dark" />
+    <img src="https://api.star-history.com/svg?repos=Cyh29hao/shuixian-skill&amp;type=Date&amp;theme=light" alt="GitHub Star history line chart for Cyh29hao/shuixian-skill" width="620" />
+  </picture>
+</a>
+
+[Open Star History](https://www.star-history.com/#Cyh29hao/shuixian-skill&Date) · [Current stars](https://github.com/Cyh29hao/shuixian-skill/stargazers)
+
 
 ## Start with your agent
 
-Give this to Codex or Claude Code with local file and terminal access:
+Give this to Codex or Claude Code with local file access. Replace the path and sender label with your own.
 
 ```text
-This Shuixian skill looks interesting:
-https://github.com/Cyh29hao/shuixian-skill
-Install it in my current project, import my chosen local WeChat history,
-and build a mirror from my own messages so I can talk with my own voice.
-Read the repository's SKILL.md and use this host's installation and invocation paths.
-Ask together for any missing source directory, self-speaker label, or export scope.
-If readable exports exist, proceed. If only encrypted databases exist,
-check the version and extraction route before claiming they can be imported.
-Save abstract voice patterns by default, preserve originals, and keep chats off GitHub.
+Install https://github.com/Cyh29hao/shuixian-skill in my current project.
+My selected chat exports are in D:/My writing/; the sender named Qinghe is me.
+Build a mirror from my own expression so I can talk with my own voice.
+Save abstract voice patterns first and preserve originals.
+Ask together for anything essential that's missing, then start a conversation.
 ```
 
-If you already have an export, add its real path and your exact sender label. The agent can install, normalize the input, verify attribution, read selected passages, build the mirror, and try a conversation.
+If the records are still inside WeChat, say so: the agent should help establish an export route. Readable exports are the quick path; encrypted databases still have version and access limits. [WeChat scope](references/wechat-import.md).
 
-**A few-minute start depends on having readable material.**
+## Bring your chats
 
-| Material | Current route |
+Start with what you already have; no need to hand-format your entire history.
+
+| Material | Lightest route |
 | --- | --- |
-| Text, Markdown, JSON, JSONL exports | Primary quick-start path; common structures supported |
-| Compatible older plaintext WeChat databases | Extract a chosen contact from `MicroMsg.db` and `MSG*.db`; verify the schema |
-| A running WeChat client or encrypted databases only | Check version, permissions and export options first; no universal WeChat 4.x extraction or timing guarantee |
+| One file or a folder of exports | Let the agent preview counts and speakers; identify yourself |
+| Telegram / ChatGPT JSON or common chat CSV / TSV | Use the lightweight import entry; see exact supported shapes in the [guide](docs/importing.md) |
+| Journals, notes, pasted writing | Save TXT / Markdown and explicitly confirm single authorship |
+| A running WeChat client or raw databases only | Establish a readable export first using the [WeChat guide](references/wechat-import.md) |
+| Screenshots | A vision-capable agent can transcribe for confirmation; these scripts include no OCR |
 
-This is an agent task request, not a universal one-click promise. See the [WeChat guide](references/wechat-import.md).
+For manual use, run from the installed builder:
+
+```sh
+python .agents/skills/create-shuixian/tools/import_chat.py "D:/My writing"
+```
+
+In Claude Code, replace `.agents` with `.claude`. Preview the speakers, select yourself, and receive organized transcripts, a profile and a ready-to-paste next prompt. Existing outputs are preserved. This prepares material; a statistical pass does not mean the model has learned your whole identity. [Import guide](docs/importing.md).
 
 ## From corpus to conversation
 
@@ -116,17 +142,15 @@ Mirrors are readable skill, voice, mind, relationship and optional appearance fi
 
 The host may send read material to its model service. Local files do not make the workflow offline. Identity transfer, independent consciousness, complete personal memory and subjective likeness are not established capabilities. [Privacy and safety](references/privacy-and-safety.md).
 
-## Star History
 
-Thank you for every star. This date-based line chart uses the established Star History service; updates may be cached.
+## Community listings and sharing
 
-<a href="https://www.star-history.com/#Cyh29hao/shuixian-skill&Date">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=Cyh29hao/shuixian-skill&amp;type=Date&amp;theme=dark" />
-    <img src="https://api.star-history.com/svg?repos=Cyh29hao/shuixian-skill&amp;type=Date&amp;theme=light" alt="GitHub Star history line chart for Cyh29hao/shuixian-skill" width="920" />
-  </picture>
-</a>
+| Link | Relationship |
+| --- | --- |
+| [colleague-skill Gallery](https://titanwings.github.io/colleague-skill-site/gallery/shuixian-skill/) | Community listing with author attribution and repository link |
+| [EverythingSkill](https://everythingskill.net/skills/shuixian-skill) | Skill directory listing; its older setup copy may lag this repository |
+| [Socialistic share page](https://socialistic.ai/en/skill/shuixian-skill-7137db/) | Third-party community entry offered in [Issue #1](https://github.com/Cyh29hao/shuixian-skill/issues/1); page reachable, signed-in model chat untested |
 
-[Open Star History](https://www.star-history.com/#Cyh29hao/shuixian-skill&Date) · [Current stars](https://github.com/Cyh29hao/shuixian-skill/stargazers)
+These are listings and community sharing, not claimed commercial endorsements. Third-party sites have their own sign-in and data terms; this project does not send your corpus to them automatically.
 
 MIT licensed. The import layer drew on implementation ideas from the MIT-licensed `npy-skill` project.

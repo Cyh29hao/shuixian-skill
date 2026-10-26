@@ -57,6 +57,16 @@ python .agents/skills/create-shuixian/tools/skill_writer.py --action list --base
 
 ## 4. 导入已有聊天：先选范围和说话人
 
+多数情况下无需手动拆成两条命令，直接用导入助手：
+
+```sh
+python .agents/skills/create-shuixian/tools/import_chat.py "D:/我的语料"
+```
+
+它会预览说话人和条数，再让你确认哪位是自己；agent 代办时加 `--self-name "青禾"`。Claude Code 将 `.agents` 换成 `.claude`。多文件、表格和单人日记见[导入指南](importing.md)，结果里的 `next-step.txt` 可直接发给 builder。
+
+下面保留分步命令，便于需要单独查看某一步的人使用：
+
 ```sh
 python .agents/skills/create-shuixian/tools/transcript_importer.py --input ./chosen-chat.json --output ./chosen-transcript.txt
 python .agents/skills/create-shuixian/tools/mirror_profiler.py --input ./chosen-transcript.txt --self-name "青禾" --output ./mirror-profile.md

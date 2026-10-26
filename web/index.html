@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#253e3b">
+  <meta name="description" content="把自己的话，说回给自己。用选好的聊天记录、日记和随笔，整理自己的说话方式，与水仙聊聊。">
+  <title>水仙 · 把自己的话，说回给自己</title>
+  <link rel="icon" href="./assets/shuixian-icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./app.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#main">跳到主要内容</a>
+  <header class="site-header wrap">
+    <a class="brand" href="./" aria-label="水仙首页"><img src="./assets/shuixian-icon.svg" width="36" height="36" alt=""><span>水仙<span class="brand-note">SHUIXIAN</span></span></a>
+    <nav aria-label="主要导航"><a href="#listen">听听它</a><a href="#begin">开始</a><a class="github-link" href="https://github.com/Cyh29hao/shuixian-skill">GitHub <span aria-hidden="true">↗</span></a></nav>
+  </header>
+  <main id="main">
+    <section class="hero wrap" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="seed" aria-hidden="true"></span> 一场从你开始的对话</p>
+        <h1 id="hero-title">你说过那么多话。<br>这次，听见<span class="accent">自己。</span></h1>
+        <p class="intro">聊天里的玩笑、日记里的转弯，还有那些只有你会用的措辞。<br class="desktop-break">把它们整理成一个水仙，试着和自己的说话方式聊聊。</p>
+        <div class="hero-actions"><a class="button primary" href="#listen">先听两句 <span aria-hidden="true">↓</span></a><a class="text-link" href="#begin">用自己的语料开始 <span aria-hidden="true">↗</span></a></div>
+        <p class="quiet-note">开源 · 可保存 · 可以慢慢改得更像你</p>
+      </div>
+      <div class="hero-art" aria-label="墨绿底色的水仙花，映着熟悉的表达">
+        <div class="art-heading"><span>SHUIXIAN / 01</span><span class="tiny-line" aria-hidden="true"></span> YOUR WORDS</div>
+        <div class="flower-frame"><img src="./assets/shuixian-icon.svg" width="400" height="400" alt="一株水仙，花瓣与水纹呼应自我镜像"></div>
+        <p class="art-quote">“那些停顿、拐弯、嘴硬和心软，<br>值得被认真记住。”</p>
+        <span class="art-footnote">A MIRROR, STILL BECOMING</span>
+      </div>
+    </section>
+
+    <section id="listen" class="listen-section" aria-labelledby="listen-title">
+      <div class="wrap listen-grid">
+        <div class="section-copy"><p class="eyebrow">先听一小段 / 01</p><h2 id="listen-title">小事，也值得<br>被好好接一句。</h2><p>不急着解释你是什么样的人。<br>从一个笑话，一件日常，或一句“刚才不像我”开始。</p><p class="example-notice">这里展示公开合成素材的实际试聊记录。按钮用于切换样例，不会实时生成回复。</p></div>
+        <div class="conversation-panel">
+          <div class="sample-choices" role="group" aria-label="选择公开试聊记录">
+            <button type="button" class="sample-choice" data-sample="folders" aria-pressed="true">三个文件夹</button>
+            <button type="button" class="sample-choice" data-sample="bakery" aria-pressed="false">面包店招牌</button>
+            <button type="button" class="sample-choice" data-sample="correction" aria-pressed="false">少问一句</button>
+          </div>
+          <div id="sample-content" aria-live="polite" aria-atomic="true">
+            <div class="message human"><span class="speaker">你 · 公开合成场景</span><p id="sample-user">我本来想整理文件，结果整理出了三个新建文件夹。</p></div>
+            <div class="message mirror"><span class="speaker"><img src="./assets/shuixian-icon.svg" width="24" height="24" alt="">水仙 · 实际回复记录</span><p id="sample-reply">文件还没归位，安置房先盖了三套。先别盖第四套了。</p></div>
+          </div>
+          <div class="conversation-footer"><span id="sample-note">从本人语料整理出的共思镜像</span><a id="sample-source" href="https://github.com/Cyh29hao/shuixian-skill/blob/main/docs/experiments/corpus-onboarding-2026-10-27.md">读完整记录 <span aria-hidden="true">↗</span></a></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sources-section wrap" aria-labelledby="sources-title">
+      <div class="section-heading"><div><p class="eyebrow">从你的句子里 / 02</p><h2 id="sources-title">带来你愿意给的那一部分。</h2></div><p>先认准哪些话是你说的，再整理表达。<br>关系、外观和亲近的距离，都可以以后再选。</p></div>
+      <div class="source-cards">
+        <article class="source-card"><span class="card-number">01 / 聊天导出</span><h3>已经有记录</h3><p>给 agent 你选好的文本、JSON 或其他可读导出。先核对本人发言，再分批阅读。</p><a href="https://github.com/Cyh29hao/shuixian-skill/blob/main/docs/importing.md">找到适合的导入方式 <span aria-hidden="true">↗</span></a></article>
+        <article class="source-card"><span class="card-number">02 / 自己的写作</span><h3>日记、随笔也可以</h3><p>选择自己的文章或保存好的片段。告诉它哪些是独立写作，哪些是引用别人的话。</p><a href="#begin">从自己的语料开始 <span aria-hidden="true">↓</span></a></article>
+        <article class="source-card"><span class="card-number">03 / 微信原始数据</span><h3>还没有导出</h3><p>先确认客户端版本和取数办法。网页无法直接读出你的本机微信；可以先用已有的可读材料。</p><a href="https://github.com/Cyh29hao/shuixian-skill/blob/main/references/wechat-import.md">看看微信这条路 <span aria-hidden="true">↗</span></a></article>
+      </div>
+    </section>
+
+    <section id="begin" class="begin-section wrap" aria-labelledby="begin-title">
+      <div class="begin-intro"><p class="eyebrow">把下一句留给自己 / 03</p><h2 id="begin-title">交给你的 agent，<br>从这里开始。</h2><p>把这段话发给能访问本机文件的 Codex 或 Claude Code。准备好记录的位置，以及导出里代表你自己的名字。</p><p class="privacy-note">这页不收集聊天记录，也不调用模型。之后 agent 读到的材料，可能发送到它使用的模型服务；先选择你愿意提供的范围。</p></div>
+      <div class="start-card">
+        <div class="start-header"><label id="prompt-label" for="start-prompt">选择你正在用的 agent</label><div class="host-choices" role="group" aria-label="选择 agent"><button type="button" data-host="codex" aria-pressed="true">Codex</button><button type="button" data-host="claude" aria-pressed="false">Claude Code</button></div></div>
+        <textarea id="start-prompt" rows="9" readonly spellcheck="false" aria-describedby="prompt-help">帮我安装水仙 skill：https://github.com/Cyh29hao/shuixian-skill
+我正在使用 Codex，请安装到当前项目。
+用我选好的聊天记录或日记，整理我自己的说话方式，让我和自己的镜像聊聊。
+如果缺少文件位置、本人发言名称或导入范围，一次问清。
+已有可读文件就直接继续，只有微信原始数据库时先确认可行办法。
+先只保存抽象表达习惯，保留原件，别把聊天提交到 GitHub。
+创建后告诉我实际调用名，然后开始试聊。</textarea>
+        <p id="prompt-help">可直接复制。已有文件时，再补上真实路径和本人的发言名称。</p>
+        <div class="copy-row"><button id="copy-prompt" type="button" class="button primary">复制启动提示 <span aria-hidden="true">↗</span></button><span id="copy-status" role="status" aria-live="polite"></span></div>
+        <details><summary>我想自己安装</summary><p id="host-invocation">在项目目录执行，再在 Codex 中调用 <code>$create-shuixian</code>。</p><code id="install-command" class="install-command">git clone https://github.com/Cyh29hao/shuixian-skill .agents/skills/create-shuixian</code><a class="manual-link" href="https://github.com/Cyh29hao/shuixian-skill/blob/main/docs/installation.md">完整安装说明 <span aria-hidden="true">↗</span></a></details>
+      </div>
+    </section>
+    <section class="closing wrap"><p>像不像你，留给真正的对话来回答。</p><span>读进你的语料，也为纠正留一个位置。</span></section>
+  </main>
+  <footer class="site-footer wrap"><a class="footer-brand" href="./">水仙 / SHUIXIAN</a><p>一个仍在生长的开源入口。</p><div><a href="https://github.com/Cyh29hao/shuixian-skill">GitHub</a><a href="https://github.com/Cyh29hao/shuixian-skill/blob/main/docs/try-it.md">真实试聊</a><a href="https://github.com/Cyh29hao/shuixian-skill/blob/main/LICENSE">MIT</a></div></footer>
+  <noscript><p class="noscript wrap">当前浏览器未运行 JavaScript。你仍可阅读首个公开样例，选中上面的启动提示手动复制，再交给自己的 agent。</p></noscript>
+</body>
+</html>

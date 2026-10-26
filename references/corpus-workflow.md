@@ -8,7 +8,15 @@ Read only the chosen directory/files, account and period. Ask together for conse
 
 Use the installed builder's absolute path for tools. Choose `SKILLS_DIR` by current host: project `.agents/skills` for Codex or `.claude/skills` for Claude Code. Keep working transcripts/profiles outside the builder and outside public version control. Preserve original files.
 
-For a readable export:
+For readable files or a selected folder, prefer the guided entry. It reuses the existing parser and profiler, previews speakers/counts, and writes one new result bundle. In an agent/noninteractive terminal, supply the user's confirmed exact label; never guess it to make the command pass:
+
+```sh
+python <BUILDER_ROOT>/tools/import_chat.py "<chosen-file-or-folder>" --self-name "<exact-user-label>"
+```
+
+Use `--preview` when the user has not identified themselves yet. A confirmed single-author TXT/Markdown journal can use `--single-author "<author>"`. Multiple sources, standard CSV/TSV headers, output structure and manual prompts are in `docs/importing.md`. Pass its generated `next-step.txt` back to the builder; that file starts model reading and synthesis, rather than claiming that mechanical import has already learned the user.
+
+For separate low-level processing of one export:
 
 ```sh
 python <BUILDER_ROOT>/tools/transcript_importer.py --input <chosen-export.json> --output <working-transcript.txt>

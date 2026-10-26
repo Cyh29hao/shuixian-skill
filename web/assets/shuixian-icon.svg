@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" role="img" aria-labelledby="title desc">
+  <title id="title">水仙.skill</title>
+  <desc id="desc">墨绿底色上的奶油白水仙与金色花心，下方两道水纹呼应镜像。</desc>
+  <rect width="400" height="400" rx="88" fill="#253e3b"/>
+  <defs>
+    <path id="petal" d="M200 151C177 129 173 87 200 55C227 87 223 129 200 151Z"/>
+  </defs>
+  <path d="M201 166C214 219 183 253 198 311" fill="none" stroke="#a5b38b" stroke-width="11" stroke-linecap="round"/>
+  <path d="M194 281C144 280 121 241 123 214C159 222 190 244 194 281Z" fill="#819b7b"/>
+  <path d="M197 263C238 252 261 220 259 199C225 208 201 229 197 263Z" fill="#a5b38b"/>
+  <g fill="#faf5eb">
+    <use href="#petal"/>
+    <use href="#petal" transform="rotate(60 200 151)"/>
+    <use href="#petal" transform="rotate(120 200 151)"/>
+    <use href="#petal" transform="rotate(180 200 151)"/>
+    <use href="#petal" transform="rotate(240 200 151)"/>
+    <use href="#petal" transform="rotate(300 200 151)"/>
+  </g>
+  <circle cx="200" cy="151" r="35" fill="#d6aa52"/>
+  <circle cx="200" cy="151" r="24" fill="#f0ca72"/>
+  <g fill="none" stroke="#b1bc99" stroke-width="8" stroke-linecap="round">
+    <path d="M125 330C164 342 236 342 275 330"/>
+    <path d="M154 355C180 362 220 362 246 355"/>
+  </g>
+</svg>

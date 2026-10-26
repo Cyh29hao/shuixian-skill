@@ -8,6 +8,7 @@ Use this file when the user wants to import material from sources beyond WeChat.
 - iMessage `chat.db`
 - exported transcript text files
 - exported JSON and JSONL chat logs
+- CSV / TSV with explicit sender/content headers, through `tools/import_chat.py`
 - screenshots and images
 - manual pasted snippets
 
@@ -20,6 +21,7 @@ Use this file when the user wants to import material from sources beyond WeChat.
 
 ## Current scripts
 
+- `tools/import_chat.py` — guided files/folders, speaker preview/confirmation, one new transcript/profile bundle; see `docs/importing.md`
 - `tools/wechat_decryptor.py`
 - `tools/wechat_importer.py`
 - `tools/imessage_importer.py`

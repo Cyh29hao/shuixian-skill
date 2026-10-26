@@ -2,51 +2,77 @@
 
 # 水仙.skill
 
-### 把自己的话，说回给自己。
+### 你说过的话，慢慢长成能回应你的另一个自己。
 
-给它你选好的聊天记录、日记和随笔，整理出你的说话方式，和另一个自己聊聊。
+聊天记录、日记、随笔 → 你的说话方式 → 和自己聊聊。
 
-[让 agent 帮我开始](#让-agent-帮你开始) · [手动安装](#手动安装) · [使用指南](docs/quickstart.md) · [真实试聊](docs/try-it.md) · [English](README_EN.md)
+**[打开体验入口 ↗](https://cyh29hao.github.io/shuixian-skill/)** · [带入我的记录](#聊天记录怎么带进来) · [让 agent 帮我开始](#让-agent-帮你开始) · [手动安装](#手动安装) · [English](README_EN.md)
+
+已收录于 [colleague-skill Gallery](https://titanwings.github.io/colleague-skill-site/gallery/shuixian-skill/) · [EverythingSkill](https://everythingskill.net/skills/shuixian-skill)
 
 </div>
+
+> 你：“我本来想整理文件，结果整理出了三个新建文件夹。”
+>
+> 水仙：“文件还没归位，安置房先盖了三套。”
+
+[合成语料真实试聊节选](docs/experiments/corpus-onboarding-2026-10-27.md#陌生-agent-从候选技能开始的一次上手)。它想接住的是你的说法，而不是给每句话套一句通用安慰。
 
 <p align="center">
   <picture>
     <source media="(max-width: 600px)" srcset="assets/corpus-hero-mobile-v1.png" />
-    <img src="assets/corpus-hero-v1.png" alt="把自己的话说回给自己：个人语料、自己的语气、可以对话的水仙" width="920" />
+    <img src="assets/corpus-hero-v1.png" alt="把自己的话说回给自己：个人语料、自己的语气、可以对话的水仙" width="760" />
   </picture>
 </p>
 
-**聊天记录里，已经有很多个你。** 开玩笑的你、认真解释的你、嘴硬又改口的你。水仙把这些属于你的表达整理成一个可保存、可调用、可纠正的镜像 skill，让 AI 用你熟悉的节奏和措辞，跟你接着聊。
+**自己的语料是主角。** 从你选好的记录里，整理节奏、措辞和接话习惯，保存成可调用、可纠正的镜像。朋友、恋人或共思伙伴由你选；没有语料时的公开预设只是试看。
 
-主路径是 **个人语料 → 表达习惯 → 自己的水仙 → 实际对话与纠偏**。材料可以跨文件、跨时间、来自不同生活场景；先分清哪些话是你说的，再分批阅读和整理。几句自述和公开预设也能试玩，但那只是入口，还原自己的表达主要靠你自己的材料。
+## Star History
+
+谢谢愿意给水仙一颗星的人。下面复用 Star History 的日期折线，数据由服务更新，可能有缓存延迟。
+
+<a href="https://www.star-history.com/#Cyh29hao/shuixian-skill&Date">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=Cyh29hao/shuixian-skill&amp;type=Date&amp;theme=dark" />
+    <img src="https://api.star-history.com/svg?repos=Cyh29hao/shuixian-skill&amp;type=Date&amp;theme=light" alt="Cyh29hao/shuixian-skill 的 GitHub Star 历史折线图" width="620" />
+  </picture>
+</a>
+
+[图表打不开时查看 Star History](https://www.star-history.com/#Cyh29hao/shuixian-skill&Date) · [查看当前 Star](https://github.com/Cyh29hao/shuixian-skill/stargazers)
+
 
 ## 让 agent 帮你开始
 
-把仓库链接和要求直接发给有本地文件与终端能力的 Codex 或 Claude Code：
+把下面的话发给能操作本机文件的 Codex 或 Claude Code；文件路径和“我叫谁”换成自己的即可。
 
 ```text
-我看到这个水仙 skill 蛮有意思的：
-https://github.com/Cyh29hao/shuixian-skill
-帮我安装到当前项目，导入我本机的微信聊天记录，
-从我自己的发言整理说话方式，让我能和自己说话，开始做吧。
-先读取仓库的 SKILL.md，按当前 Codex / Claude Code 的方式安装和调用。
-如果需要我指定记录目录、自己的发言名称或选择导出范围，一次问清。
-已有可读导出就直接继续；如果只有加密数据库，先确认版本与取数办法。
-默认只保存表达习惯，保留原始文件，不把聊天记录提交到 GitHub。
+帮我安装 https://github.com/Cyh29hao/shuixian-skill ，在当前项目里用。
+我选好的聊天记录在 D:/我的语料/，里面“青禾”是我。
+从我的发言整理说话方式，做个水仙让我和自己聊天。
+先只保存表达习惯，原件保留。缺什么一次问清，准备好就开始聊。
 ```
 
-如果已有导出文件，补一句“文件在 `D:/我的语料/微信导出.json`，其中‘青禾’是我”，就能减少来回确认。请换成真实路径和自己的发言名称。
+只知道“记录在微信里”也可以这样告诉 agent：它应先帮你判断取数路径，不让你先填一张人物设定表。已有可读导出最快；加密微信数据库仍有版本与取数限制，不能承诺所有客户端一键成功。[具体范围](references/wechat-import.md)
 
-**能否几分钟开始，取决于记录是否已经可读。**
+## 聊天记录怎么带进来
 
-| 手边的材料 | agent 可以怎样继续 |
+**先选手边已有的，不必把全部历史重新整理一遍。**
+
+| 我手上有什么 | 最轻的走法 |
 | --- | --- |
-| 已导出的文本、Markdown、JSON、JSONL | 安装后导入、核对本人发言、阅读样本并创建镜像；这是快速开始的主路径 |
-| 符合旧版格式的明文微信数据库 | 提取指定联系人；需要 `MicroMsg.db` 和 `MSG*.db`，先核对表结构 |
-| 只有正在运行的微信或加密数据库 | 先确认版本、权限和导出方式；当前不保证微信 4.x 自动取数，也不保证几分钟完成 |
+| 一份或一文件夹聊天导出 | 给 agent 文件/目录，它先列出说话人，你认一下自己，再继续 |
+| Telegram / ChatGPT 等 JSON，或常见聊天 CSV / TSV | 用轻入口识别可读格式，预览条数和发言者；具体兼容范围见[导入指南](docs/importing.md) |
+| 日记、随笔、复制出来的一段文字 | 保存为 TXT / Markdown，明确“这些都是我写的”；无需伪装成双人聊天 |
+| 只有微信客户端或原始数据库 | 先走[微信说明](references/wechat-import.md)，取得可读导出后使用同一个入口 |
+| 截图 | 给能看图的 agent 先转写并确认说话人，再作为文本导入；脚本不自带 OCR |
 
-这段提示词让 agent 开始办事，不代表跨客户端一键成功。没有可读记录时，它应说明卡点，再继续已有材料能做的部分。[微信导入的具体范围 →](references/wechat-import.md)
+愿意手动操作，也只需从已安装的构建器运行：
+
+```sh
+python .agents/skills/create-shuixian/tools/import_chat.py "D:/我的语料"
+```
+
+Claude Code 把 `.agents` 换成 `.claude`。跟着预览选出自己，工具整理转录和画像，再给出可直接发给 agent 的下一步；已有输出不会被覆盖。它整理材料，不会靠一次统计就“学完你”。[格式、粘贴材料、批量导入与例子 →](docs/importing.md)
 
 ## 从语料到对话
 
@@ -127,18 +153,18 @@ python .agents/skills/create-shuixian/tools/demo_builder.py --preset close-frien
 
 宿主读到的材料可能发送到其模型服务，本地文件不代表离线运行。它不会验证人格、转移意识或自动拥有你的全部记忆。是否像自己，由实际聊天来判断。[隐私与边界 →](references/privacy-and-safety.md)
 
-## Star History
 
-谢谢愿意给水仙一颗星的人。下面复用 Star History 的日期折线，数据由服务更新，可能有缓存延迟。
+## 社区收录与分享
 
-<a href="https://www.star-history.com/#Cyh29hao/shuixian-skill&Date">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=Cyh29hao/shuixian-skill&amp;type=Date&amp;theme=dark" />
-    <img src="https://api.star-history.com/svg?repos=Cyh29hao/shuixian-skill&amp;type=Date&amp;theme=light" alt="Cyh29hao/shuixian-skill 的 GitHub Star 历史折线图" width="920" />
-  </picture>
-</a>
+感谢这些地方让更多人遇见水仙。这里区分目录收录和第三方分享，不把它们写成商业合作背书。
 
-[图表打不开时查看 Star History](https://www.star-history.com/#Cyh29hao/shuixian-skill&Date) · [查看当前 Star](https://github.com/Cyh29hao/shuixian-skill/stargazers)
+| 去哪里看看 | 与水仙的关系 |
+| --- | --- |
+| [colleague-skill Gallery](https://titanwings.github.io/colleague-skill-site/gallery/shuixian-skill/) | 社区 Skill 合集收录，列出作者并链接本仓库 |
+| [EverythingSkill](https://everythingskill.net/skills/shuixian-skill) | Skill 目录收录；页面含较早版本介绍，安装步骤以本仓库为准 |
+| [Socialistic 分享页](https://socialistic.ai/en/skill/shuixian-skill-7137db/) | 社区作者制作的第三方在线入口，[来源是 Issue #1](https://github.com/Cyh29hao/shuixian-skill/issues/1)；页面可访问，未验收登录后的模型对话 |
+
+第三方站点独立运行，有各自的登录和数据规则。本站体验入口与第三方入口分别标注，不会自动把你的语料转给它们。
 
 ## 继续了解
 
